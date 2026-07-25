@@ -725,6 +725,108 @@
         padding: 0.55rem 1.25rem;
         font-size: 0.95rem;
     }
+
+    /* Quiz Torta na Cara: tela inteira sem rolagem */
+    .quiz-fit-panel {
+        padding: 0.9rem 1rem !important;
+        border-radius: 1.25rem;
+        animation: none;
+    }
+
+    @media (min-width: 640px) {
+        .quiz-fit-panel {
+            padding: 1.1rem 1.35rem !important;
+        }
+    }
+
+    [data-quiz].quiz--playing [data-quiz-back] {
+        display: none;
+    }
+
+    [data-quiz].quiz--playing [data-quiz-topbar] h1 {
+        font-size: 1.25rem;
+        line-height: 1.2;
+    }
+
+    [data-quiz].quiz--playing [data-quiz-topbar] p {
+        display: none;
+    }
+
+    .quiz-fit-visual {
+        min-height: 3.5rem !important;
+        padding: 0.35rem !important;
+        border-radius: 1rem;
+    }
+
+    @media (min-width: 640px) {
+        .quiz-fit-visual {
+            min-height: 4.5rem !important;
+        }
+    }
+
+    .quiz-fit-visual .quiz-visual__emoji {
+        font-size: 2.25rem !important;
+    }
+
+    @media (min-width: 640px) {
+        .quiz-fit-visual .quiz-visual__emoji {
+            font-size: 3rem !important;
+        }
+    }
+
+    .quiz-fit-visual img {
+        max-height: 4rem !important;
+    }
+
+    .quiz-fit-options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-content: stretch;
+    }
+
+    .quiz-fit-options .quiz-option {
+        min-height: 0;
+        height: 100%;
+        padding: 0.65rem 0.85rem;
+        font-size: 0.95rem;
+        animation: none;
+        gap: 0.65rem;
+    }
+
+    .quiz-fit-options .quiz-option__letter {
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.75rem;
+    }
+
+    .quiz-fit-options .quiz-option--illustrated,
+    .quiz-fit-options.quiz-options--duo .quiz-option--illustrated {
+        min-height: 0;
+        padding: 0.55rem 0.65rem;
+        flex-direction: row;
+    }
+
+    .quiz-fit-options .quiz-option__emoji,
+    .quiz-fit-options.quiz-options--duo .quiz-option__emoji {
+        font-size: 1.75rem !important;
+    }
+
+    .quiz-fit-panel .quiz-reveal {
+        margin-top: 0.5rem;
+        padding: 0.55rem 0.85rem;
+    }
+
+    .quiz-fit-panel .quiz-reveal__hint {
+        display: none;
+    }
+
+    .quiz-fit-panel .quiz-btn-primary {
+        padding: 0.55rem 1.25rem;
+        font-size: 0.95rem;
+    }
+
+    .quiz-fit-panel .quiz-final-emoji {
+        font-size: 3rem;
+    }
 }
 
 @keyframes float-blob {

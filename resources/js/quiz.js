@@ -94,6 +94,7 @@ function initQuiz(root) {
     function show(section) {
         [el.start, el.play, el.result].forEach((node) => node && node.classList.add('hidden'));
         section && section.classList.remove('hidden');
+        root.classList.toggle('quiz--playing', section === el.play);
     }
 
     function atualizarSequencia() {
