@@ -1,0 +1,1409 @@
+{
+    "crianca": [
+        {
+            "id": "c01",
+            "categoria": "Disney",
+            "emoji": "🏰",
+            "pergunta": "Quem é o ratinho mais famoso da Disney?",
+            "opcoes": [
+                "Mickey Mouse",
+                "Pato Donald"
+            ],
+            "opcoesEmoji": [
+                "🐭",
+                "🦆"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c02",
+            "categoria": "Peppa Pig",
+            "emoji": "🐷",
+            "pergunta": "Qual porquinha rosa mora com a família Pig?",
+            "opcoes": [
+                "George",
+                "Peppa"
+            ],
+            "opcoesEmoji": [
+                "👦",
+                "🐷"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c03",
+            "categoria": "Frozen",
+            "emoji": "❄️",
+            "pergunta": "Em Frozen, quem tem poderes de gelo?",
+            "opcoes": [
+                "Elsa",
+                "Anna"
+            ],
+            "opcoesEmoji": [
+                "🧊",
+                "🧡"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c04",
+            "categoria": "Bluey",
+            "emoji": "🐶",
+            "pergunta": "Bluey é uma cachorrinha de qual cor?",
+            "opcoes": [
+                "Azul",
+                "Verde"
+            ],
+            "opcoesEmoji": [
+                "🔵",
+                "🟢"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c05",
+            "categoria": "Disney",
+            "emoji": "🧡",
+            "pergunta": "Quem é a irmã da Elsa?",
+            "opcoes": [
+                "Ariel",
+                "Anna"
+            ],
+            "opcoesEmoji": [
+                "🧜",
+                "🧡"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c06",
+            "categoria": "Patrulha Canina",
+            "emoji": "🐾",
+            "pergunta": "Qual equipe de filhotes salva o dia na Patrulha Canina?",
+            "opcoes": [
+                "Os Paw Patrol",
+                "Os Monstros"
+            ],
+            "opcoesEmoji": [
+                "🐶",
+                "👾"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c07",
+            "categoria": "Moana",
+            "emoji": "🌊",
+            "pergunta": "Qual menina da Disney navega o oceano?",
+            "opcoes": [
+                "Rapunzel",
+                "Moana"
+            ],
+            "opcoesEmoji": [
+                "💇",
+                "⛵"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c08",
+            "categoria": "Galinha Pintadinha",
+            "emoji": "🐔",
+            "pergunta": "Qual galinha cantora é bem famosa no Brasil?",
+            "opcoes": [
+                "Galinha Pintadinha",
+                "Elsa"
+            ],
+            "opcoesEmoji": [
+                "🐔",
+                "❄️"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c09",
+            "categoria": "Rei Leão",
+            "emoji": "🦁",
+            "pergunta": "No Rei Leão, quem é o filhote de leão?",
+            "opcoes": [
+                "Nemo",
+                "Simba"
+            ],
+            "opcoesEmoji": [
+                "🐠",
+                "🦁"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c10",
+            "categoria": "Bob Esponja",
+            "emoji": "🧽",
+            "pergunta": "Onde mora o Bob Esponja?",
+            "opcoes": [
+                "Num abacaxi",
+                "Num castelo de gelo"
+            ],
+            "opcoesEmoji": [
+                "🍍",
+                "❄️"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c11",
+            "categoria": "Toy Story",
+            "emoji": "🤠",
+            "pergunta": "Qual cowboy é amigo do Buzz Lightyear?",
+            "opcoes": [
+                "Woody",
+                "Donald"
+            ],
+            "opcoesEmoji": [
+                "🤠",
+                "🦆"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c12",
+            "categoria": "PJ Masks",
+            "emoji": "🦸",
+            "pergunta": "Os PJ Masks são heróis que lutam contra o mal à...",
+            "opcoes": [
+                "Tarde",
+                "Noite"
+            ],
+            "opcoesEmoji": [
+                "☀️",
+                "🌙"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c13",
+            "categoria": "Disney",
+            "emoji": "🦆",
+            "pergunta": "Qual personagem Disney é um pato de chapéu de marinheiro?",
+            "opcoes": [
+                "Pato Donald",
+                "Goofy"
+            ],
+            "opcoesEmoji": [
+                "🦆",
+                "🐶"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c14",
+            "categoria": "Peppa Pig",
+            "emoji": "👨",
+            "pergunta": "Como se chama o papai da Peppa?",
+            "opcoes": [
+                "Papai Pig",
+                "Papai Mickey"
+            ],
+            "opcoesEmoji": [
+                "🐷",
+                "🐭"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c15",
+            "categoria": "Princesas",
+            "emoji": "🧜",
+            "pergunta": "Qual princesa Disney vive no fundo do mar?",
+            "opcoes": [
+                "Elsa",
+                "Ariel"
+            ],
+            "opcoesEmoji": [
+                "❄️",
+                "🧜"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c16",
+            "categoria": "Masha e o Urso",
+            "emoji": "🐻",
+            "pergunta": "Masha vive perto de qual animal grande?",
+            "opcoes": [
+                "Um urso",
+                "Um peixe"
+            ],
+            "opcoesEmoji": [
+                "🐻",
+                "🐠"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c17",
+            "categoria": "Princesas",
+            "emoji": "💇",
+            "pergunta": "Qual princesa Disney tem o cabelo bem comprido?",
+            "opcoes": [
+                "Rapunzel",
+                "Minnie"
+            ],
+            "opcoesEmoji": [
+                "💇",
+                "🎀"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c18",
+            "categoria": "Patrulha Canina",
+            "emoji": "🚒",
+            "pergunta": "Chase, da Patrulha Canina, é um filhote de...",
+            "opcoes": [
+                "Policial",
+                "Cozinheiro"
+            ],
+            "opcoesEmoji": [
+                "🚓",
+                "🍳"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c19",
+            "categoria": "Disney",
+            "emoji": "🌹",
+            "pergunta": "Qual princesa dança com a Fera?",
+            "opcoes": [
+                "Ariel",
+                "Bela"
+            ],
+            "opcoesEmoji": [
+                "🧜",
+                "📚"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c20",
+            "categoria": "Turma da Mônica",
+            "emoji": "👧",
+            "pergunta": "Qual menina da Turma da Mônica tem o cabelo preto com lacinho?",
+            "opcoes": [
+                "Mônica",
+                "Cebolinha"
+            ],
+            "opcoesEmoji": [
+                "👧",
+                "👦"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c21",
+            "categoria": "Aladdin",
+            "emoji": "🪔",
+            "pergunta": "Quem mora dentro da lâmpada mágica?",
+            "opcoes": [
+                "O Gênio",
+                "Woody"
+            ],
+            "opcoesEmoji": [
+                "🧞",
+                "🤠"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c22",
+            "categoria": "Bluey",
+            "emoji": "🏠",
+            "pergunta": "Bluey e Bingo são irmãs e adoram...",
+            "opcoes": [
+                "Brincar de faz de conta",
+                "Dirigir carro"
+            ],
+            "opcoesEmoji": [
+                "🧸",
+                "🚗"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c23",
+            "categoria": "Cars",
+            "emoji": "🏎️",
+            "pergunta": "Qual carro vermelho é o herói de Carros?",
+            "opcoes": [
+                "Nemo",
+                "Relâmpago McQueen"
+            ],
+            "opcoesEmoji": [
+                "🐠",
+                "🏎️"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c24",
+            "categoria": "Bob Esponja",
+            "emoji": "⭐",
+            "pergunta": "Qual estrela-do-mar é melhor amigo do Bob Esponja?",
+            "opcoes": [
+                "Patrick",
+                "Olaf"
+            ],
+            "opcoesEmoji": [
+                "⭐",
+                "⛄"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c25",
+            "categoria": "Disney",
+            "emoji": "🧚",
+            "pergunta": "Qual fada ajuda o Peter Pan a voar?",
+            "opcoes": [
+                "Sininho",
+                "Elsa"
+            ],
+            "opcoesEmoji": [
+                "🧚",
+                "❄️"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c26",
+            "categoria": "Galinha Pintadinha",
+            "emoji": "🎵",
+            "pergunta": "A Galinha Pintadinha canta músicas para...",
+            "opcoes": [
+                "Crianças",
+                "Astronautas"
+            ],
+            "opcoesEmoji": [
+                "🧒",
+                "🚀"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c27",
+            "categoria": "Frozen",
+            "emoji": "⛄",
+            "pergunta": "Qual boneco de neve é amigo da Elsa?",
+            "opcoes": [
+                "Simba",
+                "Olaf"
+            ],
+            "opcoesEmoji": [
+                "🦁",
+                "⛄"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c28",
+            "categoria": "PJ Masks",
+            "emoji": "🐱",
+            "pergunta": "Catboy, dos PJ Masks, é um herói com tema de...",
+            "opcoes": [
+                "Gato",
+                "Peixe"
+            ],
+            "opcoesEmoji": [
+                "🐱",
+                "🐟"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c29",
+            "categoria": "Nemo",
+            "emoji": "🐠",
+            "pergunta": "Qual peixinho laranja perde o papai no oceano?",
+            "opcoes": [
+                "Nemo",
+                "Mickey"
+            ],
+            "opcoesEmoji": [
+                "🐠",
+                "🐭"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c30",
+            "categoria": "Turma da Mônica",
+            "emoji": "👦",
+            "pergunta": "O Cebolinha fala trocando o R pelo...",
+            "opcoes": [
+                "L",
+                "Z"
+            ],
+            "opcoesEmoji": [
+                "🔤",
+                "💤"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c31",
+            "categoria": "Disney",
+            "emoji": "🐭",
+            "pergunta": "A Minnie Mouse é amiga do...",
+            "opcoes": [
+                "Mickey",
+                "Bob Esponja"
+            ],
+            "opcoesEmoji": [
+                "🐭",
+                "🧽"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c32",
+            "categoria": "Peppa Pig",
+            "emoji": "💦",
+            "pergunta": "A Peppa adora pular em...",
+            "opcoes": [
+                "Poças de lama",
+                "Foguetes"
+            ],
+            "opcoesEmoji": [
+                "🟤",
+                "🚀"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c33",
+            "categoria": "Encanto",
+            "emoji": "🦋",
+            "pergunta": "Em Encanto, quem não tem poderes mágicos?",
+            "opcoes": [
+                "Elsa",
+                "Mirabel"
+            ],
+            "opcoesEmoji": [
+                "❄️",
+                "👓"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c34",
+            "categoria": "Desenhos",
+            "emoji": "📺",
+            "pergunta": "Desenhos animados são feitos para...",
+            "opcoes": [
+                "Divertir",
+                "Assustar"
+            ],
+            "opcoesEmoji": [
+                "😄",
+                "😱"
+            ],
+            "correta": 0
+        }
+    ],
+    "adolescente": [
+        {
+            "id": "a01",
+            "categoria": "Geografia",
+            "emoji": "🌍",
+            "pergunta": "Qual é a capital do Brasil?",
+            "opcoes": [
+                "São Paulo",
+                "Rio de Janeiro",
+                "Brasília",
+                "Salvador"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "a02",
+            "categoria": "Matemática",
+            "emoji": "🔢",
+            "pergunta": "Quanto é 8 x 7?",
+            "opcoes": [
+                "54",
+                "56",
+                "63",
+                "49"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a03",
+            "categoria": "Astronomia",
+            "emoji": "🪐",
+            "pergunta": "Qual é o maior planeta do Sistema Solar?",
+            "opcoes": [
+                "Terra",
+                "Júpiter",
+                "Saturno",
+                "Marte"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a04",
+            "categoria": "Matemática",
+            "emoji": "🔢",
+            "pergunta": "Quanto é 12 x 12?",
+            "opcoes": [
+                "124",
+                "144",
+                "154",
+                "121"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a05",
+            "categoria": "Geografia",
+            "emoji": "🗺️",
+            "pergunta": "Em que continente fica o Egito?",
+            "opcoes": [
+                "Ásia",
+                "Europa",
+                "África",
+                "Oceania"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "a06",
+            "categoria": "Ciências",
+            "emoji": "🌿",
+            "pergunta": "O que as plantas precisam para fazer fotossíntese?",
+            "opcoes": [
+                "Só água",
+                "Luz do sol",
+                "Som",
+                "Vento"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a07",
+            "categoria": "Arte",
+            "emoji": "🎨",
+            "pergunta": "Quem pintou a Mona Lisa?",
+            "opcoes": [
+                "Van Gogh",
+                "Picasso",
+                "Leonardo da Vinci",
+                "Michelangelo"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "a08",
+            "categoria": "Matemática",
+            "emoji": "🔢",
+            "pergunta": "Quanto é 100 ÷ 4?",
+            "opcoes": [
+                "20",
+                "25",
+                "30",
+                "40"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a09",
+            "categoria": "Geografia",
+            "emoji": "🌊",
+            "pergunta": "Qual é o oceano mais extenso do planeta?",
+            "opcoes": [
+                "Atlântico",
+                "Índico",
+                "Ártico",
+                "Pacífico"
+            ],
+            "correta": 3
+        },
+        {
+            "id": "a10",
+            "categoria": "História",
+            "emoji": "🚀",
+            "pergunta": "Em que ano o homem pisou na Lua pela primeira vez?",
+            "opcoes": [
+                "1959",
+                "1969",
+                "1979",
+                "1989"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a11",
+            "categoria": "Ciências",
+            "emoji": "🔬",
+            "pergunta": "Qual é a fórmula química da água?",
+            "opcoes": [
+                "CO2",
+                "H2O",
+                "O2",
+                "NaCl"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a12",
+            "categoria": "Matemática",
+            "emoji": "📐",
+            "pergunta": "Quantos lados tem um triângulo?",
+            "opcoes": [
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a13",
+            "categoria": "Geografia",
+            "emoji": "🏞️",
+            "pergunta": "Qual é o maior rio do Brasil?",
+            "opcoes": [
+                "Amazonas",
+                "São Francisco",
+                "Paraná",
+                "Tietê"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "a14",
+            "categoria": "Idiomas",
+            "emoji": "🗣️",
+            "pergunta": "Como se diz \"obrigado\" em inglês?",
+            "opcoes": [
+                "Please",
+                "Hello",
+                "Thank you",
+                "Sorry"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "a15",
+            "categoria": "História",
+            "emoji": "📜",
+            "pergunta": "Quem proclamou a Independência do Brasil?",
+            "opcoes": [
+                "Dom Pedro I",
+                "Dom Pedro II",
+                "Tiradentes",
+                "Getúlio Vargas"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "a16",
+            "categoria": "Astronomia",
+            "emoji": "🔴",
+            "pergunta": "Qual planeta é conhecido como Planeta Vermelho?",
+            "opcoes": [
+                "Vênus",
+                "Marte",
+                "Júpiter",
+                "Mercúrio"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a17",
+            "categoria": "Matemática",
+            "emoji": "🔢",
+            "pergunta": "Quanto é 15 + 27?",
+            "opcoes": [
+                "32",
+                "42",
+                "52",
+                "41"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a18",
+            "categoria": "Geografia",
+            "emoji": "🗼",
+            "pergunta": "Qual é a capital da França?",
+            "opcoes": [
+                "Londres",
+                "Berlim",
+                "Paris",
+                "Madri"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "a19",
+            "categoria": "Ciências",
+            "emoji": "💨",
+            "pergunta": "Qual gás usamos para respirar?",
+            "opcoes": [
+                "Gás carbônico",
+                "Oxigênio",
+                "Hélio",
+                "Nitrogênio"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a20",
+            "categoria": "Esportes",
+            "emoji": "⚽",
+            "pergunta": "Quantos jogadores de um time ficam em campo no futebol?",
+            "opcoes": [
+                "9",
+                "10",
+                "11",
+                "12"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "a21",
+            "categoria": "Corpo",
+            "emoji": "🫀",
+            "pergunta": "Qual órgão bombeia o sangue pelo corpo?",
+            "opcoes": [
+                "Pulmão",
+                "Coração",
+                "Estômago",
+                "Cérebro"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a22",
+            "categoria": "Ciências",
+            "emoji": "🌡️",
+            "pergunta": "A água ferve a quantos graus Celsius?",
+            "opcoes": [
+                "50°C",
+                "80°C",
+                "100°C",
+                "120°C"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "a23",
+            "categoria": "História",
+            "emoji": "🔺",
+            "pergunta": "Em que país estão as pirâmides de Gizé?",
+            "opcoes": [
+                "Grécia",
+                "Egito",
+                "México",
+                "Brasil"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "a24",
+            "categoria": "Influencers",
+            "emoji": "📱",
+            "pergunta": "Qual plataforma é famosa por vídeos curtos de dança e trends teens?",
+            "opcoes": [
+                "TikTok",
+                "Wikipedia",
+                "Excel",
+                "Outlook"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "a25",
+            "categoria": "Influencers",
+            "emoji": "🎬",
+            "pergunta": "MrBeast ficou famoso principalmente por vídeos de...",
+            "opcoes": [
+                "Desafios e doações gigantes",
+                "Receitas de bolo",
+                "Aulas de piano",
+                "Notícias do tempo"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "a26",
+            "categoria": "Influencers",
+            "emoji": "🇧🇷",
+            "pergunta": "Qual youtuber brasileiro é conhecido pelos vlogs e pelo canal \"Não Faz Sentido\"?",
+            "opcoes": [
+                "Felipe Neto",
+                "Pelé",
+                "Einstein",
+                "Picasso"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "a27",
+            "categoria": "Influencers",
+            "emoji": "😂",
+            "pergunta": "Whindersson Nunes ficou famoso fazendo...",
+            "opcoes": [
+                "Comédia e stand-up",
+                "Futebol profissional",
+                "Astronomia",
+                "Medicina"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "a28",
+            "categoria": "Influencers",
+            "emoji": "🎮",
+            "pergunta": "Qual plataforma é a mais usada por streamers de games teens?",
+            "opcoes": [
+                "Twitch",
+                "PowerPoint",
+                "Excel",
+                "Photoshop"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "a29",
+            "categoria": "Influencers",
+            "emoji": "🤳",
+            "pergunta": "Como se chama quem cria conteúdo e influencia seguidores nas redes?",
+            "opcoes": [
+                "Influencer",
+                "Astronauta",
+                "Juiz",
+                "Bombeiro"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "a30",
+            "categoria": "Influencers",
+            "emoji": "🎵",
+            "pergunta": "Charli D'Amelio ficou famosa no TikTok principalmente por...",
+            "opcoes": [
+                "Danças",
+                "Receitas",
+                "Notícias",
+                "Corrida de Fórmula 1"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "a31",
+            "categoria": "Influencers",
+            "emoji": "📹",
+            "pergunta": "Qual rede social é famosa por vídeos longos e canais de creators?",
+            "opcoes": [
+                "YouTube",
+                "Calculadora",
+                "Bloco de notas",
+                "Paint"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "a32",
+            "categoria": "Influencers",
+            "emoji": "🇧🇷",
+            "pergunta": "Virginia Fonseca é uma influencer conhecida no Brasil por conteúdo de...",
+            "opcoes": [
+                "Lifestyle e redes sociais",
+                "Física quântica",
+                "História medieval",
+                "Natação olímpica"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "a33",
+            "categoria": "Influencers",
+            "emoji": "🌍",
+            "pergunta": "Khaby Lame ficou viral no TikTok por reagir a...",
+            "opcoes": [
+                "Tutoriais complicados demais",
+                "Receitas de bolo",
+                "Jogos de xadrez",
+                "Aulas de latim"
+            ],
+            "correta": 0
+        }
+    ],
+    "adulto": [
+        {
+            "id": "d01",
+            "categoria": "Geografia",
+            "emoji": "🇧🇷",
+            "dificuldade": "facil",
+            "pergunta": "Qual é a capital do Brasil?",
+            "opcoes": [
+                "São Paulo",
+                "Rio de Janeiro",
+                "Brasília",
+                "Salvador"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "d02",
+            "categoria": "Astronomia",
+            "emoji": "🔴",
+            "dificuldade": "facil",
+            "pergunta": "Qual planeta é conhecido como Planeta Vermelho?",
+            "opcoes": [
+                "Vênus",
+                "Marte",
+                "Júpiter",
+                "Mercúrio"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d03",
+            "categoria": "Ciências",
+            "emoji": "💧",
+            "dificuldade": "facil",
+            "pergunta": "Qual é a fórmula química da água?",
+            "opcoes": [
+                "CO2",
+                "H2O",
+                "O2",
+                "NaCl"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d04",
+            "categoria": "Esportes",
+            "emoji": "⚽",
+            "dificuldade": "facil",
+            "pergunta": "Quantos jogadores de um time ficam em campo no futebol?",
+            "opcoes": [
+                "9",
+                "10",
+                "11",
+                "12"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "d05",
+            "categoria": "Geografia",
+            "emoji": "🗼",
+            "dificuldade": "facil",
+            "pergunta": "Qual é a capital da França?",
+            "opcoes": [
+                "Londres",
+                "Berlim",
+                "Paris",
+                "Madri"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "d06",
+            "categoria": "Ciências",
+            "emoji": "🌡️",
+            "dificuldade": "facil",
+            "pergunta": "A água ferve a quantos graus Celsius (ao nível do mar)?",
+            "opcoes": [
+                "50°C",
+                "80°C",
+                "100°C",
+                "200°C"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "d07",
+            "categoria": "Astronomia",
+            "emoji": "💫",
+            "dificuldade": "facil",
+            "pergunta": "Qual planeta é famoso pelos seus anéis?",
+            "opcoes": [
+                "Marte",
+                "Saturno",
+                "Vênus",
+                "Terra"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d08",
+            "categoria": "Corpo",
+            "emoji": "🫀",
+            "dificuldade": "facil",
+            "pergunta": "Qual órgão bombeia o sangue pelo corpo?",
+            "opcoes": [
+                "Pulmão",
+                "Coração",
+                "Estômago",
+                "Fígado"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d09",
+            "categoria": "Pegadinha",
+            "emoji": "🪤",
+            "dificuldade": "moderada",
+            "pergunta": "Quantos meses do ano têm 28 dias?",
+            "opcoes": [
+                "Só fevereiro",
+                "1 mês",
+                "2 meses",
+                "Todos os 12"
+            ],
+            "correta": 3
+        },
+        {
+            "id": "d10",
+            "categoria": "Geografia",
+            "emoji": "🏞️",
+            "dificuldade": "facil",
+            "pergunta": "Qual é o maior rio do Brasil?",
+            "opcoes": [
+                "Amazonas",
+                "São Francisco",
+                "Paraná",
+                "Tietê"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "d11",
+            "categoria": "História",
+            "emoji": "🇧🇷",
+            "dificuldade": "facil",
+            "pergunta": "Quem proclamou a Independência do Brasil?",
+            "opcoes": [
+                "Dom Pedro I",
+                "Dom Pedro II",
+                "Tiradentes",
+                "Getúlio Vargas"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "d12",
+            "categoria": "Astronomia",
+            "emoji": "☀️",
+            "dificuldade": "facil",
+            "pergunta": "Qual é o planeta mais próximo do Sol?",
+            "opcoes": [
+                "Vênus",
+                "Mercúrio",
+                "Terra",
+                "Marte"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d13",
+            "categoria": "Ciências",
+            "emoji": "💨",
+            "dificuldade": "facil",
+            "pergunta": "Qual gás usamos para respirar?",
+            "opcoes": [
+                "Gás carbônico",
+                "Oxigênio",
+                "Hélio",
+                "Nitrogênio"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d14",
+            "categoria": "Pegadinha",
+            "emoji": "🪤",
+            "dificuldade": "moderada",
+            "pergunta": "O que você pode pegar, mas não pode jogar?",
+            "opcoes": [
+                "Uma bola",
+                "Um resfriado",
+                "Uma pedra",
+                "Um frisbee"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d15",
+            "categoria": "Geografia",
+            "emoji": "🎌",
+            "dificuldade": "facil",
+            "pergunta": "Qual é a capital do Japão?",
+            "opcoes": [
+                "Pequim",
+                "Seul",
+                "Tóquio",
+                "Bangkok"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "d16",
+            "categoria": "Matemática",
+            "emoji": "√",
+            "dificuldade": "facil",
+            "pergunta": "Qual é a raiz quadrada de 144?",
+            "opcoes": [
+                "11",
+                "12",
+                "13",
+                "14"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d17",
+            "categoria": "História",
+            "emoji": "🚢",
+            "dificuldade": "facil",
+            "pergunta": "Em que ano o Titanic afundou?",
+            "opcoes": [
+                "1905",
+                "1912",
+                "1918",
+                "1923"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d18",
+            "categoria": "Pegadinha",
+            "emoji": "🪤",
+            "dificuldade": "moderada",
+            "pergunta": "O que fica mais molhado quanto mais seca?",
+            "opcoes": [
+                "A chuva",
+                "A toalha",
+                "O rio",
+                "O sabão"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d19",
+            "categoria": "Arte",
+            "emoji": "🎨",
+            "dificuldade": "moderada",
+            "pergunta": "Quem pintou \"A Noite Estrelada\"?",
+            "opcoes": [
+                "Monet",
+                "Van Gogh",
+                "Picasso",
+                "Da Vinci"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d20",
+            "categoria": "Pegadinha",
+            "emoji": "🪤",
+            "dificuldade": "moderada",
+            "pergunta": "O que é mais pesado: 1 kg de ferro ou 1 kg de algodão?",
+            "opcoes": [
+                "Ferro",
+                "Algodão",
+                "Pesam o mesmo",
+                "Depende do dia"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "d21",
+            "categoria": "História",
+            "emoji": "🧱",
+            "dificuldade": "moderada",
+            "pergunta": "Em que ano caiu o Muro de Berlim?",
+            "opcoes": [
+                "1987",
+                "1989",
+                "1991",
+                "1993"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d22",
+            "categoria": "Pegadinha",
+            "emoji": "🪤",
+            "dificuldade": "moderada",
+            "pergunta": "Um avião cai na fronteira entre dois países. Onde se enterra os sobreviventes?",
+            "opcoes": [
+                "No país de origem",
+                "No país da queda",
+                "Em nenhum — sobreviventes não se enterra",
+                "No meio da fronteira"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "d23",
+            "categoria": "Economia",
+            "emoji": "💰",
+            "dificuldade": "moderada",
+            "pergunta": "Qual é a moeda oficial do Japão?",
+            "opcoes": [
+                "Yuan",
+                "Won",
+                "Iene",
+                "Dólar"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "d24",
+            "categoria": "Pegadinha",
+            "emoji": "🪤",
+            "dificuldade": "moderada",
+            "pergunta": "Quantos animais de cada espécie Moisés levou na arca?",
+            "opcoes": [
+                "Dois",
+                "Sete",
+                "Nenhum — foi Noé",
+                "Um casal"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "d25",
+            "categoria": "Literatura",
+            "emoji": "📚",
+            "dificuldade": "moderada",
+            "pergunta": "Quem escreveu \"O Pequeno Príncipe\"?",
+            "opcoes": [
+                "Júlio Verne",
+                "Antoine de Saint-Exupéry",
+                "Victor Hugo",
+                "Machado de Assis"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d26",
+            "categoria": "Pegadinha",
+            "emoji": "🪤",
+            "dificuldade": "moderada",
+            "pergunta": "Você entra num quarto escuro com um fósforo, uma lamparina, um fogão e uma lareira. O que acende primeiro?",
+            "opcoes": [
+                "A lamparina",
+                "O fogão",
+                "A lareira",
+                "O fósforo"
+            ],
+            "correta": 3
+        },
+        {
+            "id": "d27",
+            "categoria": "Pegadinha",
+            "emoji": "🪤",
+            "dificuldade": "moderada",
+            "pergunta": "O pai da Maria tem 5 filhas: Nana, Nene, Nini, Nono... Qual é o nome da quinta?",
+            "opcoes": [
+                "Nunu",
+                "Nina",
+                "Maria",
+                "Não dá para saber"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "d28",
+            "categoria": "Literatura",
+            "emoji": "📖",
+            "dificuldade": "dificil",
+            "pergunta": "Quem escreveu \"Cem Anos de Solidão\"?",
+            "opcoes": [
+                "Gabriel García Márquez",
+                "Pablo Neruda",
+                "Jorge Luis Borges",
+                "Mario Vargas Llosa"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "d29",
+            "categoria": "Ciências",
+            "emoji": "🧬",
+            "dificuldade": "dificil",
+            "pergunta": "Quem escreveu \"A Origem das Espécies\"?",
+            "opcoes": [
+                "Mendel",
+                "Darwin",
+                "Lamarck",
+                "Pasteur"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d30",
+            "categoria": "Ciências",
+            "emoji": "🍎",
+            "dificuldade": "dificil",
+            "pergunta": "Qual é a expressão da Segunda Lei de Newton?",
+            "opcoes": [
+                "E=mc²",
+                "F=ma",
+                "PV=nRT",
+                "a²+b²=c²"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d31",
+            "categoria": "Filosofia",
+            "emoji": "🤔",
+            "dificuldade": "dificil",
+            "pergunta": "Qual filósofo grego foi mestre de Alexandre, o Grande?",
+            "opcoes": [
+                "Sócrates",
+                "Platão",
+                "Aristóteles",
+                "Epicuro"
+            ],
+            "correta": 2
+        },
+        {
+            "id": "d32",
+            "categoria": "Literatura",
+            "emoji": "⛵",
+            "dificuldade": "dificil",
+            "pergunta": "Quem escreveu \"Os Lusíadas\"?",
+            "opcoes": [
+                "Fernando Pessoa",
+                "Luís de Camões",
+                "Eça de Queirós",
+                "Almeida Garrett"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "d33",
+            "categoria": "Ciências",
+            "emoji": "🔭",
+            "dificuldade": "dificil",
+            "pergunta": "Quem propôs a teoria heliocêntrica?",
+            "opcoes": [
+                "Ptolomeu",
+                "Copérnico",
+                "Kepler",
+                "Newton"
+            ],
+            "correta": 1
+        }
+    ]
+}
