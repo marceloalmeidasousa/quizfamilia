@@ -195,7 +195,6 @@ function initLiveHost(root) {
         podium: root.querySelector('[data-live-podium]'),
         restLabel: root.querySelector('[data-live-rest-label]'),
         rankingNext: root.querySelector('[data-live-ranking-next]'),
-        newGame: root.querySelector('[data-live-newgame]'),
         soundToggle: root.querySelector('[data-live-sound]'),
     };
 
@@ -230,6 +229,7 @@ function initLiveHost(root) {
     function paint(state) {
         const justFinished = state.status === 'finished' && lastStatus !== 'finished';
         syncLiveMusic(sons, state.status, { justFinished });
+        root.classList.toggle('live-host--playing', state.status !== 'lobby' && state.status !== 'finished');
 
         if (state.status === 'lobby') {
             el.lobby.classList.remove('hidden');
@@ -262,11 +262,9 @@ function initLiveHost(root) {
             if (finished) {
                 el.rankingTitle.textContent = 'Pódio final';
                 el.rankingNext?.classList.add('hidden');
-                el.newGame?.classList.remove('hidden');
             } else {
                 el.rankingTitle.textContent = `Ranking parcial · Pergunta ${state.current_index + 1}/${state.total}`;
                 el.rankingNext?.classList.remove('hidden');
-                el.newGame?.classList.add('hidden');
             }
 
             const key = rankingKey(state.ranking);
@@ -319,11 +317,16 @@ function initLiveHost(root) {
         if (reveal) {
             el.revealBox.classList.remove('hidden');
             const correta = typeof q.correta === 'number' ? q.opcoes[q.correta] : '';
-            el.correctText.textContent = correta ? `Resposta: ${correta}` : '';
+            const revealRem = state.reveal_remaining_ms || 0;
+            const revealSecs = Math.max(1, Math.ceil(revealRem / 1000));
+            el.correctText.textContent = correta
+                ? `Resposta: ${correta} · Ranking em ${revealSecs}s`
+                : `Ranking em ${revealSecs}s`;
             el.advance.classList.remove('hidden');
-            el.advance.textContent = q.index + 1 >= q.total ? 'Ver ranking final' : 'Ver ranking';
-            el.timer.textContent = '0s';
-            el.timerBar.style.width = '0%';
+            el.advance.textContent = q.index + 1 >= q.total ? 'Ir ao ranking final agora' : 'Ir ao ranking agora';
+            el.timer.textContent = `${revealSecs}s`;
+            const revealTotal = (state.reveal_seconds || 4) * 1000;
+            el.timerBar.style.width = `${(revealRem / revealTotal) * 100}%`;
         } else {
             el.revealBox.classList.add('hidden');
             el.advance.classList.remove('hidden');

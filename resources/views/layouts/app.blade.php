@@ -11,8 +11,8 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen font-sans text-ink antialiased">
-    <div class="relative min-h-screen overflow-hidden bg-scene">
+<body class="min-h-screen font-sans text-ink antialiased @yield('body_class')">
+    <div class="relative min-h-screen overflow-hidden bg-scene @yield('shell_class')">
         <div class="pointer-events-none absolute inset-0" aria-hidden="true">
             <div class="blob blob-a"></div>
             <div class="blob blob-b"></div>
@@ -20,8 +20,8 @@
             <div class="pattern-dots"></div>
         </div>
 
-        <div class="relative z-10 flex min-h-screen flex-col">
-            <header class="px-5 pt-6 sm:px-8 sm:pt-8">
+        <div class="relative z-10 flex min-h-screen flex-col @yield('shell_inner_class')">
+            <header class="px-5 pt-6 sm:px-8 sm:pt-8 @yield('header_class')">
                 <div class="mx-auto flex max-w-6xl items-center justify-between">
                     <a href="{{ route('home') }}" class="group inline-flex items-center gap-3">
                         <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-ink text-xl text-white shadow-lift transition duration-300 group-hover:rotate-6 group-hover:scale-105 sm:h-12 sm:w-12">
@@ -34,13 +34,16 @@
                 </div>
             </header>
 
-            <main class="flex flex-1 flex-col">
+            <main class="flex min-h-0 flex-1 flex-col">
                 @yield('content')
             </main>
 
+            @hasSection('hide_footer')
+            @else
             <footer class="px-5 py-6 text-center text-sm text-ink/55 sm:px-8">
                 Feito para jogar junto — criança (3–6), adolescente (7–14) e adulto (15+).
             </footer>
+            @endif
         </div>
     </div>
 </body>

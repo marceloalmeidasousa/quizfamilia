@@ -19,6 +19,9 @@ class LiveSession extends Model
 
     public const QUESTION_SECONDS = 20;
 
+    /** Tempo mostrando a resposta correta antes de ir ao ranking. */
+    public const REVEAL_SECONDS = 4;
+
     protected $fillable = [
         'pin',
         'nivel',

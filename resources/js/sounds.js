@@ -101,6 +101,54 @@ export function createSounds({ preset = 'quiz' } = {}) {
                 185.00, null, 277.18, null, 207.65, null, 246.94, null,
             ],
         },
+        // 6 · Ode à Alegria (Beethoven) — alegre e famosa
+        {
+            beat: 0.24, volume: 0.085,
+            loop: [
+                659.25, 659.25, 698.46, 783.99, 783.99, 698.46, 659.25, 587.33,
+                523.25, 523.25, 587.33, 659.25, 659.25, 587.33, 587.33, 587.33,
+            ],
+            bass: [
+                130.81, null, null, null, 196.00, null, null, null,
+                130.81, null, null, null, 196.00, null, 196.00, null,
+            ],
+        },
+        // 7 · Galope do William Tell (Rossini) — corrida animada
+        {
+            beat: 0.15, volume: 0.085,
+            loop: [
+                392.00, 392.00, 392.00, 392.00, 392.00, 392.00, 523.25, 523.25,
+                392.00, 392.00, 392.00, 587.33, 587.33, 587.33, 523.25, 392.00,
+            ],
+            bass: [
+                130.81, null, 130.81, null, 130.81, null, 196.00, null,
+                130.81, null, 130.81, null, 196.00, null, 196.00, null,
+            ],
+        },
+        // 8 · Na Caverna do Rei da Montanha (Grieg) — misteriosa e crescente
+        {
+            beat: 0.17, volume: 0.085,
+            loop: [
+                440.00, 493.88, 523.25, 587.33, 659.25, 523.25, 659.25, 587.33,
+                440.00, 493.88, 523.25, 587.33, 659.25, 783.99, 659.25, 523.25,
+            ],
+            bass: [
+                110.00, null, 164.81, null, 130.81, null, 164.81, null,
+                110.00, null, 164.81, null, 130.81, 164.81, 196.00, null,
+            ],
+        },
+        // 9 · disco pop animado em Dó maior
+        {
+            beat: 0.2, volume: 0.085,
+            loop: [
+                523.25, 659.25, 587.33, 523.25, 659.25, 783.99, 880.00, 783.99,
+                659.25, 587.33, 523.25, 587.33, 659.25, 783.99, 1046.5, 783.99,
+            ],
+            bass: [
+                130.81, null, 196.00, null, 174.61, null, 196.00, null,
+                130.81, null, 196.00, null, 220.00, null, 196.00, null,
+            ],
+        },
     ];
 
     let currentTrack = preset === 'live' ? liveTracks[0] : quizTrack;

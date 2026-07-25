@@ -614,6 +614,117 @@
         height: 4rem;
         background: linear-gradient(180deg, #e8c39e, rgb(232 195 158 / 0.35));
     }
+
+    /* Ao Vivo apresentador: tudo em uma tela, sem rolagem */
+    .live-fit {
+        height: 100dvh;
+        max-height: 100dvh;
+        overflow: hidden;
+    }
+
+    .live-fit-header {
+        padding-top: 0.6rem !important;
+        padding-bottom: 0;
+    }
+
+    .live-fit-header a > span:first-child {
+        height: 2.25rem;
+        width: 2.25rem;
+        font-size: 1rem;
+        border-radius: 0.85rem;
+    }
+
+    .live-fit-header .font-display {
+        font-size: 1.25rem;
+    }
+
+    .live-host-panel {
+        padding: 0.9rem 1rem !important;
+        border-radius: 1.25rem;
+        animation: none;
+    }
+
+    @media (min-width: 640px) {
+        .live-host-panel {
+            padding: 1.1rem 1.35rem !important;
+        }
+    }
+
+    [data-live-host].live-host--playing [data-live-join],
+    [data-live-host].live-host--playing [data-live-back] {
+        display: none;
+    }
+
+    [data-live-host].live-host--playing [data-live-topbar] h1 {
+        font-size: 1.15rem;
+        line-height: 1.2;
+    }
+
+    [data-live-host].live-host--playing [data-live-pin] {
+        font-size: 1.75rem;
+        letter-spacing: 0.08em;
+    }
+
+    @media (min-width: 640px) {
+        [data-live-host].live-host--playing [data-live-pin] {
+            font-size: 2.25rem;
+        }
+    }
+
+    .live-host-options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-content: stretch;
+    }
+
+    @media (min-width: 640px) {
+        .live-host-options:not(.quiz-options--duo) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .live-host-options.quiz-options--duo {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    .live-host-options .quiz-option {
+        min-height: 0;
+        height: 100%;
+        padding: 0.65rem 0.85rem;
+        font-size: 0.95rem;
+        animation: none;
+        gap: 0.65rem;
+    }
+
+    .live-host-options .quiz-option__letter {
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.75rem;
+    }
+
+    .live-host-options .quiz-option--illustrated {
+        min-height: 0;
+        padding: 0.55rem 0.65rem;
+        flex-direction: row;
+    }
+
+    .live-host-options .quiz-option__emoji {
+        font-size: 1.75rem;
+    }
+
+    .live-host-options.quiz-options--duo .quiz-option--illustrated {
+        min-height: 0;
+        padding: 0.7rem;
+    }
+
+    .live-host-panel .quiz-reveal {
+        margin-top: 0.5rem;
+        padding: 0.65rem 0.9rem;
+    }
+
+    .live-host-panel .quiz-btn-primary {
+        padding: 0.55rem 1.25rem;
+        font-size: 0.95rem;
+    }
 }
 
 @keyframes float-blob {
