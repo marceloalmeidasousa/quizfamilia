@@ -97,7 +97,13 @@ class LiveGameService
             return $session;
         }
 
-        if ($session->remainingMs() > 0) {
+        $playersCount = $session->players()->count();
+        $answersCount = $session->answers()
+            ->where('question_index', $session->current_index)
+            ->count();
+        $everyoneAnswered = $playersCount > 0 && $answersCount >= $playersCount;
+
+        if (! $everyoneAnswered && $session->remainingMs() > 0) {
             return $session;
         }
 
@@ -117,9 +123,7 @@ class LiveGameService
         }
 
         if ($session->status === LiveSession::STATUS_REVEAL) {
-            $next = $session->current_index + 1;
-
-            if ($next >= $session->totalQuestions()) {
+            if ($session->current_index + 1 >= $session->totalQuestions()) {
                 $session->update([
                     'status' => LiveSession::STATUS_FINISHED,
                     'question_started_at' => null,
@@ -129,8 +133,17 @@ class LiveGameService
             }
 
             $session->update([
+                'status' => LiveSession::STATUS_RANKING,
+                'question_started_at' => null,
+            ]);
+
+            return $session->fresh();
+        }
+
+        if ($session->status === LiveSession::STATUS_RANKING) {
+            $session->update([
                 'status' => LiveSession::STATUS_QUESTION,
-                'current_index' => $next,
+                'current_index' => $session->current_index + 1,
                 'question_started_at' => now(),
             ]);
 
@@ -322,7 +335,7 @@ class LiveGameService
             'players_count' => $session->players()->count(),
             'answers_count' => $session->answers()->where('question_index', $session->current_index)->count(),
             'question' => $payload,
-            'ranking' => in_array($session->status, [LiveSession::STATUS_REVEAL, LiveSession::STATUS_FINISHED], true)
+            'ranking' => in_array($session->status, [LiveSession::STATUS_REVEAL, LiveSession::STATUS_RANKING, LiveSession::STATUS_FINISHED], true)
                 ? $this->ranking($session)
                 : [],
             'for_host' => $forHost,

@@ -18,9 +18,12 @@
                     <p class="text-xs font-bold uppercase tracking-[0.16em] text-ink/45">Jogando como</p>
                     <h1 class="font-display text-2xl text-ink">{{ $player->name }}</h1>
                 </div>
-                <div class="text-right">
-                    <p class="text-xs font-bold uppercase tracking-[0.16em] text-ink/45">PIN</p>
-                    <p class="font-display text-2xl tracking-widest text-ink">{{ $session->pin }}</p>
+                <div class="flex items-center gap-3">
+                    <button type="button" data-live-sound class="quiz-sound-toggle" aria-label="Alternar som">🔊</button>
+                    <div class="text-right">
+                        <p class="text-xs font-bold uppercase tracking-[0.16em] text-ink/45">PIN</p>
+                        <p class="font-display text-2xl tracking-widest text-ink">{{ $session->pin }}</p>
+                    </div>
                 </div>
             </div>
 
@@ -31,7 +34,7 @@
             <div data-live-wait class="mt-10 text-center">
                 <p class="text-5xl" aria-hidden="true">⏳</p>
                 <p class="mt-4 font-display text-xl text-ink">Aguardando o apresentador iniciar...</p>
-                <p class="mt-2 text-sm text-ink/60">Fique nesta tela.</p>
+                <p class="mt-2 text-sm text-ink/60">Toque na tela para ativar a música da festa.</p>
             </div>
 
             <div data-live-question-wrap class="mt-8 hidden">
@@ -51,8 +54,10 @@
 
             <div data-live-ranking class="mt-8 hidden">
                 <h2 class="font-display text-2xl text-ink" data-live-ranking-title>Ranking</h2>
+                <div data-live-podium class="live-podium mt-6 hidden"></div>
+                <p data-live-rest-label class="mt-6 hidden text-xs font-bold uppercase tracking-[0.16em] text-ink/45">Demais participantes</p>
                 <ol data-live-ranking-list class="mt-4 space-y-2"></ol>
-                <a href="{{ route('live.hub') }}" class="quiz-btn-primary mt-8 inline-flex w-full justify-center">Voltar ao hub</a>
+                <a href="{{ route('live.hub') }}" data-live-back-hub class="quiz-btn-primary mt-8 hidden inline-flex w-full justify-center">Voltar ao hub</a>
             </div>
         </div>
     </div>

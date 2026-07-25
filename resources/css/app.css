@@ -530,6 +530,90 @@
     .live-rank-score {
         color: rgb(26 47 56 / 0.65);
     }
+
+    /* Pódio final: ordem visual 3º · 1º · 2º */
+    .live-podium {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: end;
+        gap: 0.5rem;
+    }
+
+    @media (min-width: 640px) {
+        .live-podium {
+            gap: 1rem;
+        }
+    }
+
+    .live-podium-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        animation: rise-in 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+        animation-delay: var(--delay, 0ms);
+    }
+
+    .live-podium-medal {
+        font-size: 2rem;
+        line-height: 1;
+    }
+
+    @media (min-width: 640px) {
+        .live-podium-medal {
+            font-size: 2.75rem;
+        }
+    }
+
+    .live-podium-name {
+        margin-top: 0.4rem;
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        color: var(--color-ink);
+        overflow-wrap: anywhere;
+    }
+
+    @media (min-width: 640px) {
+        .live-podium-name {
+            font-size: 1.2rem;
+        }
+    }
+
+    .live-podium-score {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: rgb(26 47 56 / 0.6);
+    }
+
+    .live-podium-block {
+        margin-top: 0.6rem;
+        display: flex;
+        width: 100%;
+        align-items: flex-start;
+        justify-content: center;
+        border-radius: 1rem 1rem 0 0;
+        border: 1px solid rgb(26 47 56 / 0.12);
+        border-bottom: none;
+        padding-top: 0.5rem;
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        color: rgb(26 47 56 / 0.55);
+    }
+
+    .live-podium-step--1 .live-podium-block {
+        height: 7rem;
+        background: linear-gradient(180deg, #ffe082, rgb(255 224 130 / 0.35));
+    }
+
+    .live-podium-step--2 .live-podium-block {
+        height: 5.25rem;
+        background: linear-gradient(180deg, #dfe6ec, rgb(223 230 236 / 0.35));
+    }
+
+    .live-podium-step--3 .live-podium-block {
+        height: 4rem;
+        background: linear-gradient(180deg, #e8c39e, rgb(232 195 158 / 0.35));
+    }
 }
 
 @keyframes float-blob {

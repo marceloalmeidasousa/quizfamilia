@@ -1,3 +1,5 @@
+import { createSounds } from './sounds';
+
 function csrfHeaders(token) {
     return {
         'Content-Type': 'application/json',
@@ -7,8 +9,56 @@ function csrfHeaders(token) {
     };
 }
 
+function bindSoundToggle(btn, sons, onEnable) {
+    if (!btn) {
+        return;
+    }
+    const paint = () => {
+        btn.textContent = sons.ativo ? '🔊' : '🔇';
+        btn.setAttribute('aria-label', sons.ativo ? 'Desligar som' : 'Ligar som');
+    };
+    paint();
+    btn.addEventListener('click', () => {
+        sons.alternar();
+        paint();
+        if (sons.ativo && onEnable) {
+            onEnable();
+        }
+    });
+}
+
+function syncLiveMusic(sons, status, { justFinished = false } = {}) {
+    if (status === 'question' || status === 'reveal' || status === 'ranking') {
+        sons.iniciarMusica();
+        return;
+    }
+    if (status === 'finished') {
+        sons.pararMusica();
+        if (justFinished) {
+            sons.fim();
+        }
+        return;
+    }
+    sons.pararMusica();
+}
+
 function formatTimer(ms) {
     return `${Math.ceil(Math.max(0, ms) / 1000)}s`;
+}
+
+function rankingKey(ranking) {
+    return (ranking || []).map((r) => `${r.rank}:${r.name}:${r.score}`).join('|');
+}
+
+function playersKey(players) {
+    return (players || []).map((p) => `${p.name}:${p.score ?? ''}`).join('|');
+}
+
+function span(className, text) {
+    const el = document.createElement('span');
+    el.className = className;
+    el.textContent = text;
+    return el;
 }
 
 function renderRanking(listEl, ranking) {
@@ -19,12 +69,59 @@ function renderRanking(listEl, ranking) {
     ranking.forEach((row) => {
         const li = document.createElement('li');
         li.className = 'live-rank-row';
-        li.innerHTML =
-            `<span class="live-rank-pos">${row.rank}º</span>` +
-            `<span class="live-rank-name">${row.name}</span>` +
-            `<span class="live-rank-score">${row.score} pts</span>`;
+        li.appendChild(span('live-rank-pos', `${row.rank}º`));
+        li.appendChild(span('live-rank-name', row.name));
+        li.appendChild(span('live-rank-score', `${row.score} pts`));
         listEl.appendChild(li);
     });
+}
+
+const PODIUM_MEDALS = { 1: '🥇', 2: '🥈', 3: '🥉' };
+
+/**
+ * Pódio final na ordem visual 3º · 1º · 2º; do 4º em diante vai para a lista.
+ */
+function renderPodium(podiumEl, listEl, ranking) {
+    const rows = ranking || [];
+
+    if (!podiumEl) {
+        renderRanking(listEl, rows);
+        return;
+    }
+
+    const top = rows.slice(0, 3);
+    const rest = rows.slice(3);
+
+    podiumEl.innerHTML = '';
+    podiumEl.classList.toggle('hidden', top.length === 0);
+
+    const byRank = (rank) => top.find((r) => r.rank === rank);
+    const order = [3, 1, 2];
+    const delays = { 3: 240, 1: 0, 2: 120 };
+
+    order.forEach((rank) => {
+        const row = byRank(rank);
+        const step = document.createElement('div');
+        step.className = `live-podium-step live-podium-step--${rank}`;
+        step.style.setProperty('--delay', `${delays[rank]}ms`);
+
+        if (!row) {
+            step.style.visibility = 'hidden';
+        }
+
+        const medal = span('live-podium-medal', PODIUM_MEDALS[rank]);
+        medal.setAttribute('aria-hidden', 'true');
+
+        step.appendChild(medal);
+        step.appendChild(span('live-podium-name', row?.name ?? ''));
+        step.appendChild(span('live-podium-score', row ? `${row.score} pts` : ''));
+        step.appendChild(span('live-podium-block', `${rank}º`));
+
+        podiumEl.appendChild(step);
+    });
+
+    renderRanking(listEl, rest);
+    listEl?.classList.toggle('hidden', rest.length === 0);
 }
 
 function renderOptions(container, question, { reveal = false, locked = false, onPick = null, myChoice = null } = {}) {
@@ -72,6 +169,7 @@ function renderOptions(container, question, { reveal = false, locked = false, on
 }
 
 function initLiveHost(root) {
+    const sons = createSounds({ preset: 'live' });
     const el = {
         lobby: root.querySelector('[data-live-lobby]'),
         play: root.querySelector('[data-live-play]'),
@@ -94,11 +192,25 @@ function initLiveHost(root) {
         correctText: root.querySelector('[data-live-correct-text]'),
         rankingTitle: root.querySelector('[data-live-ranking-title]'),
         rankingList: root.querySelector('[data-live-ranking-list]'),
+        podium: root.querySelector('[data-live-podium]'),
+        restLabel: root.querySelector('[data-live-rest-label]'),
+        rankingNext: root.querySelector('[data-live-ranking-next]'),
+        newGame: root.querySelector('[data-live-newgame]'),
+        soundToggle: root.querySelector('[data-live-sound]'),
     };
 
     let lastStatus = '';
     let lastIndex = -1;
+    let lastPlayersKey = '';
+    let lastRankingKey = '';
     const totalSeconds = 20;
+
+    bindSoundToggle(el.soundToggle, sons, () => {
+        if (lastStatus === 'question' || lastStatus === 'reveal' || lastStatus === 'ranking') {
+            sons.iniciarMusica();
+        }
+    });
+    root.addEventListener('pointerdown', () => sons.unlock(), { once: true });
 
     async function post(url) {
         const res = await fetch(url, {
@@ -116,28 +228,62 @@ function initLiveHost(root) {
     }
 
     function paint(state) {
+        const justFinished = state.status === 'finished' && lastStatus !== 'finished';
+        syncLiveMusic(sons, state.status, { justFinished });
+
         if (state.status === 'lobby') {
             el.lobby.classList.remove('hidden');
             el.play.classList.add('hidden');
             el.ranking.classList.add('hidden');
             el.count.textContent = String(state.players_count);
-            el.players.innerHTML = '';
-            state.players.forEach((p) => {
-                const li = document.createElement('li');
-                li.className = 'live-player-chip';
-                li.textContent = p.name;
-                el.players.appendChild(li);
-            });
+            const key = playersKey(state.players);
+            if (key !== lastPlayersKey) {
+                lastPlayersKey = key;
+                el.players.innerHTML = '';
+                state.players.forEach((p) => {
+                    const li = document.createElement('li');
+                    li.className = 'live-player-chip';
+                    li.textContent = p.name;
+                    el.players.appendChild(li);
+                });
+            }
             el.empty.classList.toggle('hidden', state.players_count > 0);
+            lastStatus = 'lobby';
             return;
         }
 
-        if (state.status === 'finished') {
+        if (state.status === 'finished' || state.status === 'ranking') {
             el.lobby.classList.add('hidden');
             el.play.classList.add('hidden');
             el.ranking.classList.remove('hidden');
-            el.rankingTitle.textContent = 'Ranking final';
-            renderRanking(el.rankingList, state.ranking || []);
+
+            const finished = state.status === 'finished';
+
+            if (finished) {
+                el.rankingTitle.textContent = 'Pódio final';
+                el.rankingNext?.classList.add('hidden');
+                el.newGame?.classList.remove('hidden');
+            } else {
+                el.rankingTitle.textContent = `Ranking parcial · Pergunta ${state.current_index + 1}/${state.total}`;
+                el.rankingNext?.classList.remove('hidden');
+                el.newGame?.classList.add('hidden');
+            }
+
+            const key = rankingKey(state.ranking);
+            if (key !== lastRankingKey || lastStatus !== state.status) {
+                lastRankingKey = key;
+                if (finished) {
+                    renderPodium(el.podium, el.rankingList, state.ranking || []);
+                    el.restLabel?.classList.toggle('hidden', (state.ranking || []).length <= 3);
+                } else {
+                    el.podium?.classList.add('hidden');
+                    el.restLabel?.classList.add('hidden');
+                    el.rankingList?.classList.remove('hidden');
+                    renderRanking(el.rankingList, state.ranking || []);
+                }
+            }
+
+            lastStatus = state.status;
             return;
         }
 
@@ -150,6 +296,15 @@ function initLiveHost(root) {
             return;
         }
 
+        sons.selecionarMusica(q.index);
+
+        const reveal = state.status === 'reveal';
+        const changed = state.status !== lastStatus || q.index !== lastIndex;
+
+        if (changed && reveal && lastStatus === 'question') {
+            sons.revelar();
+        }
+
         el.qnum.textContent = String(q.index + 1);
         el.qtotal.textContent = String(q.total);
         el.answers.textContent = String(state.answers_count || 0);
@@ -157,15 +312,8 @@ function initLiveHost(root) {
         el.emoji.textContent = q.emoji || '';
         el.question.textContent = q.pergunta || '';
 
-        const reveal = state.status === 'reveal';
-        const changed = state.status !== lastStatus || q.index !== lastIndex;
-
         if (changed) {
             renderOptions(el.options, q, { reveal, locked: true });
-            lastStatus = state.status;
-            lastIndex = q.index;
-        } else if (reveal) {
-            renderOptions(el.options, q, { reveal: true, locked: true });
         }
 
         if (reveal) {
@@ -173,26 +321,20 @@ function initLiveHost(root) {
             const correta = typeof q.correta === 'number' ? q.opcoes[q.correta] : '';
             el.correctText.textContent = correta ? `Resposta: ${correta}` : '';
             el.advance.classList.remove('hidden');
-            el.advance.textContent = q.index + 1 >= q.total ? 'Ver ranking final' : 'Próxima pergunta';
+            el.advance.textContent = q.index + 1 >= q.total ? 'Ver ranking final' : 'Ver ranking';
             el.timer.textContent = '0s';
             el.timerBar.style.width = '0%';
-
-            // show partial ranking under reveal
-            if (state.ranking?.length) {
-                el.ranking.classList.remove('hidden');
-                el.rankingTitle.textContent = 'Ranking parcial';
-                renderRanking(el.rankingList, state.ranking);
-            }
         } else {
             el.revealBox.classList.add('hidden');
             el.advance.classList.remove('hidden');
             el.advance.textContent = 'Encerrar tempo / revelar';
-            el.ranking.classList.add('hidden');
             const rem = state.remaining_ms || 0;
             el.timer.textContent = formatTimer(rem);
             el.timerBar.style.width = `${(rem / (totalSeconds * 1000)) * 100}%`;
-            renderOptions(el.options, q, { reveal: false, locked: true });
         }
+
+        lastStatus = state.status;
+        lastIndex = q.index;
     }
 
     async function poll() {
@@ -210,13 +352,24 @@ function initLiveHost(root) {
     }
 
     el.start?.addEventListener('click', async () => {
+        sons.unlock();
         const state = await post(root.dataset.startUrl);
+        if (state) {
+            paint(state);
+            sons.iniciarMusica();
+        }
+    });
+
+    el.advance?.addEventListener('click', async () => {
+        sons.unlock();
+        const state = await post(root.dataset.advanceUrl);
         if (state) {
             paint(state);
         }
     });
 
-    el.advance?.addEventListener('click', async () => {
+    el.rankingNext?.addEventListener('click', async () => {
+        sons.unlock();
         const state = await post(root.dataset.advanceUrl);
         if (state) {
             paint(state);
@@ -228,6 +381,7 @@ function initLiveHost(root) {
 }
 
 function initLivePlayer(root) {
+    const sons = createSounds({ preset: 'live' });
     const el = {
         wait: root.querySelector('[data-live-wait]'),
         qwrap: root.querySelector('[data-live-question-wrap]'),
@@ -244,12 +398,30 @@ function initLivePlayer(root) {
         feedback: root.querySelector('[data-live-feedback]'),
         rankingTitle: root.querySelector('[data-live-ranking-title]'),
         rankingList: root.querySelector('[data-live-ranking-list]'),
+        podium: root.querySelector('[data-live-podium]'),
+        restLabel: root.querySelector('[data-live-rest-label]'),
+        backHub: root.querySelector('[data-live-back-hub]'),
+        soundToggle: root.querySelector('[data-live-sound]'),
     };
 
     let lastStatus = '';
     let lastIndex = -1;
+    let lastAnswered = null;
+    let lastRankingKey = '';
     let answering = false;
     const totalSeconds = 20;
+
+    bindSoundToggle(el.soundToggle, sons, () => {
+        if (lastStatus === 'question' || lastStatus === 'reveal' || lastStatus === 'ranking') {
+            sons.iniciarMusica();
+        }
+    });
+    root.addEventListener('pointerdown', () => {
+        sons.unlock();
+        if (lastStatus === 'question' || lastStatus === 'reveal' || lastStatus === 'ranking') {
+            sons.iniciarMusica();
+        }
+    }, { once: true });
 
     async function sendAnswer(choice) {
         if (answering) {
@@ -277,6 +449,9 @@ function initLivePlayer(root) {
             el.myscore.textContent = String(state.me.score || 0);
         }
 
+        const justFinished = state.status === 'finished' && lastStatus !== 'finished';
+        syncLiveMusic(sons, state.status, { justFinished });
+
         if (state.status === 'lobby') {
             el.wait.classList.remove('hidden');
             el.qwrap.classList.add('hidden');
@@ -289,20 +464,51 @@ function initLivePlayer(root) {
             el.wait.classList.add('hidden');
             el.qwrap.classList.add('hidden');
             el.ranking.classList.remove('hidden');
-            el.rankingTitle.textContent = 'Ranking final';
-            renderRanking(el.rankingList, state.ranking || []);
+            el.rankingTitle.textContent = 'Pódio final';
+            el.backHub?.classList.remove('hidden');
+            const key = rankingKey(state.ranking);
+            if (key !== lastRankingKey || lastStatus !== 'finished') {
+                lastRankingKey = key;
+                renderPodium(el.podium, el.rankingList, state.ranking || []);
+                el.restLabel?.classList.toggle('hidden', (state.ranking || []).length <= 3);
+            }
+            lastStatus = 'finished';
+            return;
+        }
+
+        if (state.status === 'ranking') {
+            el.wait.classList.add('hidden');
+            el.qwrap.classList.add('hidden');
+            el.ranking.classList.remove('hidden');
+            el.rankingTitle.textContent = 'Ranking parcial';
+            el.backHub?.classList.add('hidden');
+            const key = rankingKey(state.ranking);
+            if (key !== lastRankingKey || lastStatus !== 'ranking') {
+                lastRankingKey = key;
+                el.podium?.classList.add('hidden');
+                el.restLabel?.classList.add('hidden');
+                el.rankingList?.classList.remove('hidden');
+                renderRanking(el.rankingList, state.ranking || []);
+            }
+            lastStatus = 'ranking';
             return;
         }
 
         el.wait.classList.add('hidden');
         el.qwrap.classList.remove('hidden');
+        el.ranking.classList.add('hidden');
 
         const q = state.question;
         if (!q) {
             return;
         }
 
+        sons.selecionarMusica(q.index);
+
         const changed = state.status !== lastStatus || q.index !== lastIndex;
+        const answered = Boolean(state.me?.answered);
+        const answeredChanged = answered !== lastAnswered;
+
         el.qnum.textContent = String(q.index + 1);
         el.qtotal.textContent = String(q.total);
         el.category.textContent = q.categoria || '';
@@ -310,34 +516,45 @@ function initLivePlayer(root) {
         el.question.textContent = q.pergunta || '';
 
         if (state.status === 'question') {
-            el.ranking.classList.add('hidden');
             const rem = state.remaining_ms || 0;
             el.timer.textContent = formatTimer(rem);
             el.timerBar.style.width = `${(rem / (totalSeconds * 1000)) * 100}%`;
 
-            const answered = state.me?.answered;
             if (changed) {
                 answering = false;
                 el.feedback.classList.add('hidden');
             }
 
-            renderOptions(el.options, q, {
-                reveal: false,
-                locked: answered,
-                myChoice: state.me?.my_choice,
-                onPick: answered ? null : (i) => sendAnswer(i),
-            });
+            if (changed || answeredChanged) {
+                renderOptions(el.options, q, {
+                    reveal: false,
+                    locked: answered,
+                    myChoice: state.me?.my_choice,
+                    onPick: answered ? null : (i) => sendAnswer(i),
+                });
+            }
 
             if (answered) {
                 el.feedback.classList.remove('hidden');
                 el.feedback.textContent = 'Resposta enviada! Aguarde...';
             }
         } else if (state.status === 'reveal') {
-            renderOptions(el.options, q, {
-                reveal: true,
-                locked: true,
-                myChoice: state.me?.my_choice,
-            });
+            if (changed && lastStatus === 'question') {
+                sons.revelar();
+                if (state.me?.answered && state.me.my_correct) {
+                    setTimeout(() => sons.acerto(), 450);
+                } else {
+                    setTimeout(() => sons.erro(), 450);
+                }
+            }
+
+            if (changed) {
+                renderOptions(el.options, q, {
+                    reveal: true,
+                    locked: true,
+                    myChoice: state.me?.my_choice,
+                });
+            }
             el.feedback.classList.remove('hidden');
             if (state.me?.answered) {
                 el.feedback.textContent = state.me.my_correct
@@ -348,16 +565,11 @@ function initLivePlayer(root) {
             }
             el.timer.textContent = '0s';
             el.timerBar.style.width = '0%';
-
-            if (state.ranking?.length) {
-                el.ranking.classList.remove('hidden');
-                el.rankingTitle.textContent = 'Ranking parcial';
-                renderRanking(el.rankingList, state.ranking);
-            }
         }
 
         lastStatus = state.status;
         lastIndex = q.index;
+        lastAnswered = answered;
     }
 
     async function poll() {

@@ -21,9 +21,12 @@
                     <p class="font-display text-lg text-ink/55">Apresentador · {{ $level['title'] ?? '' }}</p>
                     <h1 class="mt-1 font-display text-3xl text-ink sm:text-4xl">Sala Ao Vivo</h1>
                 </div>
-                <div class="text-right">
-                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-ink/45">PIN</p>
-                    <p data-live-pin class="font-display text-5xl tracking-[0.12em] text-ink sm:text-6xl">{{ $session->pin }}</p>
+                <div class="flex items-start gap-3">
+                    <button type="button" data-live-sound class="quiz-sound-toggle" aria-label="Alternar som">🔊</button>
+                    <div class="text-right">
+                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-ink/45">PIN</p>
+                        <p data-live-pin class="font-display text-5xl tracking-[0.12em] text-ink sm:text-6xl">{{ $session->pin }}</p>
+                    </div>
                 </div>
             </div>
 
@@ -65,11 +68,14 @@
                 <button type="button" data-live-advance class="quiz-btn-primary mt-6 hidden">Próxima</button>
             </div>
 
-            {{-- Ranking --}}
+            {{-- Ranking / pódio --}}
             <div data-live-ranking class="mt-8 hidden">
                 <h2 class="font-display text-2xl text-ink" data-live-ranking-title>Ranking</h2>
+                <div data-live-podium class="live-podium mt-6 hidden"></div>
+                <p data-live-rest-label class="mt-6 hidden text-xs font-bold uppercase tracking-[0.16em] text-ink/45">Demais participantes</p>
                 <ol data-live-ranking-list class="mt-4 space-y-2"></ol>
-                <a href="{{ route('live.hub') }}" class="quiz-btn-primary mt-8 inline-flex">Nova partida</a>
+                <button type="button" data-live-ranking-next class="quiz-btn-primary mt-8 hidden">Próxima pergunta</button>
+                <a href="{{ route('live.hub') }}" data-live-newgame class="quiz-btn-primary mt-8 hidden inline-flex">Nova partida</a>
             </div>
         </div>
     </div>

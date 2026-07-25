@@ -13,6 +13,8 @@ class LiveSession extends Model
 
     public const STATUS_REVEAL = 'reveal';
 
+    public const STATUS_RANKING = 'ranking';
+
     public const STATUS_FINISHED = 'finished';
 
     public const QUESTION_SECONDS = 20;

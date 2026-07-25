@@ -1,3 +1,5 @@
+import { createSounds } from './sounds';
+
 function shuffle(array) {
     const copy = [...array];
     for (let i = copy.length - 1; i > 0; i--) {
@@ -7,186 +9,37 @@ function shuffle(array) {
     return copy;
 }
 
-/**
- * Sons e música de fundo gerados com Web Audio (sem arquivos externos).
- */
-function createSounds() {
-    let ctx = null;
-    let ligado = localStorage.getItem('quiz-som') !== 'off';
-    let musicGain = null;
-    let musicTimer = null;
-    let nextNoteAt = 0;
-    let musicPlaying = false;
-
-    // Melodia alegre em C maior (~120 BPM), estilo festa infantil.
-    const BEAT = 0.28;
-    const LOOP = [
-        523.25, 659.25, 783.99, 659.25,
-        587.33, 698.46, 880.00, 698.46,
-        659.25, 783.99, 987.77, 783.99,
-        523.25, 659.25, 783.99, 1046.5,
-    ];
-    const BASS = [
-        130.81, null, 130.81, null,
-        146.83, null, 146.83, null,
-        164.81, null, 164.81, null,
-        130.81, null, 196.00, null,
-    ];
-
-    function ensureCtx() {
-        if (!ctx) {
-            ctx = new (window.AudioContext || window.webkitAudioContext)();
-            musicGain = ctx.createGain();
-            musicGain.gain.value = ligado ? 0.07 : 0;
-            musicGain.connect(ctx.destination);
-        }
-        if (ctx.state === 'suspended') {
-            ctx.resume();
-        }
-        return ctx;
+/** Embaralha opções (e emojis) e atualiza o índice da correta. */
+function withShuffledOptions(pergunta) {
+    const opcoes = [...(pergunta.opcoes || [])];
+    if (opcoes.length < 2) {
+        return pergunta;
     }
 
-    function tocar(notas) {
-        if (!ligado) {
-            return;
-        }
-        try {
-            ensureCtx();
-            notas.forEach(({ freq, start, dur, tipo = 'sine', vol = 0.22 }) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = tipo;
-                osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.0001, ctx.currentTime + start);
-                gain.gain.exponentialRampToValueAtTime(vol, ctx.currentTime + start + 0.02);
-                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + dur);
-                osc.connect(gain).connect(ctx.destination);
-                osc.start(ctx.currentTime + start);
-                osc.stop(ctx.currentTime + start + dur + 0.02);
-            });
-        } catch (e) {
-            /* navegador sem suporte */
-        }
-    }
+    const emojis = Array.isArray(pergunta.opcoesEmoji) ? [...pergunta.opcoesEmoji] : null;
+    const hasEmojis = emojis && emojis.length === opcoes.length;
+    const corretaAtual = typeof pergunta.correta === 'number' ? pergunta.correta : 0;
 
-    function scheduleNote(freq, when, dur, tipo, vol) {
-        if (!freq) {
-            return;
-        }
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = tipo;
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.0001, when);
-        gain.gain.exponentialRampToValueAtTime(vol, when + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.0001, when + dur);
-        osc.connect(gain).connect(musicGain);
-        osc.start(when);
-        osc.stop(when + dur + 0.02);
-    }
+    const indices = shuffle(opcoes.map((_, i) => i));
+    const novasOpcoes = [];
+    const novosEmojis = [];
+    let novaCorreta = 0;
 
-    function scheduleLoop() {
-        if (!musicPlaying || !ctx) {
-            return;
+    indices.forEach((antigo, novoIndice) => {
+        novasOpcoes.push(opcoes[antigo]);
+        if (hasEmojis) {
+            novosEmojis.push(emojis[antigo]);
         }
-        const horizon = ctx.currentTime + 1.2;
-        while (nextNoteAt < horizon) {
-            const absStep = Math.round(nextNoteAt / BEAT) % LOOP.length;
-            scheduleNote(LOOP[absStep], nextNoteAt, BEAT * 0.85, 'triangle', 0.55);
-            scheduleNote(BASS[absStep], nextNoteAt, BEAT * 0.9, 'sine', 0.35);
-            if (absStep % 2 === 0) {
-                scheduleNote(180, nextNoteAt, 0.06, 'square', 0.12);
-            }
-            nextNoteAt += BEAT;
+        if (antigo === corretaAtual) {
+            novaCorreta = novoIndice;
         }
-    }
-
-    function iniciarMusica() {
-        try {
-            ensureCtx();
-            if (!ligado) {
-                musicGain.gain.setTargetAtTime(0, ctx.currentTime, 0.05);
-                musicPlaying = false;
-                return;
-            }
-            if (musicPlaying) {
-                musicGain.gain.setTargetAtTime(0.07, ctx.currentTime, 0.15);
-                return;
-            }
-            musicPlaying = true;
-            nextNoteAt = ctx.currentTime + 0.05;
-            musicGain.gain.setValueAtTime(0.0001, ctx.currentTime);
-            musicGain.gain.exponentialRampToValueAtTime(0.07, ctx.currentTime + 0.6);
-            scheduleLoop();
-            clearInterval(musicTimer);
-            musicTimer = setInterval(scheduleLoop, 400);
-        } catch (e) {
-            /* ignore */
-        }
-    }
-
-    function pararMusica({ fade = true } = {}) {
-        if (!ctx || !musicGain) {
-            musicPlaying = false;
-            clearInterval(musicTimer);
-            musicTimer = null;
-            return;
-        }
-        musicPlaying = false;
-        clearInterval(musicTimer);
-        musicTimer = null;
-        const now = ctx.currentTime;
-        if (fade) {
-            musicGain.gain.cancelScheduledValues(now);
-            musicGain.gain.setValueAtTime(Math.max(musicGain.gain.value, 0.0001), now);
-            musicGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.8);
-        } else {
-            musicGain.gain.setValueAtTime(0, now);
-        }
-    }
+    });
 
     return {
-        acerto: () => tocar([
-            { freq: 660, start: 0, dur: 0.12 },
-            { freq: 880, start: 0.1, dur: 0.18 },
-            { freq: 1180, start: 0.22, dur: 0.2 },
-        ]),
-        erro: () => tocar([
-            { freq: 220, start: 0, dur: 0.22, tipo: 'square', vol: 0.16 },
-            { freq: 140, start: 0.16, dur: 0.3, tipo: 'square', vol: 0.14 },
-        ]),
-        fim: () => tocar([
-            { freq: 523, start: 0, dur: 0.16 },
-            { freq: 659, start: 0.14, dur: 0.16 },
-            { freq: 784, start: 0.28, dur: 0.16 },
-            { freq: 1046, start: 0.42, dur: 0.3 },
-        ]),
-        iniciarMusica,
-        pararMusica,
-        alternar() {
-            ligado = !ligado;
-            localStorage.setItem('quiz-som', ligado ? 'on' : 'off');
-            try {
-                ensureCtx();
-                musicGain.gain.cancelScheduledValues(ctx.currentTime);
-                if (ligado && musicPlaying) {
-                    musicGain.gain.setTargetAtTime(0.07, ctx.currentTime, 0.1);
-                    scheduleLoop();
-                    clearInterval(musicTimer);
-                    musicTimer = setInterval(scheduleLoop, 400);
-                } else {
-                    musicGain.gain.setTargetAtTime(0, ctx.currentTime, 0.08);
-                    clearInterval(musicTimer);
-                    musicTimer = null;
-                }
-            } catch (e) {
-                /* ignore */
-            }
-            return ligado;
-        },
-        get ativo() {
-            return ligado;
-        },
+        ...pergunta,
+        opcoes: novasOpcoes,
+        opcoesEmoji: hasEmojis ? novosEmojis : pergunta.opcoesEmoji,
+        correta: novaCorreta,
     };
 }
 
@@ -251,8 +104,10 @@ function initQuiz(root) {
     }
 
     function iniciar() {
-        // Cada partida sorteia um conjunto novo de perguntas do baralho completo.
-        ordem = shuffle(perguntas).slice(0, rodadasPorPartida);
+        // Cada partida sorteia perguntas novas e embaralha as opções.
+        ordem = shuffle(perguntas)
+            .slice(0, rodadasPorPartida)
+            .map(withShuffledOptions);
         indice = 0;
         acertos = 0;
         sequencia = 0;
