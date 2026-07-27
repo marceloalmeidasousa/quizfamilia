@@ -5,13 +5,12 @@
 @section('content')
 <section class="flex flex-1 flex-col justify-center px-5 py-10 sm:px-8 sm:py-14">
     <div class="mx-auto w-full max-w-5xl">
-        <div class="hero-intro mb-10 max-w-2xl sm:mb-14">
-            <p class="mb-3 font-display text-lg text-ocean sm:text-xl">Quiz em Família</p>
+        <div class="hero-intro mb-10 sm:mb-14">
             <h1 class="font-display text-4xl leading-[1.05] tracking-tight text-ink sm:text-5xl lg:text-6xl">
                 Escolha o modo
             </h1>
-            <p class="mt-4 max-w-xl text-base leading-relaxed text-ink/70 sm:text-lg">
-                Jogue solo no Quiz ou monte uma partida Ao Vivo com PIN, no estilo Kahoot.
+            <p class="mt-4 text-base leading-relaxed text-ink/70 sm:text-lg">
+                Quiz solo ou partida Ao Vivo com PIN — diversão em família.
             </p>
         </div>
 
@@ -23,7 +22,7 @@
                     <h2 class="font-display text-3xl tracking-tight text-ink">Quiz</h2>
                     <p class="mt-1 text-sm font-semibold uppercase tracking-[0.14em] text-ink/45">Modo solo</p>
                     <p class="mt-4 flex-1 text-sm leading-relaxed text-ink/70 sm:text-base">
-                        Torta na cara — escolha o nível e jogue sozinho ou revezando.
+                        Escolha o nível e jogue sozinho ou revezando.
                     </p>
                     <span class="mt-8 inline-flex items-center gap-2 text-sm font-bold text-ink transition group-hover:gap-3">
                         Jogar Quiz

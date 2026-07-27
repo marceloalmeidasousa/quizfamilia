@@ -63,6 +63,24 @@ class LiveSession extends Model
         return count($this->questions ?? []);
     }
 
+    /**
+     * Rótulo da categoria sorteada (ou "Todas" se misto).
+     */
+    public function categoriaLabel(): string
+    {
+        $cats = collect($this->questions ?? [])
+            ->pluck('categoria')
+            ->filter()
+            ->unique()
+            ->values();
+
+        if ($cats->count() === 1) {
+            return (string) $cats->first();
+        }
+
+        return 'Todas';
+    }
+
     public function remainingMs(): int
     {
         if ($this->status !== self::STATUS_QUESTION || ! $this->question_started_at) {

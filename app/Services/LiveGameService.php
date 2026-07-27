@@ -11,15 +11,30 @@ use Illuminate\Validation\ValidationException;
 
 class LiveGameService
 {
-    public function createSession(string $nivel): LiveSession
+    public function createSession(string $nivel, ?string $categoria = null): LiveSession
     {
         abort_unless(array_key_exists($nivel, QuestionBank::levels()), 404);
 
-        $questions = QuestionBank::draw($nivel, 10);
+        if ($categoria === null || $categoria === '' || strtolower($categoria) === 'todas') {
+            $categoria = null;
+        }
+
+        if ($categoria !== null) {
+            $available = array_column(QuestionBank::categoriesFor($nivel), 'nome');
+            if (! in_array($categoria, $available, true)) {
+                throw ValidationException::withMessages([
+                    'categoria' => 'Categoria inválida para este nível.',
+                ]);
+            }
+        }
+
+        $questions = QuestionBank::draw($nivel, 10, $categoria);
 
         if (count($questions) === 0) {
             throw ValidationException::withMessages([
-                'nivel' => 'Não há perguntas para este nível.',
+                'categoria' => $categoria
+                    ? 'Não há perguntas suficientes nesta categoria.'
+                    : 'Não há perguntas para este nível.',
             ]);
         }
 

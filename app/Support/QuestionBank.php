@@ -3,6 +3,8 @@
 namespace App\Support;
 
 use App\Http\Controllers\GameController;
+use App\Models\Question;
+use Illuminate\Support\Facades\Cache;
 
 class QuestionBank
 {
@@ -17,17 +19,46 @@ class QuestionBank
     /**
      * @return array<int, array<string, mixed>>
      */
-    public static function allFor(string $nivel): array
+    public static function allFor(string $nivel, ?string $categoria = null): array
     {
-        $path = resource_path('data/perguntas.json');
+        $questions = Cache::remember("questions.bank.{$nivel}", now()->addHour(), function () use ($nivel) {
+            return Question::query()
+                ->where('nivel', $nivel)
+                ->with('options')
+                ->orderBy('id')
+                ->get()
+                ->map(fn (Question $question) => $question->toBankItem())
+                ->all();
+        });
 
-        if (! is_file($path)) {
-            return [];
+        if ($categoria === null || $categoria === '' || $categoria === 'todas') {
+            return $questions;
         }
 
-        $data = json_decode((string) file_get_contents($path), true);
+        return array_values(array_filter(
+            $questions,
+            fn (array $q) => ($q['categoria'] ?? '') === $categoria,
+        ));
+    }
 
-        return $data[$nivel] ?? [];
+    /**
+     * @return array<int, array{nome: string, total: int}>
+     */
+    public static function categoriesFor(string $nivel): array
+    {
+        return Cache::remember("questions.categories.{$nivel}", now()->addHour(), function () use ($nivel) {
+            return Question::query()
+                ->where('nivel', $nivel)
+                ->selectRaw('categoria as nome, count(*) as total')
+                ->groupBy('categoria')
+                ->orderBy('categoria')
+                ->get()
+                ->map(fn ($row) => [
+                    'nome' => $row->nome,
+                    'total' => (int) $row->total,
+                ])
+                ->all();
+        });
     }
 
     /**
@@ -79,9 +110,9 @@ class QuestionBank
     /**
      * @return array<int, array<string, mixed>>
      */
-    public static function draw(string $nivel, int $count = 10): array
+    public static function draw(string $nivel, int $count = 10, ?string $categoria = null): array
     {
-        $questions = self::allFor($nivel);
+        $questions = self::allFor($nivel, $categoria);
 
         shuffle($questions);
 
@@ -91,5 +122,20 @@ class QuestionBank
             fn (array $question) => self::withShuffledOptions($question),
             $drawn,
         ));
+    }
+
+    public static function forgetCache(?string $nivel = null): void
+    {
+        if ($nivel) {
+            Cache::forget("questions.bank.{$nivel}");
+            Cache::forget("questions.categories.{$nivel}");
+
+            return;
+        }
+
+        foreach (array_keys(self::levels()) as $key) {
+            Cache::forget("questions.bank.{$key}");
+            Cache::forget("questions.categories.{$key}");
+        }
     }
 }

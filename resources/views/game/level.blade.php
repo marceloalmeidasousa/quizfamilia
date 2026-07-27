@@ -30,12 +30,15 @@
 
             <div data-quiz-topbar class="flex shrink-0 items-start justify-between gap-3">
                 <div class="min-w-0">
-                    <p class="font-display text-sm text-ink/55 sm:text-base">Torta na Cara · Nível</p>
-                    <h1 class="font-display text-2xl tracking-tight text-ink sm:text-4xl">
-                        {{ $level['title'] }}
+                    <p class="font-display text-base text-ink/55 sm:text-lg">Quiz · Nível</p>
+                    <h1 class="font-display text-4xl tracking-tight text-ink sm:text-5xl">
+                        {{ $level['title'] }}@if (!empty($categoria)) · {{ $categoria }}@endif
                     </h1>
-                    <p class="mt-0.5 text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">
+                    <p class="mt-1 text-sm font-semibold uppercase tracking-[0.14em] text-ink/45 sm:text-base">
                         {{ $level['subtitle'] }} · {{ $level['age'] }}
+                        @if (!empty($categoria))
+                            · categoria {{ $categoria }}
+                        @endif
                     </p>
                 </div>
                 <button type="button" data-quiz-sound class="quiz-sound-toggle" aria-label="Alternar som">🔊</button>
@@ -47,21 +50,23 @@
                 </p>
             @else
                 {{-- Tela inicial --}}
-                <div data-quiz-start class="mt-3 flex min-h-0 flex-1 flex-col overflow-y-auto">
-                    <p class="max-w-xl text-sm leading-relaxed text-ink/70 sm:text-base">
-                        {{ $level['description'] }}
-                    </p>
-                    <ul class="mt-3 space-y-1 text-sm text-ink/70">
-                        <li>1. Em cada rodada aparece a figura, a pergunta e as opções</li>
-                        <li>2. Marque a resposta que você acha certa</li>
-                        <li>3. A resposta correta é revelada na hora</li>
-                        <li>4. Errou? Torta na cara! 🥧 Acertou? Escapou! 🎉</li>
-                        <li>5. Tem musiquinha de fundo — use o botão 🔊 se quiser silenciar</li>
-                    </ul>
-                    <p class="mt-3 text-sm font-semibold text-ink/60">
-                        {{ $rodadas }} rodadas por partida · perguntas sorteadas de um baralho com {{ count($perguntas) }}
-                    </p>
-                    <button type="button" data-quiz-begin class="quiz-btn-primary mt-4 shrink-0 self-start">
+                <div data-quiz-start class="quiz-fit-start mt-4 flex min-h-0 flex-1 flex-col justify-between overflow-hidden">
+                    <div class="flex min-h-0 flex-1 flex-col justify-center gap-5 sm:gap-6">
+                        <p class="max-w-2xl text-lg leading-relaxed text-ink/75 sm:text-xl">
+                            {{ $level['description'] }}
+                        </p>
+                        <ul class="quiz-fit-rules space-y-3 text-base leading-relaxed text-ink/75 sm:space-y-3.5 sm:text-lg">
+                            <li>1. Em cada rodada aparece a figura, a pergunta e as opções</li>
+                            <li>2. Marque a resposta que você acha certa</li>
+                            <li>3. A resposta correta é revelada na hora</li>
+                            <li>4. Errou? Torta na cara! 🥧 Acertou? Escapou! 🎉</li>
+                            <li>5. Use o botão 🔊 se quiser silenciar</li>
+                        </ul>
+                        <p class="text-base font-semibold text-ink/65 sm:text-lg">
+                            São {{ $rodadas }} rodadas por partida
+                        </p>
+                    </div>
+                    <button type="button" data-quiz-begin class="quiz-btn-primary quiz-fit-start-btn mt-5 shrink-0 self-start">
                         Começar a partida
                     </button>
                 </div>
@@ -100,12 +105,12 @@
                 {{-- Resultado final --}}
                 <div data-quiz-result class="mt-3 flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden text-center hidden">
                     <p data-quiz-final-emoji class="quiz-final-emoji">🏆</p>
-                    <p class="mt-1 font-display text-base text-ink/55">Fim da partida</p>
-                    <p class="mt-1 font-display text-4xl text-ink sm:text-5xl">
+                    <p class="mt-3 font-display text-xl text-ink/55 sm:text-2xl">Fim da partida</p>
+                    <p class="mt-2 font-display text-5xl text-ink sm:text-6xl lg:text-7xl">
                         <span data-quiz-final-score>0</span>/<span data-quiz-final-total>{{ $rodadas }}</span>
                     </p>
-                    <p data-quiz-message class="mt-2 max-w-md text-sm text-ink/70 sm:text-base"></p>
-                    <button type="button" data-quiz-restart class="quiz-btn-primary mt-4">
+                    <p data-quiz-message class="mt-3 max-w-lg text-lg text-ink/70 sm:text-xl"></p>
+                    <button type="button" data-quiz-restart class="quiz-btn-primary mt-6 text-base sm:text-lg">
                         Nova partida
                     </button>
                 </div>

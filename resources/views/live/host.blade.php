@@ -24,7 +24,9 @@
         >
             <div data-live-topbar class="flex shrink-0 flex-wrap items-center justify-between gap-2">
                 <div class="min-w-0">
-                    <p class="font-display text-sm text-ink/55 sm:text-base">Apresentador · {{ $level['title'] ?? '' }}</p>
+                    <p class="font-display text-sm text-ink/55 sm:text-base">
+                        Apresentador · {{ $level['title'] ?? '' }} · {{ $session->categoriaLabel() }}
+                    </p>
                     <h1 class="font-display text-xl text-ink sm:text-3xl">Sala Ao Vivo</h1>
                 </div>
                 <div class="flex items-center gap-2">

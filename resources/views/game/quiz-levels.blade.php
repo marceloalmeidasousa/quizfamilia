@@ -4,7 +4,13 @@
 
 @section('content')
 <section class="flex flex-1 flex-col justify-center px-5 py-10 sm:px-8 sm:py-14">
-    <div class="mx-auto w-full max-w-6xl">
+    <div
+        class="mx-auto w-full max-w-6xl"
+        data-quiz-picker
+        data-levels='@json($levels)'
+        data-categories='@json($categoriesByLevel)'
+        data-play-url="{{ url('/jogo') }}"
+    >
         <a href="{{ route('home') }}" class="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-ink/60 transition hover:text-ink">
             ← Voltar
         </a>
@@ -14,13 +20,17 @@
             <h1 class="font-display text-4xl leading-[1.05] tracking-tight text-ink sm:text-5xl">
                 Escolha o nível
             </h1>
+            <p class="mt-4 text-base text-ink/70 sm:text-lg">
+                Depois escolha uma categoria — só entram perguntas desse tema.
+            </p>
         </div>
 
         <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
             @foreach ($levels as $slug => $level)
-                <a
-                    href="{{ route('game.level', $slug) }}"
-                    class="level-card level-card--{{ $level['accent'] }} group"
+                <button
+                    type="button"
+                    data-pick-level="{{ $slug }}"
+                    class="level-card level-card--{{ $level['accent'] }} group text-left"
                     style="--delay: {{ $loop->index * 90 }}ms"
                 >
                     <div class="level-card__glow" aria-hidden="true"></div>
@@ -38,13 +48,23 @@
                         </div>
                         <h2 class="font-display text-3xl tracking-tight text-ink">{{ $level['title'] }}</h2>
                         <p class="mt-1 text-sm font-semibold uppercase tracking-[0.14em] text-ink/45">{{ $level['subtitle'] }}</p>
-                        <span class="mt-8 inline-flex items-center gap-2 text-sm font-bold text-ink transition group-hover:gap-3">
-                            Jogar neste nível
-                            <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="mt-8 inline-flex items-center gap-2 text-sm font-bold text-ink">
+                            Selecionar nível
                         </span>
                     </div>
-                </a>
+                </button>
             @endforeach
+        </div>
+
+        <div data-category-panel class="mt-10 hidden">
+            <div class="mb-4 flex flex-wrap items-end justify-between gap-3">
+                <div>
+                    <h2 class="font-display text-2xl text-ink sm:text-3xl">Escolha a categoria</h2>
+                    <p data-category-hint class="mt-1 text-sm text-ink/60 sm:text-base"></p>
+                </div>
+            </div>
+
+            <div data-category-list class="flex flex-wrap gap-2.5"></div>
         </div>
     </div>
 </section>

@@ -1,25 +1,37 @@
 <?php
 
 /**
- * Gerador do banco de perguntas (resources/data/perguntas.json).
+ * Gera resources/data/perguntas.json a partir das fontes PHP.
  *
- * Rode com:  php resources/data/build-perguntas.php
+ * Rode: php resources/data/build-perguntas.php
  *
- * Formatos compactos:
- *  - Criança:      [categoria, emoji, pergunta, [opA, opB], [emojiA, emojiB], correta]
- *  - Adolescente:  [categoria, emoji, pergunta, [op1, op2, op3, op4], correta]
- *  - Adulto:       [categoria, emoji, pergunta, [op1, op2, op3, op4], correta]
- *
- * Os ids são gerados automaticamente (c001, d001, a001...).
+ * Fontes:
+ *  - perguntas-{nivel}.php          (base)
+ *  - perguntas-{nivel}-extra.php    (opcional, extras geradas)
  */
 
 require __DIR__.'/perguntas-crianca.php';
 require __DIR__.'/perguntas-adolescente.php';
 require __DIR__.'/perguntas-adulto.php';
 
+foreach ([
+    __DIR__.'/perguntas-crianca-extra.php',
+    __DIR__.'/perguntas-adolescente-extra.php',
+    __DIR__.'/perguntas-adolescente-temas.php',
+    __DIR__.'/perguntas-adolescente-ingles.php',
+    __DIR__.'/perguntas-adolescente-lote.php',
+    __DIR__.'/perguntas-adulto-extra.php',
+    __DIR__.'/perguntas-adulto-bts.php',
+    __DIR__.'/perguntas-adulto-dorama.php',
+    __DIR__.'/perguntas-adulto-futebol-internacional.php',
+    __DIR__.'/perguntas-adulto-futebol-nacional.php',
+] as $extra) {
+    if (is_file($extra)) {
+        require_once $extra;
+    }
+}
+
 /**
- * Ordem embaralhada de índices, determinística por pergunta (diff estável).
- *
  * @return array<int, int>
  */
 function shuffledOrder(int $size, string $seedText): array
@@ -33,6 +45,28 @@ function shuffledOrder(int $size, string $seedText): array
     mt_srand();
 
     return $order;
+}
+
+/**
+ * Remove perguntas duplicadas pelo texto.
+ *
+ * @param  array<int, array<int, mixed>>  $rows
+ * @return array<int, array<int, mixed>>
+ */
+function uniqueByPergunta(array $rows, int $perguntaIndex = 2): array
+{
+    $seen = [];
+    $out = [];
+    foreach ($rows as $row) {
+        $key = mb_strtolower(trim((string) ($row[$perguntaIndex] ?? '')));
+        if ($key === '' || isset($seen[$key])) {
+            continue;
+        }
+        $seen[$key] = true;
+        $out[] = $row;
+    }
+
+    return $out;
 }
 
 /**
@@ -51,7 +85,7 @@ function buildCrianca(array $rows): array
         $novaCorreta = 0;
         foreach ($order as $novoIndice => $antigo) {
             $novasOpcoes[] = $opcoes[$antigo];
-            $novosEmojis[] = $opcoesEmoji[$antigo];
+            $novosEmojis[] = $opcoesEmoji[$antigo] ?? '❔';
             if ($antigo === $correta) {
                 $novaCorreta = $novoIndice;
             }
@@ -104,23 +138,43 @@ function buildQuatro(array $rows, string $prefix): array
     return $out;
 }
 
+$crianca = uniqueByPergunta(array_merge(
+    criancaRows(),
+    function_exists('criancaExtraRows') ? criancaExtraRows() : [],
+));
+
+$adolescente = uniqueByPergunta(array_merge(
+    adolescenteRows(),
+    function_exists('adolescenteExtraRows') ? adolescenteExtraRows() : [],
+    function_exists('adolescenteTemasRows') ? adolescenteTemasRows() : [],
+    function_exists('adolescenteInglesRows') ? adolescenteInglesRows() : [],
+    function_exists('adolescenteLoteRows') ? adolescenteLoteRows() : [],
+));
+
+$adulto = uniqueByPergunta(array_merge(
+    adultoRows(),
+    function_exists('adultoExtraRows') ? adultoExtraRows() : [],
+    function_exists('adultoBtsRows') ? adultoBtsRows() : [],
+    function_exists('adultoDoramaRows') ? adultoDoramaRows() : [],
+    function_exists('adultoFutebolInternacionalRows') ? adultoFutebolInternacionalRows() : [],
+    function_exists('adultoFutebolNacionalRows') ? adultoFutebolNacionalRows() : [],
+));
+
+$minimo = 500;
 $data = [
-    'crianca' => buildCrianca(criancaRows()),
-    'adolescente' => buildQuatro(adolescenteRows(), 'd'),
-    'adulto' => buildQuatro(adultoRows(), 'a'),
+    'crianca' => buildCrianca($crianca),
+    'adolescente' => buildQuatro($adolescente, 'd'),
+    'adulto' => buildQuatro($adulto, 'a'),
 ];
 
 foreach ($data as $nivel => $rows) {
     $count = count($rows);
-    fwrite(STDERR, sprintf("%-12s %d perguntas\n", $nivel, $count));
+    fwrite(STDERR, sprintf("%-12s %d perguntas%s\n", $nivel, $count, $count < $minimo ? ' ⚠ abaixo de 500' : ''));
 
     $perguntas = array_column($rows, 'pergunta');
     $dupes = array_filter(array_count_values($perguntas), fn ($n) => $n > 1);
     if ($dupes) {
-        fwrite(STDERR, "  ⚠ duplicadas em {$nivel}:\n");
-        foreach (array_keys($dupes) as $p) {
-            fwrite(STDERR, "    - {$p}\n");
-        }
+        fwrite(STDERR, "  ⚠ duplicadas em {$nivel}: ".count($dupes)."\n");
     }
 }
 

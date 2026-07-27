@@ -17,8 +17,14 @@ class LiveController extends Controller
 
     public function hub(): View
     {
+        $categories = [];
+        foreach (array_keys(QuestionBank::levels()) as $slug) {
+            $categories[$slug] = QuestionBank::categoriesFor($slug);
+        }
+
         return view('live.hub', [
             'levels' => QuestionBank::levels(),
+            'categoriesByLevel' => $categories,
         ]);
     }
 
@@ -26,9 +32,13 @@ class LiveController extends Controller
     {
         $data = $request->validate([
             'nivel' => ['required', 'string', 'in:'.implode(',', array_keys(QuestionBank::levels()))],
+            'categoria' => ['nullable', 'string', 'max:80'],
         ]);
 
-        $session = $this->live->createSession($data['nivel']);
+        $session = $this->live->createSession(
+            $data['nivel'],
+            $data['categoria'] ?? null,
+        );
 
         return redirect()
             ->route('live.host', $session->pin)
