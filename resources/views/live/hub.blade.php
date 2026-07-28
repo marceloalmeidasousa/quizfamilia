@@ -3,36 +3,40 @@
 @section('title', 'Ao Vivo — Quiz em Família')
 
 @section('content')
-<section class="flex flex-1 flex-col justify-center px-5 py-10 sm:px-8 sm:py-14">
+<section class="flex flex-1 flex-col justify-center px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
     <div
         class="mx-auto w-full max-w-5xl"
         data-live-picker
         data-categories='@json($categoriesByLevel)'
     >
-        <a href="{{ route('home') }}" class="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-ink/60 transition hover:text-ink">
-            ← Voltar
+        <a href="{{ route('home') }}" class="back-link mb-8 inline-flex items-center">
+            <svg class="me-1.5 h-3.5 w-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
+            </svg>
+            Voltar
         </a>
 
-        <div class="hero-intro mb-10 max-w-2xl">
-            <p class="mb-3 font-display text-lg text-coral sm:text-xl">Modo Ao Vivo</p>
-            <h1 class="font-display text-4xl leading-[1.05] tracking-tight text-ink sm:text-5xl">
+        <div class="hero-intro mb-8 max-w-2xl">
+            <h1 class="font-display text-3xl tracking-tight text-ink sm:text-4xl">
                 Crie ou entre numa partida
             </h1>
-            <p class="mt-4 text-base text-ink/70 sm:text-lg">
+            <p class="mt-2 text-base text-ink/60 sm:text-lg">
                 Escolha o nível e a categoria, gere o PIN e os jogadores entram pelo celular.
             </p>
         </div>
 
         @if ($errors->any())
-            <div class="mb-6 rounded-2xl border border-coral/30 bg-peach/60 px-4 py-3 text-sm font-semibold text-ink">
+            <div class="mb-6 flex items-center rounded-2xl border border-danger-medium bg-danger-soft p-4 text-sm font-semibold text-fg-danger" role="alert">
+                <svg class="me-2 h-4 w-4 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
+                </svg>
                 {{ $errors->first() }}
             </div>
         @endif
 
-        <div class="grid gap-6 lg:grid-cols-2">
-            <div class="level-panel level-panel--coral lg:col-span-2">
+        <div class="grid gap-6">
+            <div class="level-panel level-panel--coral order-2 md:order-1">
                 <h2 class="font-display text-2xl text-ink">Criar partida</h2>
-                <p class="mt-2 text-sm text-ink/65">Você apresenta na tela grande. Não responde. Depois do nível, escolha a categoria.</p>
 
                 <form
                     method="POST"
@@ -43,21 +47,21 @@
                     @csrf
                     <input type="hidden" name="categoria" value="{{ old('categoria', 'todas') }}" data-live-categoria>
 
-                    <label class="block text-sm font-bold text-ink/70">1. Nível</label>
+                    <label class="block text-sm font-bold text-body">1. Nível</label>
                     <div class="grid gap-2 sm:grid-cols-3">
                         @foreach ($levels as $slug => $level)
-                            <label class="flex cursor-pointer items-center gap-3 rounded-xl border border-ink/10 bg-white/60 px-4 py-3 has-[:checked]:border-ink/40 has-[:checked]:bg-white">
+                            <label class="flex cursor-pointer items-center gap-3 rounded-lg border border-ink/10 bg-canvas px-4 py-3 transition has-[:checked]:border-brand-deep has-[:checked]:bg-brand-soft/40">
                                 <input
                                     type="radio"
                                     name="nivel"
                                     value="{{ $slug }}"
-                                    class="accent-ink"
+                                    class="h-4 w-4 border-gray-300 bg-gray-100 text-brand accent-coral focus:ring-2 focus:ring-brand/30"
                                     @checked(old('nivel', 'crianca') === $slug)
                                     required
                                 >
                                 <span>
                                     <span class="font-bold text-ink">{{ $level['title'] }}</span>
-                                    <span class="mt-0.5 block text-xs font-semibold uppercase tracking-wide text-ink/45">{{ $level['subtitle'] }} · {{ $level['age'] }}</span>
+                                    <span class="mt-0.5 block text-xs font-semibold tracking-wide text-body-subtle uppercase">{{ $level['subtitle'] }} · {{ $level['age'] }}</span>
                                 </span>
                             </label>
                         @endforeach
@@ -65,22 +69,22 @@
 
                     <div data-category-panel class="hidden pt-2">
                         <div class="mb-3">
-                            <p class="text-sm font-bold text-ink/70">2. Categoria</p>
-                            <p data-category-hint class="mt-1 text-sm text-ink/60"></p>
+                            <p class="text-sm font-bold text-body">2. Categoria</p>
+                            <p data-category-hint class="mt-1 text-sm text-body-subtle"></p>
                         </div>
                         <div data-category-list class="flex flex-wrap gap-2.5"></div>
                     </div>
                 </form>
             </div>
 
-            <div class="level-panel level-panel--ocean lg:col-span-2">
+            <div class="level-panel level-panel--ocean order-1 md:order-2">
                 <h2 class="font-display text-2xl text-ink">Entrar na partida</h2>
-                <p class="mt-2 text-sm text-ink/65">Digite o PIN de 6 dígitos e o seu nome.</p>
+                <p class="mt-2 text-sm text-body">Digite o PIN de 6 dígitos e o seu nome.</p>
 
                 <form method="POST" action="{{ route('live.join') }}" class="mt-6 grid gap-4 sm:grid-cols-2 sm:items-end">
                     @csrf
                     <div>
-                        <label for="pin" class="mb-1 block text-sm font-bold text-ink/70">PIN</label>
+                        <label for="pin" class="mb-2 block text-sm font-bold text-body">PIN</label>
                         <input
                             id="pin"
                             name="pin"
@@ -94,7 +98,7 @@
                         >
                     </div>
                     <div>
-                        <label for="name" class="mb-1 block text-sm font-bold text-ink/70">Seu nome</label>
+                        <label for="name" class="mb-2 block text-sm font-bold text-body">Seu nome</label>
                         <input
                             id="name"
                             name="name"
@@ -105,7 +109,9 @@
                             class="live-input"
                         >
                     </div>
-                    <button type="submit" class="quiz-btn-primary sm:col-span-2 sm:w-auto">Entrar no jogo</button>
+                    <button type="submit" class="quiz-btn-primary sm:col-span-2 sm:w-auto">
+                        Entrar no jogo
+                    </button>
                 </form>
             </div>
         </div>

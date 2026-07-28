@@ -1,5 +1,11 @@
 /**
- * Sons e música de fundo gerados com Web Audio (sem arquivos externos).
+ * Sons (Web Audio) + música de fundo.
+ *
+ * Música: usa MP3 em /audio/ se existir; senão gera loop sintético.
+ *   - /audio/quiz-bg.mp3          → modo Quiz
+ *   - /audio/live-01.mp3 … 10.mp3 → modo Ao Vivo (troca por pergunta)
+ *
+ * Veja public/audio/README.md para fontes royalty-free.
  * preset: 'quiz' | 'live'
  */
 export function createSounds({ preset = 'quiz' } = {}) {
@@ -9,6 +15,16 @@ export function createSounds({ preset = 'quiz' } = {}) {
     let musicTimer = null;
     let nextNoteAt = 0;
     let musicPlaying = false;
+
+    /** @type {HTMLAudioElement | null} */
+    let fileAudio = null;
+    /** @type {boolean | null} null = ainda não testou */
+    let filesAvailable = null;
+    let fileTrackIndex = 0;
+
+    const FILE_VOL = 0.35;
+    const quizFileSrc = '/audio/quiz-bg.mp3';
+    const liveFileSrcs = Array.from({ length: 10 }, (_, i) => `/audio/live-${String(i + 1).padStart(2, '0')}.mp3`);
 
     const quizTrack = {
         beat: 0.28,
@@ -166,6 +182,99 @@ export function createSounds({ preset = 'quiz' } = {}) {
         MUSIC_VOL = track.volume;
     }
 
+    function fileSrcFor(index = 0) {
+        if (preset === 'live') {
+            const i = ((Number(index) || 0) % liveFileSrcs.length + liveFileSrcs.length) % liveFileSrcs.length;
+            return liveFileSrcs[i];
+        }
+        return quizFileSrc;
+    }
+
+    function probeAudio(src) {
+        return new Promise((resolve) => {
+            const a = new Audio();
+            let done = false;
+            const finish = (ok) => {
+                if (done) {
+                    return;
+                }
+                done = true;
+                a.removeAttribute('src');
+                a.load();
+                resolve(ok);
+            };
+            a.preload = 'metadata';
+            a.addEventListener('loadeddata', () => finish(true), { once: true });
+            a.addEventListener('error', () => finish(false), { once: true });
+            a.src = src;
+            setTimeout(() => finish(false), 2500);
+        });
+    }
+
+    async function ensureFileMode() {
+        if (filesAvailable !== null) {
+            return filesAvailable;
+        }
+        filesAvailable = await probeAudio(fileSrcFor(0));
+        return filesAvailable;
+    }
+
+    function ensureFileAudio(src) {
+        if (!fileAudio) {
+            fileAudio = new Audio();
+            fileAudio.loop = true;
+            fileAudio.preload = 'auto';
+            fileAudio.volume = ligado ? FILE_VOL : 0;
+        }
+        if (fileAudio.dataset.src !== src) {
+            fileAudio.dataset.src = src;
+            fileAudio.src = src;
+            fileAudio.load();
+        }
+        return fileAudio;
+    }
+
+    async function playFileMusic(index = fileTrackIndex) {
+        const ok = await ensureFileMode();
+        if (!ok) {
+            return false;
+        }
+        fileTrackIndex = index;
+        const audio = ensureFileAudio(fileSrcFor(index));
+        audio.volume = ligado ? FILE_VOL : 0;
+        try {
+            await audio.play();
+            musicPlaying = true;
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function stopFileMusic({ fade = true } = {}) {
+        if (!fileAudio) {
+            return;
+        }
+        if (!fade) {
+            fileAudio.pause();
+            fileAudio.currentTime = 0;
+            return;
+        }
+        const startVol = fileAudio.volume;
+        const steps = 8;
+        let i = 0;
+        const timer = setInterval(() => {
+            i += 1;
+            fileAudio.volume = Math.max(0, startVol * (1 - i / steps));
+            if (i >= steps) {
+                clearInterval(timer);
+                fileAudio.pause();
+                fileAudio.currentTime = 0;
+                fileAudio.volume = ligado ? FILE_VOL : 0;
+            }
+        }, 60);
+    }
+
     /**
      * Seleciona a música pelo índice (usado no Ao Vivo, 1 por pergunta).
      * A troca acontece suavemente porque o agendador lê a trilha atual.
@@ -175,11 +284,15 @@ export function createSounds({ preset = 'quiz' } = {}) {
             return;
         }
         const i = ((Number(index) || 0) % liveTracks.length + liveTracks.length) % liveTracks.length;
-        if (i === trackIndex) {
+        if (i === trackIndex && filesAvailable !== true) {
             return;
         }
         trackIndex = i;
         applyTrack(liveTracks[i]);
+        if (filesAvailable === true && musicPlaying && ligado) {
+            playFileMusic(i);
+            return;
+        }
         if (musicPlaying && ctx && ligado) {
             musicGain.gain.setTargetAtTime(MUSIC_VOL, ctx.currentTime, 0.12);
         }
@@ -260,27 +373,43 @@ export function createSounds({ preset = 'quiz' } = {}) {
         try {
             ensureCtx();
             if (!ligado) {
-                musicGain.gain.setTargetAtTime(0, ctx.currentTime, 0.05);
+                if (fileAudio) {
+                    fileAudio.volume = 0;
+                    fileAudio.pause();
+                }
+                if (musicGain) {
+                    musicGain.gain.setTargetAtTime(0, ctx.currentTime, 0.05);
+                }
                 musicPlaying = false;
                 return;
             }
-            if (musicPlaying) {
-                musicGain.gain.setTargetAtTime(MUSIC_VOL, ctx.currentTime, 0.15);
-                return;
-            }
-            musicPlaying = true;
-            nextNoteAt = ctx.currentTime + 0.05;
-            musicGain.gain.setValueAtTime(0.0001, ctx.currentTime);
-            musicGain.gain.exponentialRampToValueAtTime(MUSIC_VOL, ctx.currentTime + 0.5);
-            scheduleLoop();
-            clearInterval(musicTimer);
-            musicTimer = setInterval(scheduleLoop, 350);
+
+            // Prefere MP3 em /audio/; cai no sintético se não houver arquivo.
+            playFileMusic(trackIndex).then((usedFile) => {
+                if (usedFile) {
+                    clearInterval(musicTimer);
+                    musicTimer = null;
+                    return;
+                }
+                if (musicPlaying && musicGain) {
+                    musicGain.gain.setTargetAtTime(MUSIC_VOL, ctx.currentTime, 0.15);
+                    return;
+                }
+                musicPlaying = true;
+                nextNoteAt = ctx.currentTime + 0.05;
+                musicGain.gain.setValueAtTime(0.0001, ctx.currentTime);
+                musicGain.gain.exponentialRampToValueAtTime(MUSIC_VOL, ctx.currentTime + 0.5);
+                scheduleLoop();
+                clearInterval(musicTimer);
+                musicTimer = setInterval(scheduleLoop, 350);
+            });
         } catch (e) {
             /* ignore */
         }
     }
 
     function pararMusica({ fade = true } = {}) {
+        stopFileMusic({ fade });
         if (!ctx || !musicGain) {
             musicPlaying = false;
             clearInterval(musicTimer);
@@ -339,18 +468,30 @@ export function createSounds({ preset = 'quiz' } = {}) {
             localStorage.setItem('quiz-som', ligado ? 'on' : 'off');
             try {
                 ensureCtx();
-                musicGain.gain.cancelScheduledValues(ctx.currentTime);
-                if (ligado && musicPlaying) {
-                    musicGain.gain.setTargetAtTime(MUSIC_VOL, ctx.currentTime, 0.1);
-                    scheduleLoop();
-                    clearInterval(musicTimer);
-                    musicTimer = setInterval(scheduleLoop, 350);
+                if (fileAudio) {
+                    fileAudio.volume = ligado ? FILE_VOL : 0;
+                    if (!ligado) {
+                        fileAudio.pause();
+                    } else if (musicPlaying || filesAvailable) {
+                        playFileMusic(fileTrackIndex);
+                    }
+                }
+                if (musicGain) {
+                    musicGain.gain.cancelScheduledValues(ctx.currentTime);
+                    if (ligado && musicPlaying && filesAvailable !== true) {
+                        musicGain.gain.setTargetAtTime(MUSIC_VOL, ctx.currentTime, 0.1);
+                        scheduleLoop();
+                        clearInterval(musicTimer);
+                        musicTimer = setInterval(scheduleLoop, 350);
+                    } else if (ligado && filesAvailable !== true) {
+                        iniciarMusica();
+                    } else if (!ligado) {
+                        musicGain.gain.setTargetAtTime(0, ctx.currentTime, 0.08);
+                        clearInterval(musicTimer);
+                        musicTimer = null;
+                    }
                 } else if (ligado) {
                     iniciarMusica();
-                } else {
-                    musicGain.gain.setTargetAtTime(0, ctx.currentTime, 0.08);
-                    clearInterval(musicTimer);
-                    musicTimer = null;
                 }
             } catch (e) {
                 /* ignore */

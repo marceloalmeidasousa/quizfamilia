@@ -84,22 +84,26 @@
                         <div data-quiz-progress class="h-full rounded-full bg-ink/60 transition-[width] duration-300" style="width: 0%"></div>
                     </div>
 
-                    <div data-quiz-visual class="quiz-visual quiz-fit-visual mt-2 shrink-0"></div>
+                    <div class="mt-2 flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain">
+                        <div data-quiz-visual class="quiz-visual quiz-fit-visual shrink-0"></div>
 
-                    <p data-quiz-category class="mt-2 shrink-0 text-center text-[10px] font-bold uppercase tracking-[0.16em] text-ink/45"></p>
-                    <h2 data-quiz-question class="mt-1 shrink-0 text-center font-display text-lg leading-snug text-ink sm:text-2xl"></h2>
+                        <p data-quiz-category class="mt-2 shrink-0 text-center text-[10px] font-bold uppercase tracking-[0.16em] text-ink/45"></p>
+                        <h2 data-quiz-question class="mt-1 shrink-0 text-center font-display text-lg leading-snug text-ink sm:text-2xl"></h2>
 
-                    <div data-quiz-options class="quiz-fit-options mt-2 grid min-h-0 flex-1 content-stretch gap-2"></div>
-
-                    <div data-quiz-reveal class="quiz-reveal mt-2 shrink-0 hidden" aria-live="polite">
-                        <p class="quiz-reveal__label" data-quiz-reveal-label></p>
-                        <p class="quiz-reveal__answer" data-quiz-reveal-answer></p>
-                        <p class="quiz-reveal__hint" data-quiz-reveal-hint></p>
+                        <div data-quiz-options class="quiz-fit-options mt-2 grid min-h-0 flex-1 content-stretch gap-2"></div>
                     </div>
 
-                    <button type="button" data-quiz-next class="quiz-btn-primary mt-2 shrink-0 self-center hidden">
-                        Próxima rodada
-                    </button>
+                    <div class="quiz-fit-actions mt-2 flex shrink-0 flex-col items-center gap-2 pb-1">
+                        <div data-quiz-reveal class="quiz-reveal w-full hidden" aria-live="polite">
+                            <p class="quiz-reveal__label" data-quiz-reveal-label></p>
+                            <p class="quiz-reveal__answer" data-quiz-reveal-answer></p>
+                            <p class="quiz-reveal__hint" data-quiz-reveal-hint></p>
+                        </div>
+
+                        <button type="button" data-quiz-next class="quiz-btn-primary w-full max-w-sm self-center hidden sm:w-auto">
+                            Próxima rodada
+                        </button>
+                    </div>
                 </div>
 
                 {{-- Resultado final --}}

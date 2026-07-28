@@ -3,48 +3,50 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Quiz em Família — perguntas em três níveis: criança, adolescente e adulto.">
+    <meta name="description" content="Quiz em Família — diversão para criança, adolescente e adulto jogarem juntos.">
     <title>@yield('title', 'Quiz em Família')</title>
+
+    @if (app()->environment('production'))
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E7MZ62DHNQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-E7MZ62DHNQ');
+    </script>
+    @endif
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=fredoka:400,500,600,700|nunito:400,600,700,800" rel="stylesheet" />
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen font-sans text-ink antialiased @yield('body_class')">
-    <div class="relative min-h-screen overflow-hidden bg-scene @yield('shell_class')">
-        <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-            <div class="blob blob-a"></div>
-            <div class="blob blob-b"></div>
-            <div class="blob blob-c"></div>
-            <div class="pattern-dots"></div>
-        </div>
+<body class="min-h-screen bg-canvas font-sans text-ink antialiased @yield('body_class')">
+    <div class="relative flex min-h-screen flex-col @yield('shell_class') @yield('shell_inner_class')">
+        <nav class="bg-brand-deep px-4 py-3.5 sm:px-6 @yield('header_class')">
+            <div class="mx-auto flex max-w-6xl items-center justify-between">
+                <a href="{{ route('home') }}" class="group flex items-center gap-2.5">
+                    <span class="brand-mark" aria-hidden="true">?</span>
+                    <span class="brand-title text-xl text-white sm:text-2xl">
+                        Quiz em <span class="text-brand-soft">Família</span>
+                    </span>
+                </a>
+            </div>
+        </nav>
 
-        <div class="relative z-10 flex min-h-screen flex-col @yield('shell_inner_class')">
-            <header class="px-5 pt-6 sm:px-8 sm:pt-8 @yield('header_class')">
-                <div class="mx-auto flex max-w-6xl items-center justify-between">
-                    <a href="{{ route('home') }}" class="group inline-flex items-center gap-3">
-                        <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-ink text-xl text-white shadow-lift transition duration-300 group-hover:rotate-6 group-hover:scale-105 sm:h-12 sm:w-12">
-                            ?
-                        </span>
-                        <span class="font-display text-2xl tracking-tight text-ink sm:text-3xl">
-                            Quiz em <span class="text-coral">Família</span>
-                        </span>
-                    </a>
-                </div>
-            </header>
+        <main class="flex min-h-0 flex-1 flex-col">
+            @yield('content')
+        </main>
 
-            <main class="flex min-h-0 flex-1 flex-col">
-                @yield('content')
-            </main>
-
-            @hasSection('hide_footer')
-            @else
-            <footer class="px-5 py-6 text-center text-sm text-ink/55 sm:px-8">
+        @hasSection('hide_footer')
+        @else
+        <footer class="border-t border-ink/5 px-4 py-5 sm:px-6">
+            <div class="mx-auto max-w-6xl text-center text-sm font-semibold text-ink/45">
                 Feito para jogar junto.
-            </footer>
-            @endif
-        </div>
+            </div>
+        </footer>
+        @endif
     </div>
 </body>
 </html>
