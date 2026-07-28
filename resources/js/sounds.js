@@ -9,10 +9,31 @@
  *
  * preset: 'quiz' | 'live'
  * nivel: 'crianca' | 'adolescente' | 'adulto'
+ * forcedOff: nunca toca (ex.: jogador no celular)
  */
-export function createSounds({ preset = 'quiz', nivel = 'crianca' } = {}) {
+export function isMobileClient() {
+    if (typeof navigator === 'undefined') {
+        return false;
+    }
+    const ua = navigator.userAgent || '';
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua)) {
+        return true;
+    }
+    // iPadOS / tablets com UA de desktop
+    if (navigator.maxTouchPoints > 1 && /Macintosh/i.test(ua)) {
+        return true;
+    }
+    try {
+        return window.matchMedia('(max-width: 900px) and (pointer: coarse)').matches;
+    } catch (e) {
+        return false;
+    }
+}
+
+export function createSounds({ preset = 'quiz', nivel = 'crianca', forcedOff = false } = {}) {
+    const permanentlyOff = Boolean(forcedOff);
     let ctx = null;
-    let ligado = localStorage.getItem('quiz-som') !== 'off';
+    let ligado = permanentlyOff ? false : localStorage.getItem('quiz-som') !== 'off';
     let musicGain = null;
     let musicTimer = null;
     let nextNoteAt = 0;
@@ -263,13 +284,31 @@ export function createSounds({ preset = 'quiz', nivel = 'crianca' } = {}) {
         return fileAudio;
     }
 
-    async function playFileMusic(index = fileTrackIndex, { freshClip = true } = {}) {
+    async function playFileMusic(index = fileTrackIndex, { freshClip = false } = {}) {
         const ok = await ensureFileMode();
         if (!ok) {
             return false;
         }
-        fileTrackIndex = index;
-        const audio = ensureFileAudio(fileSrcFor(index), { freshClip });
+        fileTrackIndex = ((Number(index) || 0) % TRACK_COUNT + TRACK_COUNT) % TRACK_COUNT;
+        const src = fileSrcFor(fileTrackIndex);
+
+        // Já tocando o mesmo arquivo: não seek / não reinicia (poll do ao vivo).
+        if (fileAudio && fileAudio.dataset.src === src && !freshClip) {
+            fileAudio.volume = ligado ? FILE_VOL : 0;
+            if (!fileAudio.paused) {
+                musicPlaying = true;
+                return true;
+            }
+            try {
+                await fileAudio.play();
+                musicPlaying = true;
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        const audio = ensureFileAudio(src, { freshClip });
         audio.volume = ligado ? FILE_VOL : 0;
         try {
             await audio.play();
@@ -309,6 +348,9 @@ export function createSounds({ preset = 'quiz', nivel = 'crianca' } = {}) {
      * Em criança só troca a trilha sintética no Ao Vivo.
      */
     function selecionarMusica(index) {
+        if (permanentlyOff) {
+            return;
+        }
         const i = ((Number(index) || 0) % liveTracks.length + liveTracks.length) % liveTracks.length;
 
         if (useLevelFiles) {
@@ -350,7 +392,7 @@ export function createSounds({ preset = 'quiz', nivel = 'crianca' } = {}) {
     }
 
     function tocar(notas) {
-        if (!ligado) {
+        if (!ligado || permanentlyOff) {
             return;
         }
         try {
@@ -408,6 +450,9 @@ export function createSounds({ preset = 'quiz', nivel = 'crianca' } = {}) {
     }
 
     function iniciarMusica() {
+        if (permanentlyOff) {
+            return;
+        }
         try {
             ensureCtx();
             if (!ligado) {
@@ -422,18 +467,31 @@ export function createSounds({ preset = 'quiz', nivel = 'crianca' } = {}) {
                 return;
             }
 
+            // Já tocando: não reinicia (poll/contagem do ao vivo chama isto a cada segundo).
+            if (musicPlaying) {
+                playFileMusic(trackIndex, { freshClip: false }).then((usedFile) => {
+                    if (!usedFile && musicGain && musicTimer) {
+                        musicGain.gain.setTargetAtTime(MUSIC_VOL, ctx.currentTime, 0.15);
+                    }
+                });
+                return;
+            }
+
+            // Marca antes do async para evitar reentrância do poll.
+            musicPlaying = true;
+
             // Prefere MP3 em /audio/; cai no sintético se não houver arquivo.
-            playFileMusic(trackIndex).then((usedFile) => {
+            // Sem freshClip: poll do ao vivo não pode cortar o áudio a cada segundo.
+            playFileMusic(trackIndex, { freshClip: false }).then((usedFile) => {
                 if (usedFile) {
                     clearInterval(musicTimer);
                     musicTimer = null;
                     return;
                 }
-                if (musicPlaying && musicGain) {
+                if (musicTimer) {
                     musicGain.gain.setTargetAtTime(MUSIC_VOL, ctx.currentTime, 0.15);
                     return;
                 }
-                musicPlaying = true;
                 nextNoteAt = ctx.currentTime + 0.05;
                 musicGain.gain.setValueAtTime(0.0001, ctx.currentTime);
                 musicGain.gain.exponentialRampToValueAtTime(MUSIC_VOL, ctx.currentTime + 0.5);
@@ -495,6 +553,9 @@ export function createSounds({ preset = 'quiz', nivel = 'crianca' } = {}) {
         pararMusica,
         selecionarMusica,
         unlock() {
+            if (permanentlyOff) {
+                return;
+            }
             try {
                 ensureCtx();
             } catch (e) {
@@ -502,6 +563,10 @@ export function createSounds({ preset = 'quiz', nivel = 'crianca' } = {}) {
             }
         },
         alternar() {
+            if (permanentlyOff) {
+                ligado = false;
+                return false;
+            }
             ligado = !ligado;
             localStorage.setItem('quiz-som', ligado ? 'on' : 'off');
             try {
@@ -538,6 +603,9 @@ export function createSounds({ preset = 'quiz', nivel = 'crianca' } = {}) {
         },
         get ativo() {
             return ligado;
+        },
+        get bloqueado() {
+            return permanentlyOff;
         },
         get tocando() {
             return musicPlaying;

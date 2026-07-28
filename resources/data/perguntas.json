@@ -7499,6 +7499,1716 @@
                 "✅"
             ],
             "correta": 1
+        },
+        {
+            "id": "c501",
+            "categoria": "Boas maneiras",
+            "emoji": "🍽️",
+            "pergunta": "Na fila do lanche, esperamos a nossa...",
+            "opcoes": [
+                "Vez",
+                "Corrida"
+            ],
+            "opcoesEmoji": [
+                "🧍",
+                "🏃"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c502",
+            "categoria": "Boas maneiras",
+            "emoji": "🤫",
+            "pergunta": "Na biblioteca falamos...",
+            "opcoes": [
+                "Baixinho",
+                "Gritando"
+            ],
+            "opcoesEmoji": [
+                "🤫",
+                "📢"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c503",
+            "categoria": "Boas maneiras",
+            "emoji": "🤝",
+            "pergunta": "Quando encontramos alguém, podemos dar um...",
+            "opcoes": [
+                "Chute",
+                "Oi"
+            ],
+            "opcoesEmoji": [
+                "🦵",
+                "👋"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c504",
+            "categoria": "Boas maneiras",
+            "emoji": "🙏",
+            "pergunta": "Pedimos \"por favor\" quando...",
+            "opcoes": [
+                "Queremos algo",
+                "Estamos bravos"
+            ],
+            "opcoesEmoji": [
+                "🙏",
+                "😠"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c505",
+            "categoria": "Boas maneiras",
+            "emoji": "🪑",
+            "pergunta": "Na mesa, esperamos todo mundo sentar. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c506",
+            "categoria": "Boas maneiras",
+            "emoji": "🚪",
+            "pergunta": "Batemos na porta antes de entrar. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c507",
+            "categoria": "Boas maneiras",
+            "emoji": "🤗",
+            "pergunta": "Se esbarramos em alguém, pedimos...",
+            "opcoes": [
+                "Sorvete",
+                "Desculpa"
+            ],
+            "opcoesEmoji": [
+                "🍦",
+                "🙏"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c508",
+            "categoria": "Cocomelon",
+            "emoji": "🚌",
+            "pergunta": "No Cocomelon, as crianças cantam sobre o ônibus escolar. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c509",
+            "categoria": "Cocomelon",
+            "emoji": "🍼",
+            "pergunta": "Cocomelon tem músicas sobre a hora da...",
+            "opcoes": [
+                "Faculdade",
+                "Mamadeira"
+            ],
+            "opcoesEmoji": [
+                "🎓",
+                "🍼"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c510",
+            "categoria": "Cocomelon",
+            "emoji": "🧸",
+            "pergunta": "No Cocomelon aparecem brinquedos e amigos. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c511",
+            "categoria": "Cocomelon",
+            "emoji": "🛁",
+            "pergunta": "Tem música do Cocomelon sobre a hora do...",
+            "opcoes": [
+                "Banho",
+                "Trabalho"
+            ],
+            "opcoesEmoji": [
+                "🛁",
+                "💼"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c512",
+            "categoria": "Cocomelon",
+            "emoji": "😴",
+            "pergunta": "Cocomelon também canta sobre dormir. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c513",
+            "categoria": "Cocomelon",
+            "emoji": "🦷",
+            "pergunta": "Existe música do Cocomelon sobre escovar os...",
+            "opcoes": [
+                "Sapatos",
+                "Dentes"
+            ],
+            "opcoesEmoji": [
+                "👟",
+                "🦷"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c514",
+            "categoria": "Cocomelon",
+            "emoji": "🍎",
+            "pergunta": "No Cocomelon aprendemos a comer bem. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c515",
+            "categoria": "Cocomelon",
+            "emoji": "👨‍👩‍👧",
+            "pergunta": "Cocomelon mostra uma família feliz. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c516",
+            "categoria": "Cocomelon",
+            "emoji": "🎵",
+            "pergunta": "Cocomelon é famoso pelas...",
+            "opcoes": [
+                "Corridas de carro",
+                "Músicas"
+            ],
+            "opcoesEmoji": [
+                "🏎",
+                "🎵"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c517",
+            "categoria": "Dias",
+            "emoji": "☀️",
+            "pergunta": "O dia começa de...",
+            "opcoes": [
+                "Manhã",
+                "Madrugada escura só"
+            ],
+            "opcoesEmoji": [
+                "🌅",
+                "🌌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c518",
+            "categoria": "Dias",
+            "emoji": "🌙",
+            "pergunta": "Depois da tarde vem a...",
+            "opcoes": [
+                "Noite",
+                "Manhã"
+            ],
+            "opcoesEmoji": [
+                "🌙",
+                "🌅"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c519",
+            "categoria": "Dias",
+            "emoji": "📅",
+            "pergunta": "Segunda-feira vem depois do...",
+            "opcoes": [
+                "Sábado só",
+                "Domingo"
+            ],
+            "opcoesEmoji": [
+                "🎉",
+                "📅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c520",
+            "categoria": "Dias",
+            "emoji": "🏫",
+            "pergunta": "Nos dias de semana as crianças vão à...",
+            "opcoes": [
+                "Escola",
+                "Lua"
+            ],
+            "opcoesEmoji": [
+                "🏫",
+                "🌙"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c521",
+            "categoria": "Dias",
+            "emoji": "🎉",
+            "pergunta": "Sábado e domingo são dias de...",
+            "opcoes": [
+                "Descanso",
+                "Só chorar"
+            ],
+            "opcoesEmoji": [
+                "😌",
+                "😢"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c522",
+            "categoria": "Dias",
+            "emoji": "🎃",
+            "pergunta": "No Dia das Bruxas as crianças usam...",
+            "opcoes": [
+                "Casaco de gelo",
+                "Fantasia"
+            ],
+            "opcoesEmoji": [
+                "🧥",
+                "🎃"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c523",
+            "categoria": "Dias",
+            "emoji": "❤️",
+            "pergunta": "No Dia das Mães damos carinho para a...",
+            "opcoes": [
+                "Geladeira",
+                "Mamãe"
+            ],
+            "opcoesEmoji": [
+                "🧊",
+                "👩"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c524",
+            "categoria": "Diversão",
+            "emoji": "🛝",
+            "pergunta": "No parque a gente pode brincar no...",
+            "opcoes": [
+                "Escorregador",
+                "Fogão"
+            ],
+            "opcoesEmoji": [
+                "🛝",
+                "🔥"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c525",
+            "categoria": "Diversão",
+            "emoji": "⚽",
+            "pergunta": "Chutar a bola é brincar de...",
+            "opcoes": [
+                "Dormir",
+                "Futebol"
+            ],
+            "opcoesEmoji": [
+                "😴",
+                "⚽"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c526",
+            "categoria": "Diversão",
+            "emoji": "🧩",
+            "pergunta": "Montar peças coloridas é um...",
+            "opcoes": [
+                "Quebra-cabeça",
+                "Sapato"
+            ],
+            "opcoesEmoji": [
+                "🧩",
+                "👟"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c527",
+            "categoria": "Diversão",
+            "emoji": "🎨",
+            "pergunta": "Pintar com tinta é uma...",
+            "opcoes": [
+                "Diversão",
+                "Bronca"
+            ],
+            "opcoesEmoji": [
+                "🎨",
+                "😠"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c528",
+            "categoria": "Diversão",
+            "emoji": "📚",
+            "pergunta": "Ouvir historinha também é...",
+            "opcoes": [
+                "Chato sempre",
+                "Divertido"
+            ],
+            "opcoesEmoji": [
+                "😴",
+                "📖"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c529",
+            "categoria": "Diversão",
+            "emoji": "🕺",
+            "pergunta": "Dançar música faz a gente...",
+            "opcoes": [
+                "Dormir na hora",
+                "Sorrir"
+            ],
+            "opcoesEmoji": [
+                "😴",
+                "😄"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c530",
+            "categoria": "Diversão",
+            "emoji": "🧸",
+            "pergunta": "Brincar de faz de conta com bonecos. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c531",
+            "categoria": "Diversão",
+            "emoji": "🚴",
+            "pergunta": "Andar de bicicleta pode ser...",
+            "opcoes": [
+                "Diversão",
+                "Comida"
+            ],
+            "opcoesEmoji": [
+                "🚲",
+                "🍕"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c532",
+            "categoria": "Encanto",
+            "emoji": "🦋",
+            "pergunta": "Em Encanto, Mirabel não tem poder mágico. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c533",
+            "categoria": "Encanto",
+            "emoji": "💪",
+            "pergunta": "Luisa é a irmã muito...",
+            "opcoes": [
+                "Pequena",
+                "Forte"
+            ],
+            "opcoesEmoji": [
+                "🐣",
+                "💪"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c534",
+            "categoria": "Encanto",
+            "emoji": "🌸",
+            "pergunta": "Isabela faz flores aparecerem. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c535",
+            "categoria": "Encanto",
+            "emoji": "🍲",
+            "pergunta": "Julieta cura as pessoas com...",
+            "opcoes": [
+                "Pedras",
+                "Comida"
+            ],
+            "opcoesEmoji": [
+                "🪨",
+                "🍲"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c536",
+            "categoria": "Encanto",
+            "emoji": "🌦️",
+            "pergunta": "Pepa controla o...",
+            "opcoes": [
+                "Carro",
+                "Clima"
+            ],
+            "opcoesEmoji": [
+                "🚗",
+                "⛅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c537",
+            "categoria": "Encanto",
+            "emoji": "🐐",
+            "pergunta": "Antonio fala com os...",
+            "opcoes": [
+                "Animais",
+                "Robôs"
+            ],
+            "opcoesEmoji": [
+                "🦜",
+                "🤖"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c538",
+            "categoria": "Encanto",
+            "emoji": "👵",
+            "pergunta": "A avó da família se chama Abuela. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c539",
+            "categoria": "Encanto",
+            "emoji": "🕯️",
+            "pergunta": "A vela mágica cuida da família Madrigal. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c540",
+            "categoria": "Encanto",
+            "emoji": "🎵",
+            "pergunta": "Em Encanto tem a música \"Não Falamos do Bruno\". Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c541",
+            "categoria": "Estações",
+            "emoji": "🍂",
+            "pergunta": "No outono as árvores ficam com folhas...",
+            "opcoes": [
+                "Coloridas",
+                "De gelo"
+            ],
+            "opcoesEmoji": [
+                "🍂",
+                "🧊"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c542",
+            "categoria": "Estações",
+            "emoji": "🌸",
+            "pergunta": "Na primavera nascem muitas...",
+            "opcoes": [
+                "Flores",
+                "Nevadas"
+            ],
+            "opcoesEmoji": [
+                "🌸",
+                "❄️"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c543",
+            "categoria": "Estações",
+            "emoji": "🏖️",
+            "pergunta": "No verão muita gente vai à...",
+            "opcoes": [
+                "Praia",
+                "Geladeira"
+            ],
+            "opcoesEmoji": [
+                "🏖️",
+                "🧊"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c544",
+            "categoria": "Estações",
+            "emoji": "🧣",
+            "pergunta": "No inverno usamos...",
+            "opcoes": [
+                "Bermuda só",
+                "Cachecol"
+            ],
+            "opcoesEmoji": [
+                "🩳",
+                "🧣"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c545",
+            "categoria": "Estações",
+            "emoji": "☔",
+            "pergunta": "Quando chove usamos...",
+            "opcoes": [
+                "Óculos de sol",
+                "Guarda-chuva"
+            ],
+            "opcoesEmoji": [
+                "🕶",
+                "☔"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c546",
+            "categoria": "Estações",
+            "emoji": "🌞",
+            "pergunta": "O sol brilha mais forte no...",
+            "opcoes": [
+                "Verão",
+                "Inverno"
+            ],
+            "opcoesEmoji": [
+                "☀️",
+                "❄️"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c547",
+            "categoria": "Estações",
+            "emoji": "🍃",
+            "pergunta": "Ventania forte balança as...",
+            "opcoes": [
+                "Árvores",
+                "Nuvens de algodão"
+            ],
+            "opcoesEmoji": [
+                "🌳",
+                "☁"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c548",
+            "categoria": "Estações",
+            "emoji": "📅",
+            "pergunta": "O ano tem quatro estações. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c549",
+            "categoria": "Estações",
+            "emoji": "🧥",
+            "pergunta": "No frio vestimos casaco. Em qual estação isso é comum?",
+            "opcoes": [
+                "Inverno",
+                "Verão"
+            ],
+            "opcoesEmoji": [
+                "❄️",
+                "☀️"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c550",
+            "categoria": "Frozen",
+            "emoji": "🧡",
+            "pergunta": "A irmã da Elsa se chama...",
+            "opcoes": [
+                "Moana",
+                "Anna"
+            ],
+            "opcoesEmoji": [
+                "🌊",
+                "🧡"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c551",
+            "categoria": "Frozen",
+            "emoji": "🏰",
+            "pergunta": "Elsa vira rainha de Arendelle. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c552",
+            "categoria": "Frozen",
+            "emoji": "🎶",
+            "pergunta": "Elsa canta \"Liberdade\". Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c553",
+            "categoria": "Frozen",
+            "emoji": "🧊",
+            "pergunta": "O poder da Elsa é de...",
+            "opcoes": [
+                "Gelo",
+                "Fogo"
+            ],
+            "opcoesEmoji": [
+                "❄️",
+                "🔥"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c554",
+            "categoria": "Frozen",
+            "emoji": "👨",
+            "pergunta": "Kristoff é amigo da Anna. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c555",
+            "categoria": "Frozen",
+            "emoji": "⛄",
+            "pergunta": "Olaf gosta de...",
+            "opcoes": [
+                "Abraços quentes",
+                "Ficar sozinho sempre"
+            ],
+            "opcoesEmoji": [
+                "🤗",
+                "🚫"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c556",
+            "categoria": "Frozen",
+            "emoji": "👗",
+            "pergunta": "O vestido mágico da Elsa é de...",
+            "opcoes": [
+                "Areia",
+                "Gelo brilhante"
+            ],
+            "opcoesEmoji": [
+                "🏖",
+                "✨"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c557",
+            "categoria": "Galinha Pintadinha",
+            "emoji": "🎶",
+            "pergunta": "A Galinha Pintadinha canta para as crianças. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c558",
+            "categoria": "Galinha Pintadinha",
+            "emoji": "🥚",
+            "pergunta": "A galinha bota...",
+            "opcoes": [
+                "Ovos",
+                "Pedras"
+            ],
+            "opcoesEmoji": [
+                "🥚",
+                "🪨"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c559",
+            "categoria": "Galinha Pintadinha",
+            "emoji": "🐥",
+            "pergunta": "Os pintinhos são filhotes da...",
+            "opcoes": [
+                "Galinha",
+                "Vaca"
+            ],
+            "opcoesEmoji": [
+                "🐔",
+                "🐄"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c560",
+            "categoria": "Galinha Pintadinha",
+            "emoji": "🔵",
+            "pergunta": "A Galinha Pintadinha é azulzinha. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c561",
+            "categoria": "Galinha Pintadinha",
+            "emoji": "💃",
+            "pergunta": "Nas músicas, todo mundo pode...",
+            "opcoes": [
+                "Dançar",
+                "Dormir na rua"
+            ],
+            "opcoesEmoji": [
+                "💃",
+                "🛣"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c562",
+            "categoria": "Galinha Pintadinha",
+            "emoji": "🎤",
+            "pergunta": "As crianças cantam junto com a Galinha. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c563",
+            "categoria": "Galinha Pintadinha",
+            "emoji": "👶",
+            "pergunta": "As músicas da Galinha Pintadinha são para...",
+            "opcoes": [
+                "Crianças",
+                "Motoristas"
+            ],
+            "opcoesEmoji": [
+                "👶",
+                "🚕"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c564",
+            "categoria": "Moana",
+            "emoji": "🐷",
+            "pergunta": "O porquinho amigo da Moana se chama...",
+            "opcoes": [
+                "Pua",
+                "Hei Hei"
+            ],
+            "opcoesEmoji": [
+                "🐷",
+                "🐔"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c565",
+            "categoria": "Moana",
+            "emoji": "🏝️",
+            "pergunta": "Moana mora numa...",
+            "opcoes": [
+                "Montanha de neve",
+                "Ilha"
+            ],
+            "opcoesEmoji": [
+                "🏔",
+                "🏝️"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c566",
+            "categoria": "Moana",
+            "emoji": "🛶",
+            "pergunta": "Moana viaja de...",
+            "opcoes": [
+                "Canoa",
+                "Trem"
+            ],
+            "opcoesEmoji": [
+                "🛶",
+                "🚂"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c567",
+            "categoria": "Moana",
+            "emoji": "🌋",
+            "pergunta": "Maui é um semideus amigo da Moana. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c568",
+            "categoria": "Moana",
+            "emoji": "🪝",
+            "pergunta": "Maui usa um anzol mágico. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c569",
+            "categoria": "Moana",
+            "emoji": "🌊",
+            "pergunta": "Moana ama o...",
+            "opcoes": [
+                "Oceano",
+                "Deserto"
+            ],
+            "opcoesEmoji": [
+                "🌊",
+                "🏜"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c570",
+            "categoria": "Moana",
+            "emoji": "👗",
+            "pergunta": "Moana usa roupa tipicamente da ilha. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c571",
+            "categoria": "Moana",
+            "emoji": "❤️",
+            "pergunta": "Moana ajuda sua família e o povo. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c572",
+            "categoria": "Mundo Bita",
+            "emoji": "🎵",
+            "pergunta": "Bita canta músicas para crianças. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c573",
+            "categoria": "Mundo Bita",
+            "emoji": "🌈",
+            "pergunta": "No Mundo Bita tem cores e diversão. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c574",
+            "categoria": "Mundo Bita",
+            "emoji": "👧",
+            "pergunta": "Dan canta junto com o Bita. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c575",
+            "categoria": "Mundo Bita",
+            "emoji": "👦",
+            "pergunta": "Tito também é amigo do Bita. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c576",
+            "categoria": "Mundo Bita",
+            "emoji": "🎭",
+            "pergunta": "No Mundo Bita tem brincadeiras e teatro. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c577",
+            "categoria": "Mundo Bita",
+            "emoji": "🧡",
+            "pergunta": "As músicas do Bita ensinam carinho. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c578",
+            "categoria": "Mundo Bita",
+            "emoji": "🎤",
+            "pergunta": "Bita aparece cantando no palco. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c579",
+            "categoria": "Mundo Bita",
+            "emoji": "👶",
+            "pergunta": "Mundo Bita é feito para...",
+            "opcoes": [
+                "Caminhões",
+                "Crianças"
+            ],
+            "opcoesEmoji": [
+                "🚚",
+                "👶"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c580",
+            "categoria": "Mundo Bita",
+            "emoji": "🎉",
+            "pergunta": "Dançar com o Bita é...",
+            "opcoes": [
+                "Divertido",
+                "Chato"
+            ],
+            "opcoesEmoji": [
+                "🎉",
+                "😐"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c581",
+            "categoria": "Patati Patatá",
+            "emoji": "🎪",
+            "pergunta": "Patati e Patatá fazem show de...",
+            "opcoes": [
+                "Cozinha só",
+                "Circo"
+            ],
+            "opcoesEmoji": [
+                "🍳",
+                "🎪"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c582",
+            "categoria": "Patati Patatá",
+            "emoji": "😄",
+            "pergunta": "Os palhaços fazem a gente...",
+            "opcoes": [
+                "Rir",
+                "Chorar"
+            ],
+            "opcoesEmoji": [
+                "😂",
+                "😢"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c583",
+            "categoria": "Patati Patatá",
+            "emoji": "🎵",
+            "pergunta": "Patati e Patatá também cantam. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c584",
+            "categoria": "Patati Patatá",
+            "emoji": "🎩",
+            "pergunta": "Palhaço usa chapéu engraçado. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c585",
+            "categoria": "Patati Patatá",
+            "emoji": "👟",
+            "pergunta": "Patati e Patatá dançam bastante. Verdadeiro?",
+            "opcoes": [
+                "Não",
+                "Sim"
+            ],
+            "opcoesEmoji": [
+                "❌",
+                "✅"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c586",
+            "categoria": "Patati Patatá",
+            "emoji": "🧒",
+            "pergunta": "As crianças gostam dos palhaços. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c587",
+            "categoria": "Patati Patatá",
+            "emoji": "🎤",
+            "pergunta": "No show eles falam com o público. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c588",
+            "categoria": "Patati Patatá",
+            "emoji": "💛",
+            "pergunta": "Patati e Patatá são dois amigos. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c589",
+            "categoria": "Patati Patatá",
+            "emoji": "🎉",
+            "pergunta": "Ir ao circo dos palhaços é...",
+            "opcoes": [
+                "Festa",
+                "Prova difícil"
+            ],
+            "opcoesEmoji": [
+                "🎉",
+                "📝"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c590",
+            "categoria": "Rotina",
+            "emoji": "🪥",
+            "pergunta": "De manhã escovamos os...",
+            "opcoes": [
+                "Dentes",
+                "Livros"
+            ],
+            "opcoesEmoji": [
+                "🦷",
+                "📚"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c591",
+            "categoria": "Rotina",
+            "emoji": "👕",
+            "pergunta": "Antes de sair, vestimos a...",
+            "opcoes": [
+                "Cama",
+                "Roupa"
+            ],
+            "opcoesEmoji": [
+                "🛏",
+                "👕"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c592",
+            "categoria": "Rotina",
+            "emoji": "🎒",
+            "pergunta": "Para a escola levamos a...",
+            "opcoes": [
+                "Mochila",
+                "Geladeira"
+            ],
+            "opcoesEmoji": [
+                "🎒",
+                "🧊"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c593",
+            "categoria": "Rotina",
+            "emoji": "🍽️",
+            "pergunta": "Almoço é a refeição do...",
+            "opcoes": [
+                "Meio-dia",
+                "Meia-noite"
+            ],
+            "opcoesEmoji": [
+                "☀️",
+                "🌙"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c594",
+            "categoria": "Rotina",
+            "emoji": "🧼",
+            "pergunta": "Depois de brincar no parque, lavamos as...",
+            "opcoes": [
+                "Nuvens",
+                "Mãos"
+            ],
+            "opcoesEmoji": [
+                "☁",
+                "🙌"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c595",
+            "categoria": "Rotina",
+            "emoji": "📚",
+            "pergunta": "À noite podemos ouvir uma...",
+            "opcoes": [
+                "Sirene só",
+                "História"
+            ],
+            "opcoesEmoji": [
+                "🚨",
+                "📖"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c596",
+            "categoria": "Rotina",
+            "emoji": "🛏️",
+            "pergunta": "Na hora de dormir vamos para a...",
+            "opcoes": [
+                "Cama",
+                "Cozinha"
+            ],
+            "opcoesEmoji": [
+                "🛏",
+                "🍳"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c597",
+            "categoria": "Rotina",
+            "emoji": "⏰",
+            "pergunta": "De manhã o despertador toca para a gente...",
+            "opcoes": [
+                "Levantar",
+                "Voar"
+            ],
+            "opcoesEmoji": [
+                "⏰",
+                "🕊"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c598",
+            "categoria": "Rotina",
+            "emoji": "🛁",
+            "pergunta": "Antes de dormir, muitas crianças tomam...",
+            "opcoes": [
+                "Banho",
+                "Sol"
+            ],
+            "opcoesEmoji": [
+                "🛁",
+                "☀️"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c599",
+            "categoria": "Toy Story",
+            "emoji": "👧",
+            "pergunta": "A dona dos brinquedos se chama...",
+            "opcoes": [
+                "Bonnie ou Andy",
+                "Elsa"
+            ],
+            "opcoesEmoji": [
+                "👧",
+                "❄"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c600",
+            "categoria": "Toy Story",
+            "emoji": "🐕",
+            "pergunta": "Slinky é o cachorro de...",
+            "opcoes": [
+                "Plástico duro só",
+                "Mola"
+            ],
+            "opcoesEmoji": [
+                "🧱",
+                "🐕"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c601",
+            "categoria": "Toy Story",
+            "emoji": "🥔",
+            "pergunta": "Sr. Cabeça de Batata é um...",
+            "opcoes": [
+                "Fruta de verdade",
+                "Brinquedo"
+            ],
+            "opcoesEmoji": [
+                "🍎",
+                "🥔"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c602",
+            "categoria": "Toy Story",
+            "emoji": "👽",
+            "pergunta": "Os alienígeninhas vivem na máquina de...",
+            "opcoes": [
+                "Sorvete",
+                "Garra"
+            ],
+            "opcoesEmoji": [
+                "🍦",
+                "👾"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c603",
+            "categoria": "Toy Story",
+            "emoji": "🐴",
+            "pergunta": "Bullseye é o cavalo do...",
+            "opcoes": [
+                "Woody",
+                "Buzz"
+            ],
+            "opcoesEmoji": [
+                "🐴",
+                "🚀"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c604",
+            "categoria": "Toy Story",
+            "emoji": "❤️",
+            "pergunta": "Os brinquedos são amigos. Verdadeiro?",
+            "opcoes": [
+                "Sim",
+                "Não"
+            ],
+            "opcoesEmoji": [
+                "✅",
+                "❌"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c605",
+            "categoria": "José Comilão",
+            "emoji": "🍪",
+            "pergunta": "José Comilão adora comer...",
+            "opcoes": [
+                "Lanchinhos",
+                "Pedras"
+            ],
+            "opcoesEmoji": [
+                "🍪",
+                "🪨"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c606",
+            "categoria": "José Comilão",
+            "emoji": "🍩",
+            "pergunta": "José Comilão faz rosquinhas e...",
+            "opcoes": [
+                "Aviões",
+                "Bolos"
+            ],
+            "opcoesEmoji": [
+                "✈",
+                "🎂"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c607",
+            "categoria": "José Comilão",
+            "emoji": "🧑‍🍳",
+            "pergunta": "José Comilão cozinha com ingredientes...",
+            "opcoes": [
+                "De ferro",
+                "Mágicos"
+            ],
+            "opcoesEmoji": [
+                "🔩",
+                "✨"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c608",
+            "categoria": "José Comilão",
+            "emoji": "😋",
+            "pergunta": "O apelido \"Comilão\" é porque ele...",
+            "opcoes": [
+                "Corre rápido",
+                "Come bastante"
+            ],
+            "opcoesEmoji": [
+                "🏃",
+                "😋"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c609",
+            "categoria": "José Comilão",
+            "emoji": "📺",
+            "pergunta": "José Comilão também é chamado de José...",
+            "opcoes": [
+                "Totoy",
+                "Mickey"
+            ],
+            "opcoesEmoji": [
+                "👦",
+                "🐭"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c610",
+            "categoria": "José Comilão",
+            "emoji": "🧁",
+            "pergunta": "Nas histórias, José Comilão prepara...",
+            "opcoes": [
+                "Doces",
+                "Carros"
+            ],
+            "opcoesEmoji": [
+                "🧁",
+                "🚗"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c611",
+            "categoria": "José Comilão",
+            "emoji": "🧒",
+            "pergunta": "José Comilão é um desenho para...",
+            "opcoes": [
+                "Pilotos",
+                "Crianças"
+            ],
+            "opcoesEmoji": [
+                "✈",
+                "🧒"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c612",
+            "categoria": "José Comilão",
+            "emoji": "🤝",
+            "pergunta": "Nas aventuras, José Comilão aprende com...",
+            "opcoes": [
+                "Amigos",
+                "Tempestades"
+            ],
+            "opcoesEmoji": [
+                "🤝",
+                "⛈"
+            ],
+            "correta": 0
+        },
+        {
+            "id": "c613",
+            "categoria": "José Comilão",
+            "emoji": "🎉",
+            "pergunta": "Assistir José Comilão pode ser...",
+            "opcoes": [
+                "Chato sempre",
+                "Divertido"
+            ],
+            "opcoesEmoji": [
+                "😐",
+                "🎉"
+            ],
+            "correta": 1
+        },
+        {
+            "id": "c614",
+            "categoria": "José Comilão",
+            "emoji": "🍽️",
+            "pergunta": "José Comilão quase nunca dispensa um...",
+            "opcoes": [
+                "Exame difícil",
+                "Lanche"
+            ],
+            "opcoesEmoji": [
+                "📝",
+                "🥪"
+            ],
+            "correta": 1
         }
     ],
     "adolescente": [

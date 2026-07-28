@@ -16,6 +16,7 @@ require __DIR__.'/perguntas-adulto.php';
 
 foreach ([
     __DIR__.'/perguntas-crianca-extra.php',
+    __DIR__.'/perguntas-crianca-temas-min10.php',
     __DIR__.'/perguntas-adolescente-extra.php',
     __DIR__.'/perguntas-adolescente-temas.php',
     __DIR__.'/perguntas-adolescente-ingles.php',
@@ -141,6 +142,7 @@ function buildQuatro(array $rows, string $prefix): array
 $crianca = uniqueByPergunta(array_merge(
     criancaRows(),
     function_exists('criancaExtraRows') ? criancaExtraRows() : [],
+    function_exists('criancaTemasMin10Rows') ? criancaTemasMin10Rows() : [],
 ));
 
 $adolescente = uniqueByPergunta(array_merge(

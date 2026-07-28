@@ -1,4 +1,4 @@
-import { createSounds } from './sounds';
+import { createSounds, isMobileClient } from './sounds';
 
 function csrfHeaders(token) {
     return {
@@ -11,6 +11,11 @@ function csrfHeaders(token) {
 
 function bindSoundToggle(btn, sons, onEnable) {
     if (!btn) {
+        return;
+    }
+    if (sons.bloqueado) {
+        btn.classList.add('hidden');
+        btn.setAttribute('aria-hidden', 'true');
         return;
     }
     const paint = () => {
@@ -29,7 +34,11 @@ function bindSoundToggle(btn, sons, onEnable) {
 
 function syncLiveMusic(sons, status, { justFinished = false } = {}) {
     if (status === 'question' || status === 'reveal' || status === 'ranking') {
-        sons.iniciarMusica();
+        // Só inicia se ainda não estiver tocando — o poll a cada 1s não pode
+        // reiniciar/cortar a música junto com a contagem regressiva.
+        if (!sons.tocando) {
+            sons.iniciarMusica();
+        }
         return;
     }
     if (status === 'finished') {
@@ -402,7 +411,13 @@ function initLiveHost(root) {
 }
 
 function initLivePlayer(root) {
-    const sons = createSounds({ preset: 'live', nivel: root.dataset.nivel || 'crianca' });
+    // No celular o áudio fica sempre desligado — só o apresentador (TV) toca música.
+    const muteMobile = isMobileClient();
+    const sons = createSounds({
+        preset: 'live',
+        nivel: root.dataset.nivel || 'crianca',
+        forcedOff: muteMobile,
+    });
     const el = {
         wait: root.querySelector('[data-live-wait]'),
         qwrap: root.querySelector('[data-live-question-wrap]'),
@@ -423,7 +438,12 @@ function initLivePlayer(root) {
         restLabel: root.querySelector('[data-live-rest-label]'),
         backHub: root.querySelector('[data-live-back-hub]'),
         soundToggle: root.querySelector('[data-live-sound]'),
+        musicHint: root.querySelector('[data-live-music-hint]'),
     };
+
+    if (muteMobile && el.musicHint) {
+        el.musicHint.classList.add('hidden');
+    }
 
     let lastStatus = '';
     let lastIndex = -1;

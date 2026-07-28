@@ -35,7 +35,7 @@
             <div data-live-wait class="mt-10 text-center">
                 <p class="text-5xl" aria-hidden="true">⏳</p>
                 <p class="mt-4 font-display text-xl text-ink">Aguardando o apresentador iniciar...</p>
-                <p class="mt-2 text-sm text-ink/60">Toque na tela para ativar a música da festa.</p>
+                <p class="mt-2 text-sm text-ink/60" data-live-music-hint>Toque na tela para ativar a música da festa.</p>
             </div>
 
             <div data-live-question-wrap class="mt-8 hidden">
