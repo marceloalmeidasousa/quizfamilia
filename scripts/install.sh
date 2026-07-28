@@ -132,50 +132,20 @@ done
 # Paths e binários
 # ---------------------------------------------------------------------------
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=common.sh
+source "${SCRIPT_DIR}/common.sh"
+
 APP_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 cd "$APP_DIR"
+
+ensure_runtime_env "$APP_DIR"
 
 WEB_USER="${WEB_USER:-www}"
 WEB_GROUP="${WEB_GROUP:-www}"
 
-detect_php() {
-  if [[ -n "${PHP_BIN:-}" && -x "$PHP_BIN" ]]; then
-    echo "$PHP_BIN"
-    return
-  fi
-
-  local candidates=(
-    /www/server/php/84/bin/php
-    /www/server/php/83/bin/php
-    /www/server/php/85/bin/php
-    /usr/bin/php
-    "$(command -v php 2>/dev/null || true)"
-  )
-
-  for bin in "${candidates[@]}"; do
-    [[ -z "$bin" || ! -x "$bin" ]] && continue
-    local major minor
-    major="$("$bin" -r 'echo PHP_MAJOR_VERSION;')"
-    minor="$("$bin" -r 'echo PHP_MINOR_VERSION;')"
-    if (( major > 8 || (major == 8 && minor >= 3) )); then
-      echo "$bin"
-      return
-    fi
-  done
-
-  return 1
-}
-
 PHP_BIN="$(detect_php)" || die "PHP >= 8.3 não encontrado. Defina PHP_BIN=/www/server/php/83/bin/php"
-COMPOSER_BIN="${COMPOSER_BIN:-$(command -v composer 2>/dev/null || true)}"
-
-if [[ -z "$COMPOSER_BIN" ]]; then
-  if [[ -f "$APP_DIR/composer.phar" ]]; then
-    COMPOSER_BIN="$PHP_BIN $APP_DIR/composer.phar"
-  else
-    die "Composer não encontrado. Instale globalmente ou coloque composer.phar na raiz do projeto."
-  fi
-fi
+COMPOSER_BIN="$(resolve_composer "$PHP_BIN" "$APP_DIR")" \
+  || die "Composer não encontrado. Instale globalmente ou coloque composer.phar na raiz do projeto."
 
 NODE_BIN="$(command -v node 2>/dev/null || true)"
 NPM_BIN="$(command -v npm 2>/dev/null || true)"
