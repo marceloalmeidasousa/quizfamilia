@@ -9,6 +9,7 @@
             class="level-panel level-panel--{{ $level['accent'] ?? 'coral' }}"
             data-live-player
             data-token="{{ $player->token }}"
+            data-nivel="{{ $session->nivel }}"
             data-state-url="{{ route('live.player.state', $player->token) }}"
             data-answer-url="{{ route('live.answer', $player->token) }}"
             data-csrf="{{ csrf_token() }}"

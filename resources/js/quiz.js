@@ -56,8 +56,9 @@ function initQuiz(root) {
     }
 
     const infantil = root.dataset.nivelSlug === 'crianca';
+    const nivel = root.dataset.nivelSlug || 'crianca';
     const rodadasPorPartida = Math.min(parseInt(root.dataset.rodadas, 10) || 10, perguntas.length);
-    const sons = createSounds();
+    const sons = createSounds({ preset: 'quiz', nivel });
 
     const el = {
         start: root.querySelector('[data-quiz-start]'),
@@ -141,6 +142,8 @@ function initQuiz(root) {
     function renderRodada() {
         respondida = false;
         const pergunta = ordem[indice];
+
+        sons.selecionarMusica(indice);
 
         el.current.textContent = String(indice + 1);
         el.category.textContent = pergunta.categoria || 'Pergunta';

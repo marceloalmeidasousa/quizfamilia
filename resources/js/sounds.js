@@ -1,14 +1,16 @@
 /**
  * Sons (Web Audio) + música de fundo.
  *
- * Música: usa MP3 em /audio/ se existir; senão gera loop sintético.
- *   - /audio/quiz-bg.mp3          → modo Quiz
- *   - /audio/live-01.mp3 … 10.mp3 → modo Ao Vivo (troca por pergunta)
+ * Nível criança → sempre música sintética (Web Audio).
+ * Adolescente / adulto → trechos MP3 em:
+ *   /audio/adolescente/audio1.mp3 … audio10.mp3
+ *   /audio/adulto/audio1.mp3 … audio10.mp3
+ * (troca a cada pergunta; começa num ponto aleatório do arquivo)
  *
- * Veja public/audio/README.md para fontes royalty-free.
  * preset: 'quiz' | 'live'
+ * nivel: 'crianca' | 'adolescente' | 'adulto'
  */
-export function createSounds({ preset = 'quiz' } = {}) {
+export function createSounds({ preset = 'quiz', nivel = 'crianca' } = {}) {
     let ctx = null;
     let ligado = localStorage.getItem('quiz-som') !== 'off';
     let musicGain = null;
@@ -22,9 +24,10 @@ export function createSounds({ preset = 'quiz' } = {}) {
     let filesAvailable = null;
     let fileTrackIndex = 0;
 
-    const FILE_VOL = 0.35;
-    const quizFileSrc = '/audio/quiz-bg.mp3';
-    const liveFileSrcs = Array.from({ length: 10 }, (_, i) => `/audio/live-${String(i + 1).padStart(2, '0')}.mp3`);
+    const nivelSlug = ['adolescente', 'adulto'].includes(nivel) ? nivel : 'crianca';
+    const useLevelFiles = nivelSlug !== 'crianca';
+    const TRACK_COUNT = 10;
+    const FILE_VOL = 0.38;
 
     const quizTrack = {
         beat: 0.28,
@@ -183,11 +186,8 @@ export function createSounds({ preset = 'quiz' } = {}) {
     }
 
     function fileSrcFor(index = 0) {
-        if (preset === 'live') {
-            const i = ((Number(index) || 0) % liveFileSrcs.length + liveFileSrcs.length) % liveFileSrcs.length;
-            return liveFileSrcs[i];
-        }
-        return quizFileSrc;
+        const i = ((Number(index) || 0) % TRACK_COUNT + TRACK_COUNT) % TRACK_COUNT;
+        return `/audio/${nivelSlug}/audio${i + 1}.mp3`;
     }
 
     function probeAudio(src) {
@@ -212,6 +212,10 @@ export function createSounds({ preset = 'quiz' } = {}) {
     }
 
     async function ensureFileMode() {
+        if (!useLevelFiles) {
+            filesAvailable = false;
+            return false;
+        }
         if (filesAvailable !== null) {
             return filesAvailable;
         }
@@ -219,28 +223,53 @@ export function createSounds({ preset = 'quiz' } = {}) {
         return filesAvailable;
     }
 
-    function ensureFileAudio(src) {
+    function pickClipStart(audio) {
+        const duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+        if (duration <= 15) {
+            return 0;
+        }
+        // Trecho: começa em ponto aleatório nos primeiros ~70% (evita o final curto).
+        const maxStart = Math.max(0, duration * 0.7 - 12);
+        return Math.random() * maxStart;
+    }
+
+    function ensureFileAudio(src, { freshClip = false } = {}) {
         if (!fileAudio) {
             fileAudio = new Audio();
             fileAudio.loop = true;
             fileAudio.preload = 'auto';
             fileAudio.volume = ligado ? FILE_VOL : 0;
         }
-        if (fileAudio.dataset.src !== src) {
+        const changed = fileAudio.dataset.src !== src;
+        if (changed) {
             fileAudio.dataset.src = src;
             fileAudio.src = src;
             fileAudio.load();
         }
+        if (changed || freshClip) {
+            const applyStart = () => {
+                try {
+                    fileAudio.currentTime = pickClipStart(fileAudio);
+                } catch (e) {
+                    /* ignore */
+                }
+            };
+            if (fileAudio.readyState >= 1) {
+                applyStart();
+            } else {
+                fileAudio.addEventListener('loadedmetadata', applyStart, { once: true });
+            }
+        }
         return fileAudio;
     }
 
-    async function playFileMusic(index = fileTrackIndex) {
+    async function playFileMusic(index = fileTrackIndex, { freshClip = true } = {}) {
         const ok = await ensureFileMode();
         if (!ok) {
             return false;
         }
         fileTrackIndex = index;
-        const audio = ensureFileAudio(fileSrcFor(index));
+        const audio = ensureFileAudio(fileSrcFor(index), { freshClip });
         audio.volume = ligado ? FILE_VOL : 0;
         try {
             await audio.play();
@@ -276,23 +305,32 @@ export function createSounds({ preset = 'quiz' } = {}) {
     }
 
     /**
-     * Seleciona a música pelo índice (usado no Ao Vivo, 1 por pergunta).
-     * A troca acontece suavemente porque o agendador lê a trilha atual.
+     * Seleciona a música pelo índice da pergunta (quiz e ao vivo).
+     * Em criança só troca a trilha sintética no Ao Vivo.
      */
     function selecionarMusica(index) {
+        const i = ((Number(index) || 0) % liveTracks.length + liveTracks.length) % liveTracks.length;
+
+        if (useLevelFiles) {
+            if (i === trackIndex) {
+                return;
+            }
+            trackIndex = i;
+            applyTrack(liveTracks[i % liveTracks.length]);
+            if (musicPlaying && ligado) {
+                playFileMusic(i, { freshClip: true });
+            }
+            return;
+        }
+
         if (preset !== 'live') {
             return;
         }
-        const i = ((Number(index) || 0) % liveTracks.length + liveTracks.length) % liveTracks.length;
-        if (i === trackIndex && filesAvailable !== true) {
+        if (i === trackIndex) {
             return;
         }
         trackIndex = i;
         applyTrack(liveTracks[i]);
-        if (filesAvailable === true && musicPlaying && ligado) {
-            playFileMusic(i);
-            return;
-        }
         if (musicPlaying && ctx && ligado) {
             musicGain.gain.setTargetAtTime(MUSIC_VOL, ctx.currentTime, 0.12);
         }

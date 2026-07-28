@@ -169,7 +169,7 @@ function renderOptions(container, question, { reveal = false, locked = false, on
 }
 
 function initLiveHost(root) {
-    const sons = createSounds({ preset: 'live' });
+    const sons = createSounds({ preset: 'live', nivel: root.dataset.nivel || 'crianca' });
     const el = {
         lobby: root.querySelector('[data-live-lobby]'),
         play: root.querySelector('[data-live-play]'),
@@ -402,7 +402,7 @@ function initLiveHost(root) {
 }
 
 function initLivePlayer(root) {
-    const sons = createSounds({ preset: 'live' });
+    const sons = createSounds({ preset: 'live', nivel: root.dataset.nivel || 'crianca' });
     const el = {
         wait: root.querySelector('[data-live-wait]'),
         qwrap: root.querySelector('[data-live-question-wrap]'),

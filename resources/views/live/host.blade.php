@@ -17,6 +17,7 @@
             class="level-panel level-panel--{{ $level['accent'] ?? 'ocean' }} live-host-panel flex min-h-0 flex-1 flex-col overflow-hidden"
             data-live-host
             data-pin="{{ $session->pin }}"
+            data-nivel="{{ $session->nivel }}"
             data-state-url="{{ route('live.host.state', $session->pin) }}"
             data-start-url="{{ route('live.start', $session->pin) }}"
             data-advance-url="{{ route('live.advance', $session->pin) }}"
