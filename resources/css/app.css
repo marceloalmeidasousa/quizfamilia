@@ -771,7 +771,7 @@
         font-size: 0.95rem;
     }
 
-    /* Quiz Torta na Cara: tela inteira sem rolagem */
+    /* Quiz solo: tela inteira sem rolagem */
     .quiz-fit-panel {
         padding: 1.15rem 1.25rem !important;
         border-radius: 1.25rem;

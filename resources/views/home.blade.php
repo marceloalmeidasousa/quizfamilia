@@ -18,7 +18,7 @@
             <a href="{{ route('quiz.levels') }}" class="level-card level-card--sunshine group" style="--delay: 0ms">
                 <div class="level-card__glow" aria-hidden="true"></div>
                 <div class="relative flex h-full flex-col">
-                    <span class="level-icon mb-6" aria-hidden="true">🥧</span>
+                    <span class="level-icon mb-6" aria-hidden="true">❓</span>
                     <h2 class="font-display text-3xl tracking-tight text-ink">Quiz</h2>
                     <p class="mt-1 text-sm font-semibold uppercase tracking-[0.14em] text-ink/45">Modo solo</p>
                     <p class="mt-4 flex-1 text-sm leading-relaxed text-ink/70 sm:text-base">

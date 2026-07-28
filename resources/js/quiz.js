@@ -222,16 +222,16 @@ function initQuiz(root) {
             el.score.textContent = String(acertos);
             el.reveal.classList.add('quiz-reveal--hit');
             el.revealLabel.textContent = sequencia >= 3 ? `Acertou de novo! ${sequencia} seguidas 🔥` : 'Acertou!';
-            el.revealHint.textContent = 'Escapou da torta nesta rodada.';
+            el.revealHint.textContent = 'Resposta correta nesta rodada.';
             animarSplat(sequencia >= 3 ? '🌟' : '🎉', 'quiz-splat--hit');
             sons.acerto();
         } else {
             sequencia = 0;
             el.reveal.classList.add('quiz-reveal--miss');
-            el.revealLabel.textContent = 'Torta na cara!';
-            el.revealHint.textContent = 'Olha a resposta certa aí embaixo.';
+            el.revealLabel.textContent = 'Resposta incorreta!';
+            el.revealHint.textContent = 'Você errou — confira a resposta certa abaixo.';
             el.visual.classList.add('quiz-visual--shake');
-            animarSplat('🥧', 'quiz-splat--miss');
+            animarSplat('❌', 'quiz-splat--miss');
             sons.erro();
         }
 
@@ -257,17 +257,17 @@ function initQuiz(root) {
         el.finalScore.textContent = String(acertos);
 
         const pct = acertos / ordem.length;
-        let msg = 'Levou várias tortas, mas o importante é a diversão!';
-        let emoji = '🥧';
+        let msg = 'Errou bastante, mas o importante é a diversão!';
+        let emoji = '😅';
 
         if (pct === 1) {
-            msg = infantil ? 'Uau! Você acertou tudinho!' : 'Zero tortas! Você acertou todas as rodadas.';
+            msg = infantil ? 'Uau! Você acertou tudinho!' : 'Perfeito! Você acertou todas as rodadas.';
             emoji = '🏆';
         } else if (pct >= 0.7) {
-            msg = 'Quase limpo! Poucas tortas na cara.';
+            msg = 'Mandou bem! Poucos erros nesta partida.';
             emoji = '🌟';
         } else if (pct >= 0.4) {
-            msg = 'Teve torta, mas também teve acerto. Joga de novo!';
+            msg = 'Teve erro, mas também teve acerto. Joga de novo!';
             emoji = '😄';
         }
 

@@ -21,7 +21,7 @@
                 Escolha o nível
             </h1>
             <p class="mt-4 text-base text-ink/70 sm:text-lg">
-                Depois escolha uma categoria — só entram perguntas desse tema.
+                Depois escolha uma categoria para selecionar perguntas dos temas.
             </p>
         </div>
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $level['title'] . ' — Torta na Cara')
+@section('title', $level['title'] . ' — Quiz em Família')
 @section('hide_footer')
 @endsection
 @section('body_class', 'live-fit')
@@ -59,7 +59,7 @@
                             <li>1. Em cada rodada aparece a figura, a pergunta e as opções</li>
                             <li>2. Marque a resposta que você acha certa</li>
                             <li>3. A resposta correta é revelada na hora</li>
-                            <li>4. Errou? Torta na cara! 🥧 Acertou? Escapou! 🎉</li>
+                            <li>4. Errou? Resposta incorreta! ❌ Acertou? Mandou bem! 🎉</li>
                             <li>5. Use o botão 🔊 se quiser silenciar</li>
                         </ul>
                         <p class="text-base font-semibold text-ink/65 sm:text-lg">
