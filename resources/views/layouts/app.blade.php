@@ -41,7 +41,7 @@
             @hasSection('hide_footer')
             @else
             <footer class="px-5 py-6 text-center text-sm text-ink/55 sm:px-8">
-                Feito para jogar junto — criança (3–6), adolescente (7–14) e adulto (15+).
+                Feito para jogar junto.
             </footer>
             @endif
         </div>
