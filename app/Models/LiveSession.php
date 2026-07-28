@@ -22,6 +22,9 @@ class LiveSession extends Model
     /** Tempo mostrando a resposta correta antes de ir ao ranking. */
     public const REVEAL_SECONDS = 4;
 
+    /** Tempo do ranking parcial antes da próxima pergunta. */
+    public const RANKING_SECONDS = 7;
+
     protected $fillable = [
         'pin',
         'nivel',

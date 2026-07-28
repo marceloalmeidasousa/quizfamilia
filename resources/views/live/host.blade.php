@@ -86,6 +86,13 @@
                     <p data-live-rest-label class="mt-4 hidden text-xs font-bold uppercase tracking-[0.16em] text-ink/45">Demais participantes</p>
                     <ol data-live-ranking-list class="mt-2 space-y-2"></ol>
                 </div>
+                <div data-live-ranking-countdown class="mt-3 hidden shrink-0 text-center" aria-live="polite">
+                    <p class="text-sm font-bold uppercase tracking-[0.14em] text-ink/45">Próxima pergunta em</p>
+                    <p data-live-ranking-secs class="font-display text-5xl text-brand-deep sm:text-6xl">7</p>
+                    <div class="mx-auto mt-2 h-1.5 w-full max-w-xs overflow-hidden rounded-full bg-ink/10">
+                        <div data-live-ranking-bar class="h-full rounded-full bg-brand-deep transition-[width] duration-200" style="width:100%"></div>
+                    </div>
+                </div>
                 <button type="button" data-live-ranking-next class="quiz-btn-primary mt-3 shrink-0 self-center hidden">Próxima pergunta</button>
             </div>
         </div>

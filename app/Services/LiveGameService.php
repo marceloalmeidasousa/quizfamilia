@@ -137,12 +137,33 @@ class LiveGameService
             return $this->goToRankingOrFinished($session);
         }
 
+        if ($session->status === LiveSession::STATUS_RANKING) {
+            if (! $session->question_started_at) {
+                $session->update(['question_started_at' => now()]);
+
+                return $session->fresh();
+            }
+
+            $elapsed = (int) $session->question_started_at->diffInMilliseconds(now());
+            if ($elapsed < LiveSession::RANKING_SECONDS * 1000) {
+                return $session;
+            }
+
+            return $this->startNextQuestion($session);
+        }
+
         return $session;
     }
 
     public function advance(LiveSession $session): LiveSession
     {
+        $before = $session->status;
         $session = $this->maybeExpireQuestion($session);
+
+        // Se o timer já avançou o estado, não aplica outra transição no mesmo clique.
+        if ($session->status !== $before) {
+            return $session;
+        }
 
         if ($session->status === LiveSession::STATUS_QUESTION) {
             return $this->enterReveal($session);
@@ -153,16 +174,21 @@ class LiveGameService
         }
 
         if ($session->status === LiveSession::STATUS_RANKING) {
-            $session->update([
-                'status' => LiveSession::STATUS_QUESTION,
-                'current_index' => $session->current_index + 1,
-                'question_started_at' => now(),
-            ]);
-
-            return $session->fresh();
+            return $this->startNextQuestion($session);
         }
 
         return $session;
+    }
+
+    private function startNextQuestion(LiveSession $session): LiveSession
+    {
+        $session->update([
+            'status' => LiveSession::STATUS_QUESTION,
+            'current_index' => $session->current_index + 1,
+            'question_started_at' => now(),
+        ]);
+
+        return $session->fresh();
     }
 
     private function enterReveal(LiveSession $session): LiveSession
@@ -188,7 +214,7 @@ class LiveGameService
 
         $session->update([
             'status' => LiveSession::STATUS_RANKING,
-            'question_started_at' => null,
+            'question_started_at' => now(),
         ]);
 
         return $session->fresh();
@@ -369,8 +395,10 @@ class LiveGameService
             'total' => $session->totalQuestions(),
             'remaining_ms' => $session->remainingMs(),
             'reveal_remaining_ms' => $this->revealRemainingMs($session),
+            'ranking_remaining_ms' => $this->rankingRemainingMs($session),
             'question_seconds' => LiveSession::QUESTION_SECONDS,
             'reveal_seconds' => LiveSession::REVEAL_SECONDS,
+            'ranking_seconds' => LiveSession::RANKING_SECONDS,
             'players' => $session->players()->orderBy('joined_at')->get(['name', 'score'])->map(fn ($p) => [
                 'name' => $p->name,
                 'score' => (int) $p->score,
@@ -393,6 +421,18 @@ class LiveGameService
 
         $elapsed = (int) $session->question_started_at->diffInMilliseconds(now());
         $limit = LiveSession::REVEAL_SECONDS * 1000;
+
+        return max(0, $limit - $elapsed);
+    }
+
+    private function rankingRemainingMs(LiveSession $session): int
+    {
+        if ($session->status !== LiveSession::STATUS_RANKING || ! $session->question_started_at) {
+            return 0;
+        }
+
+        $elapsed = (int) $session->question_started_at->diffInMilliseconds(now());
+        $limit = LiveSession::RANKING_SECONDS * 1000;
 
         return max(0, $limit - $elapsed);
     }

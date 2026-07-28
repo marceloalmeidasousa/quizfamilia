@@ -195,6 +195,9 @@ function initLiveHost(root) {
         podium: root.querySelector('[data-live-podium]'),
         restLabel: root.querySelector('[data-live-rest-label]'),
         rankingNext: root.querySelector('[data-live-ranking-next]'),
+        rankingCountdown: root.querySelector('[data-live-ranking-countdown]'),
+        rankingSecs: root.querySelector('[data-live-ranking-secs]'),
+        rankingBar: root.querySelector('[data-live-ranking-bar]'),
         soundToggle: root.querySelector('[data-live-sound]'),
     };
 
@@ -262,9 +265,24 @@ function initLiveHost(root) {
             if (finished) {
                 el.rankingTitle.textContent = 'Pódio final';
                 el.rankingNext?.classList.add('hidden');
+                el.rankingCountdown?.classList.add('hidden');
             } else {
                 el.rankingTitle.textContent = `Ranking parcial · Pergunta ${state.current_index + 1}/${state.total}`;
                 el.rankingNext?.classList.remove('hidden');
+                el.rankingCountdown?.classList.remove('hidden');
+
+                const rankingRem = state.ranking_remaining_ms || 0;
+                const rankingTotal = (state.ranking_seconds || 7) * 1000;
+                const rankingSecs = Math.max(0, Math.ceil(rankingRem / 1000));
+                if (el.rankingSecs) {
+                    el.rankingSecs.textContent = String(rankingSecs);
+                }
+                if (el.rankingBar) {
+                    el.rankingBar.style.width = `${Math.max(0, (rankingRem / rankingTotal) * 100)}%`;
+                }
+                if (el.rankingNext) {
+                    el.rankingNext.textContent = 'Próxima pergunta';
+                }
             }
 
             const key = rankingKey(state.ranking);
