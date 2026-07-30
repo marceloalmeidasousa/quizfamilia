@@ -32,6 +32,11 @@ class LiveSession extends Model
         'status',
         'current_index',
         'question_started_at',
+        'started_at',
+        'finished_at',
+        'ip_address',
+        'country',
+        'city',
         'questions',
     ];
 
@@ -40,6 +45,8 @@ class LiveSession extends Model
         return [
             'questions' => 'array',
             'question_started_at' => 'datetime',
+            'started_at' => 'datetime',
+            'finished_at' => 'datetime',
             'current_index' => 'integer',
         ];
     }

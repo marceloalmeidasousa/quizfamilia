@@ -3,6 +3,8 @@
 @section('title', 'Sala ' . $session->pin . ' — Ao Vivo')
 @section('hide_footer')
 @endsection
+@section('hide_ads')
+@endsection
 @section('body_class', 'live-fit')
 @section('shell_class', 'h-dvh max-h-dvh')
 @section('shell_inner_class', 'h-dvh max-h-dvh overflow-hidden')

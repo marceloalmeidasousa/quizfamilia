@@ -38,6 +38,7 @@ class LiveController extends Controller
         $session = $this->live->createSession(
             $data['nivel'],
             $data['categoria'] ?? null,
+            $request,
         );
 
         return redirect()

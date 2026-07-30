@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', $player->name . ' — Ao Vivo')
+@section('hide_ads')
+@endsection
 
 @section('content')
 <section class="flex flex-1 flex-col justify-center px-5 py-8 sm:px-8 sm:py-10">

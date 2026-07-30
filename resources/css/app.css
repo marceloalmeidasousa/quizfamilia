@@ -237,6 +237,11 @@
         box-shadow: none;
     }
 
+    .quiz-cat-chip--selected {
+        outline: 2px solid var(--color-brand-deep);
+        outline-offset: 2px;
+    }
+
     .level-card--sunshine {
         background: linear-gradient(145deg, #2d6cdf 0%, #46178f 100%);
     }
@@ -1090,4 +1095,12 @@
     .level-card:focus-visible {
         transform: none;
     }
+}
+
+.adsense-wrap {
+    min-height: 0;
+}
+
+.adsense-wrap .adsbygoogle {
+    min-height: 90px;
 }

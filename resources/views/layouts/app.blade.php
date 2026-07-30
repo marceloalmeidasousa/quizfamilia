@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Quiz em Família — diversão para criança, adolescente e adulto jogarem juntos.">
-    <title>@yield('title', 'Quiz em Família')</title>
+    <meta name="description" content="{{ $brand['description'] ?? 'Quiz' }}">
+    <title>@yield('title', $brand['name'] ?? 'Quiz')</title>
 
     @if (app()->environment('production'))
     <!-- Google tag (gtag.js) -->
@@ -15,6 +15,10 @@
       gtag('js', new Date());
       gtag('config', 'G-E7MZ62DHNQ');
     </script>
+    @endif
+
+    @if (config('ads.enabled') && filled(config('ads.client')))
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ config('ads.client') }}" crossorigin="anonymous"></script>
     @endif
 
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -29,7 +33,7 @@
                 <a href="{{ route('home') }}" class="group flex items-center gap-2.5">
                     <span class="brand-mark" aria-hidden="true">?</span>
                     <span class="brand-title text-xl text-white sm:text-2xl">
-                        Quiz em <span class="text-brand-soft">Família</span>
+                        {!! $brand['name_html'] ?? ($brand['name'] ?? 'Quiz') !!}
                     </span>
                 </a>
             </div>
@@ -41,9 +45,15 @@
 
         @hasSection('hide_footer')
         @else
+            @unless(View::hasSection('hide_ads'))
+                <x-adsense :slot="config('ads.slots.footer')" class="border-t border-ink/5" />
+            @endunless
         <footer class="border-t border-ink/5 px-4 py-5 sm:px-6">
-            <div class="mx-auto max-w-6xl text-center text-sm font-semibold text-ink/45">
-                Feito para jogar junto.
+            <div class="mx-auto flex max-w-6xl flex-col items-center gap-2 text-center text-sm font-semibold text-ink/45">
+                <span>{{ $brand['tagline'] ?? 'Feito para jogar junto.' }}</span>
+                <a href="{{ route('legal.privacy') }}" class="text-ink/55 underline decoration-ink/20 underline-offset-2 hover:text-ink">
+                    Privacidade
+                </a>
             </div>
         </footer>
         @endif

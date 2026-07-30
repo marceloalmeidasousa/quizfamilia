@@ -118,6 +118,32 @@ function initQuiz(root) {
         show(el.play);
         sons.iniciarMusica();
         renderRodada();
+        registrarPartida();
+    }
+
+    function registrarPartida() {
+        const url = root.dataset.playUrl;
+        const csrf = root.dataset.csrf;
+        if (!url || !csrf) {
+            return;
+        }
+        const body = {};
+        if (root.dataset.categoria) {
+            body.categoria = root.dataset.categoria;
+        }
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                'X-CSRF-TOKEN': csrf,
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify(body),
+        }).catch(() => {
+            /* ignore */
+        });
     }
 
     function renderVisual(pergunta) {

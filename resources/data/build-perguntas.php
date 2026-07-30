@@ -107,6 +107,53 @@ function buildCrianca(array $rows): array
 }
 
 /**
+ * Emoji decorativo por categoria — NÃO revela a resposta.
+ * Usado em adolescente/adulto. Infantil mantém o emoji da própria pergunta.
+ */
+function emojiNeutroPorCategoria(string $categoria): string
+{
+    static $map = [
+        'Games' => '🎮',
+        'Esportes' => '🏅',
+        'Inglês' => '📚',
+        'Filmes' => '🎬',
+        'Ciências' => '🔬',
+        'Geografia' => '🌍',
+        'Matemática' => '🔢',
+        'Curiosidades' => '💡',
+        'Anime' => '🎌',
+        'Desenhos' => '📺',
+        'Música' => '🎵',
+        'Internet' => '🌐',
+        'Pokémon' => '⭐',
+        'Séries' => '📺',
+        'Influencers' => '📱',
+        'Memes' => '😂',
+        'K-Pop' => '🎤',
+        'Relacionamentos' => '💬',
+        'Moda' => '👗',
+        'Saúde Mental' => '🧠',
+        'Carreira' => '💼',
+        'Finanças' => '💰',
+        'Consciência Social' => '🌱',
+        'Futebol Internacional' => '⚽',
+        'Futebol Nacional' => '⚽',
+        'BTS' => '🎤',
+        'Dorama' => '🎬',
+        'História' => '📜',
+        'Tecnologia' => '💻',
+        'Pegadinha' => '🤔',
+        'Cinema' => '🎬',
+        'Literatura' => '📖',
+        'Arte' => '🎨',
+        'Idiomas' => '💬',
+        'TV' => '📺',
+    ];
+
+    return $map[$categoria] ?? '❓';
+}
+
+/**
  * @param  array<int, array{0:string,1:string,2:string,3:array<int,string>,4:int}>  $rows
  * @return array<int, array<string, mixed>>
  */
@@ -129,7 +176,7 @@ function buildQuatro(array $rows, string $prefix): array
         $out[] = [
             'id' => $prefix.str_pad((string) ($i + 1), 3, '0', STR_PAD_LEFT),
             'categoria' => $categoria,
-            'emoji' => $emoji,
+            'emoji' => emojiNeutroPorCategoria($categoria),
             'pergunta' => $pergunta,
             'opcoes' => $novasOpcoes,
             'correta' => $novaCorreta,

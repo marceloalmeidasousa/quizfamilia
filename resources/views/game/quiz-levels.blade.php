@@ -62,6 +62,8 @@
                 <div data-category-list class="mt-4 flex flex-wrap gap-2"></div>
             </div>
         </div>
+
+        <x-adsense :slot="config('ads.slots.hub')" class="mt-8" />
     </div>
 </section>
 @endsection

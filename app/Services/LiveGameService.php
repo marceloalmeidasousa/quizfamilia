@@ -2,16 +2,20 @@
 
 namespace App\Services;
 
+use App\Models\GamePlay;
 use App\Models\LiveAnswer;
 use App\Models\LivePlayer;
 use App\Models\LiveSession;
 use App\Support\QuestionBank;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class LiveGameService
 {
-    public function createSession(string $nivel, ?string $categoria = null): LiveSession
+    public function __construct(private GeoLookup $geo) {}
+
+    public function createSession(string $nivel, ?string $categoria = null, ?Request $request = null): LiveSession
     {
         abort_unless(array_key_exists($nivel, QuestionBank::levels()), 404);
 
@@ -38,6 +42,9 @@ class LiveGameService
             ]);
         }
 
+        $ip = $request?->ip();
+        $location = $this->geo->lookup($ip);
+
         return LiveSession::query()->create([
             'pin' => $this->uniquePin(),
             'nivel' => $nivel,
@@ -45,6 +52,9 @@ class LiveGameService
             'status' => LiveSession::STATUS_LOBBY,
             'current_index' => 0,
             'questions' => $questions,
+            'ip_address' => $ip,
+            'country' => $location['country'],
+            'city' => $location['city'],
         ]);
     }
 
@@ -97,13 +107,19 @@ class LiveGameService
             ]);
         }
 
+        $now = now();
+
         $session->update([
             'status' => LiveSession::STATUS_QUESTION,
             'current_index' => 0,
-            'question_started_at' => now(),
+            'question_started_at' => $now,
+            'started_at' => $session->started_at ?? $now,
         ]);
 
-        return $session->fresh();
+        $session = $session->fresh(['players']);
+        $this->recordLivePlay($session);
+
+        return $session;
     }
 
     public function maybeExpireQuestion(LiveSession $session): LiveSession
@@ -207,6 +223,7 @@ class LiveGameService
             $session->update([
                 'status' => LiveSession::STATUS_FINISHED,
                 'question_started_at' => null,
+                'finished_at' => now(),
             ]);
 
             return $session->fresh();
@@ -435,6 +452,37 @@ class LiveGameService
         $limit = LiveSession::RANKING_SECONDS * 1000;
 
         return max(0, $limit - $elapsed);
+    }
+
+    private function recordLivePlay(LiveSession $session): void
+    {
+        $already = GamePlay::query()
+            ->where('live_session_id', $session->id)
+            ->where('type', GamePlay::TYPE_LIVE)
+            ->exists();
+
+        if ($already) {
+            return;
+        }
+
+        $names = $session->players
+            ->pluck('name')
+            ->filter()
+            ->values()
+            ->all();
+
+        GamePlay::query()->create([
+            'type' => GamePlay::TYPE_LIVE,
+            'nivel' => $session->nivel,
+            'categoria' => $session->categoriaLabel() === 'Todas' ? null : $session->categoriaLabel(),
+            'live_session_id' => $session->id,
+            'player_names' => $names,
+            'ip_address' => $session->ip_address,
+            'user_agent' => null,
+            'country' => $session->country,
+            'city' => $session->city,
+            'started_at' => $session->started_at ?? now(),
+        ]);
     }
 
     private function uniquePin(): string

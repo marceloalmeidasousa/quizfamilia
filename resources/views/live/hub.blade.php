@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Ao Vivo — Quiz em Família')
+@section('title', 'Ao Vivo — ' . $brand['name'])
 
 @section('content')
 <section class="flex flex-1 flex-col justify-center px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
@@ -115,6 +115,8 @@
                 </form>
             </div>
         </div>
+
+        <x-adsense :slot="config('ads.slots.hub')" class="mt-8" />
     </div>
 </section>
 @endsection

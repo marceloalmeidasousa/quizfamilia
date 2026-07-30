@@ -49,7 +49,11 @@ Regras obrigatórias:
 6. Evite repetir perguntas ou temas já usados.
 7. Português do Brasil, sem erros de ortografia.
 8. Sempre inclua o campo "emoji": UM emoji que ilustre o tema da pergunta
-   SEM revelar a resposta.
+   SEM revelar a resposta. Em adolescente/adulto NÃO use bandeiras, rostos
+   de personagens nem qualquer símbolo que seja a própria resposta (ex.: não
+   use 🇦🇷 se a resposta for Argentina). Prefira emoji genérico da categoria
+   (⚽ futebol, 🌍 geografia, 🎬 cinema). No nível criança o emoji pode ser
+   mais ilustrativo (incluindo nas opções).
 9. No nível criança é OBRIGATÓRIO incluir "opcoesEmoji": um emoji para cada
    uma das 2 opções, na mesma ordem (jogo pelas figuras).
 10. Nos níveis adolescente e adulto NÃO use "opcoesEmoji".

@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
-@section('title', $level['title'] . ' — Quiz em Família')
+@section('title', $level['title'] . ' — ' . $brand['name'])
 @section('hide_footer')
+@endsection
+@section('hide_ads')
 @endsection
 @section('body_class', 'live-fit')
 @section('shell_class', 'h-dvh max-h-dvh')
@@ -25,6 +27,9 @@
             data-nivel="{{ $level['title'] }}"
             data-nivel-slug="{{ $nivel }}"
             data-rodadas="{{ $rodadas }}"
+            data-play-url="{{ route('game.play.store', $nivel) }}"
+            data-csrf="{{ csrf_token() }}"
+            @if (!empty($categoria)) data-categoria="{{ $categoria }}" @endif
         >
             <span data-quiz-splat class="quiz-splat" aria-hidden="true"></span>
 
