@@ -15,7 +15,7 @@ return [
 
     'enabled' => (bool) env('ADSENSE_ENABLED', false),
 
-    'client' => env('ADSENSE_CLIENT', ''),
+    'client' => env('ADSENSE_CLIENT', 'ca-pub-2230318270974880'),
 
     /*
     | Teste do Google (anúncios de exemplo). Use true só em desenvolvimento.
