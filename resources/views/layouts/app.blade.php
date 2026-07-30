@@ -17,9 +17,8 @@
     </script>
     @endif
 
-    @if (config('ads.enabled') && filled(config('ads.client')))
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ config('ads.client') }}" crossorigin="anonymous"></script>
-    @endif
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2230318270974880"
+         crossorigin="anonymous"></script>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=fredoka:400,500,600,700|nunito:400,600,700,800" rel="stylesheet" />
