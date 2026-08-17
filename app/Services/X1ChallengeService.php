@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\GamePlay;
+use App\Models\QuizClient;
 use App\Models\X1Challenge;
 use App\Support\QuestionBank;
 use Illuminate\Http\Request;
@@ -13,8 +14,13 @@ class X1ChallengeService
 {
     public function __construct(private GeoLookup $geo) {}
 
-    public function create(string $name, string $nivel, ?string $categoria, Request $request): X1Challenge
-    {
+    public function create(
+        string $name,
+        string $nivel,
+        ?string $categoria,
+        Request $request,
+        ?int $clientId = null,
+    ): X1Challenge {
         $name = trim($name);
         if ($name === '' || mb_strlen($name) > 40) {
             throw ValidationException::withMessages([
@@ -22,7 +28,9 @@ class X1ChallengeService
             ]);
         }
 
-        if (! in_array($nivel, X1Challenge::LEVELS, true)) {
+        if ($clientId) {
+            $nivel = QuizClient::CUSTOM_NIVEL;
+        } elseif (! in_array($nivel, X1Challenge::LEVELS, true)) {
             throw ValidationException::withMessages([
                 'nivel' => 'Nível inválido para o X1.',
             ]);
@@ -33,7 +41,7 @@ class X1ChallengeService
         }
 
         if ($categoria !== null) {
-            $available = array_column(QuestionBank::categoriesFor($nivel), 'nome');
+            $available = array_column(QuestionBank::categoriesFor($nivel, $clientId), 'nome');
             if (! in_array($categoria, $available, true)) {
                 throw ValidationException::withMessages([
                     'categoria' => 'Categoria inválida para este nível.',
@@ -41,7 +49,7 @@ class X1ChallengeService
             }
         }
 
-        $questions = QuestionBank::draw($nivel, X1Challenge::RODADAS, $categoria);
+        $questions = QuestionBank::draw($nivel, X1Challenge::RODADAS, $categoria, $clientId);
 
         if (count($questions) < 1) {
             throw ValidationException::withMessages([
@@ -53,6 +61,7 @@ class X1ChallengeService
         $geo = $this->geo->lookup($ip);
 
         $challenge = X1Challenge::query()->create([
+            'client_id' => $clientId,
             'token' => (string) Str::uuid(),
             'nivel' => $nivel,
             'categoria' => $categoria,
@@ -164,10 +173,10 @@ class X1ChallengeService
         return $challenge->fresh();
     }
 
-    public function whatsappUrl(X1Challenge $challenge, string $brandName): string
+    public function whatsappUrl(X1Challenge $challenge, string $brandName, ?string $url = null): string
     {
         $tema = $challenge->categoriaLabel();
-        $url = route('x1.show', $challenge->token);
+        $url ??= route('x1.show', $challenge->token);
         $text = "Vamos no X1? Eu te desafio a jogar comigo no tema *{$tema}* no {$brandName}! {$url}";
 
         return 'https://wa.me/?text='.rawurlencode($text);

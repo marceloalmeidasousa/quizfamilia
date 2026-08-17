@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LiveSession extends Model
@@ -26,6 +27,7 @@ class LiveSession extends Model
     public const RANKING_SECONDS = 7;
 
     protected $fillable = [
+        'client_id',
         'pin',
         'nivel',
         'host_token',
@@ -49,6 +51,11 @@ class LiveSession extends Model
             'finished_at' => 'datetime',
             'current_index' => 'integer',
         ];
+    }
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(QuizClient::class, 'client_id');
     }
 
     public function players(): HasMany

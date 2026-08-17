@@ -19,7 +19,7 @@
             data-perguntas="{{ json_encode($challenge->questions, JSON_UNESCAPED_UNICODE) }}"
             data-nivel-slug="{{ $challenge->nivel }}"
             data-role="{{ $role }}"
-            data-finish-url="{{ route('x1.finish', $challenge->token) }}"
+            data-finish-url="{{ $finishUrl ?? route('x1.finish', $challenge->token) }}"
             data-csrf="{{ csrf_token() }}"
             data-player="{{ $playerName }}"
         >

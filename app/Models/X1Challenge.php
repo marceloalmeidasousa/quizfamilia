@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class X1Challenge extends Model
 {
@@ -25,6 +26,7 @@ class X1Challenge extends Model
     protected $table = 'x1_challenges';
 
     protected $fillable = [
+        'client_id',
         'token',
         'nivel',
         'categoria',
@@ -42,6 +44,11 @@ class X1Challenge extends Model
         'city',
         'expires_at',
     ];
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(QuizClient::class, 'client_id');
+    }
 
     protected function casts(): array
     {

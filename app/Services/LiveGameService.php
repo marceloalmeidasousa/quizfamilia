@@ -6,6 +6,7 @@ use App\Models\GamePlay;
 use App\Models\LiveAnswer;
 use App\Models\LivePlayer;
 use App\Models\LiveSession;
+use App\Models\QuizClient;
 use App\Support\QuestionBank;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -15,16 +16,24 @@ class LiveGameService
 {
     public function __construct(private GeoLookup $geo) {}
 
-    public function createSession(string $nivel, ?string $categoria = null, ?Request $request = null): LiveSession
-    {
-        abort_unless(array_key_exists($nivel, QuestionBank::levels()), 404);
+    public function createSession(
+        string $nivel,
+        ?string $categoria = null,
+        ?Request $request = null,
+        ?int $clientId = null,
+    ): LiveSession {
+        if ($clientId) {
+            $nivel = QuizClient::CUSTOM_NIVEL;
+        } else {
+            abort_unless(array_key_exists($nivel, QuestionBank::levels()), 404);
+        }
 
         if ($categoria === null || $categoria === '' || strtolower($categoria) === 'todas') {
             $categoria = null;
         }
 
         if ($categoria !== null) {
-            $available = array_column(QuestionBank::categoriesFor($nivel), 'nome');
+            $available = array_column(QuestionBank::categoriesFor($nivel, $clientId), 'nome');
             if (! in_array($categoria, $available, true)) {
                 throw ValidationException::withMessages([
                     'categoria' => 'Categoria inválida para este nível.',
@@ -32,7 +41,7 @@ class LiveGameService
             }
         }
 
-        $questions = QuestionBank::draw($nivel, 10, $categoria);
+        $questions = QuestionBank::draw($nivel, 10, $categoria, $clientId);
 
         if (count($questions) === 0) {
             throw ValidationException::withMessages([
@@ -46,6 +55,7 @@ class LiveGameService
         $location = $this->geo->lookup($ip);
 
         return LiveSession::query()->create([
+            'client_id' => $clientId,
             'pin' => $this->uniquePin(),
             'nivel' => $nivel,
             'host_token' => Str::random(40),
@@ -58,11 +68,23 @@ class LiveGameService
         ]);
     }
 
-    public function join(string $pin, string $name): LivePlayer
+    public function join(string $pin, string $name, ?int $clientId = null): LivePlayer
     {
         $session = LiveSession::query()->where('pin', $pin)->first();
 
         if (! $session) {
+            throw ValidationException::withMessages([
+                'pin' => 'PIN inválido.',
+            ]);
+        }
+
+        if ($clientId !== null && (int) $session->client_id !== $clientId) {
+            throw ValidationException::withMessages([
+                'pin' => 'PIN inválido para este quiz.',
+            ]);
+        }
+
+        if ($clientId === null && $session->client_id !== null) {
             throw ValidationException::withMessages([
                 'pin' => 'PIN inválido.',
             ]);
@@ -406,7 +428,7 @@ class LiveGameService
         return [
             'pin' => $session->pin,
             'nivel' => $session->nivel,
-            'level' => QuestionBank::levels()[$session->nivel] ?? null,
+            'level' => $this->levelMetaForSession($session),
             'status' => $session->status,
             'current_index' => $session->current_index,
             'total' => $session->totalQuestions(),
@@ -428,6 +450,27 @@ class LiveGameService
                 : [],
             'for_host' => $forHost,
         ];
+    }
+
+    /**
+     * @return array{title: string, subtitle: string, description: string, accent: string, age?: string}|null
+     */
+    private function levelMetaForSession(LiveSession $session): ?array
+    {
+        if ($session->nivel === QuizClient::CUSTOM_NIVEL) {
+            $client = $session->relationLoaded('client')
+                ? $session->client
+                : $session->client()->first();
+
+            return $client?->levelMeta() ?? [
+                'title' => 'Quiz',
+                'subtitle' => 'Personalizado',
+                'description' => '',
+                'accent' => 'ocean',
+            ];
+        }
+
+        return QuestionBank::levels()[$session->nivel] ?? null;
     }
 
     private function revealRemainingMs(LiveSession $session): int

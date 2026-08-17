@@ -11,7 +11,7 @@
             <p class="mt-3 text-base text-ink/70">
                 Este X1 não está mais disponível. Crie um novo desafio e mande de novo no WhatsApp.
             </p>
-            <a href="{{ route('x1.hub') }}" class="quiz-btn-primary mt-6 inline-flex">Criar novo X1</a>
+            <a href="{{ $x1HubUrl ?? route('x1.hub') }}" class="quiz-btn-primary mt-6 inline-flex">Criar novo X1</a>
         </div>
     </div>
 </section>

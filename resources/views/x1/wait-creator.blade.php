@@ -11,7 +11,7 @@
             <p class="mt-3 text-base text-ink/70">
                 {{ $challenge->creator_name }} ainda está jogando este desafio. Peça o link de novo quando a pontuação estiver pronta.
             </p>
-            <a href="{{ route('home') }}" class="quiz-btn-primary mt-6 inline-flex">Voltar ao início</a>
+            <a href="{{ $homeUrl ?? route('home') }}" class="quiz-btn-primary mt-6 inline-flex">Voltar ao início</a>
         </div>
     </div>
 </section>

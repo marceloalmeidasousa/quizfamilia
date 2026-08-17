@@ -3,17 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Question extends Model
 {
     protected $fillable = [
+        'client_id',
         'nivel',
         'code',
         'categoria',
         'emoji',
         'pergunta',
     ];
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(QuizClient::class, 'client_id');
+    }
 
     public function options(): HasMany
     {

@@ -36,8 +36,8 @@ class QuestionSeeder extends Seeder
         }
 
         DB::transaction(function () use ($data) {
-            QuestionOption::query()->delete();
-            Question::query()->delete();
+            // Apaga só o banco família; perguntas de clientes B2B (client_id) permanecem.
+            Question::query()->whereNull('client_id')->delete();
 
             $this->seedNivel('crianca', 'c', $data['crianca'] ?? []);
             $this->seedNivel('adolescente', 'd', $data['adolescente'] ?? []);

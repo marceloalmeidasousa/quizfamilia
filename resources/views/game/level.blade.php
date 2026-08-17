@@ -13,11 +13,11 @@
 @section('content')
 <section class="live-fit-page flex min-h-0 flex-1 flex-col px-3 py-2 sm:px-6 sm:py-3">
     <div class="mx-auto flex min-h-0 w-full max-w-4xl flex-1 flex-col">
-        <a href="{{ route('quiz.levels') }}" data-quiz-back class="mb-1 inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-ink/60 transition hover:text-ink">
+        <a href="{{ $quizBackUrl ?? route('quiz.levels') }}" data-quiz-back class="mb-1 inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-ink/60 transition hover:text-ink">
             <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <path d="M13 8H3M7 4L3 8l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            Voltar aos níveis
+            Voltar
         </a>
 
         <div
@@ -27,7 +27,7 @@
             data-nivel="{{ $level['title'] }}"
             data-nivel-slug="{{ $nivel }}"
             data-rodadas="{{ $rodadas }}"
-            data-play-url="{{ route('game.play.store', $nivel) }}"
+            data-play-url="{{ $playStoreUrl ?? route('game.play.store', $nivel) }}"
             data-csrf="{{ csrf_token() }}"
             @if (!empty($categoria)) data-categoria="{{ $categoria }}" @endif
         >

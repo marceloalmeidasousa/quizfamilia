@@ -13,16 +13,16 @@
 @section('content')
 <section class="live-fit-page flex min-h-0 flex-1 flex-col px-3 py-2 sm:px-6 sm:py-3">
     <div class="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col">
-        <a href="{{ route('live.hub') }}" data-live-back class="mb-1 inline-flex shrink-0 text-sm font-semibold text-ink/60 hover:text-ink">← Hub Ao Vivo</a>
+        <a href="{{ $liveBackUrl ?? route('live.hub') }}" data-live-back class="mb-1 inline-flex shrink-0 text-sm font-semibold text-ink/60 hover:text-ink">← Hub Ao Vivo</a>
 
         <div
             class="level-panel level-panel--{{ $level['accent'] ?? 'ocean' }} live-host-panel flex min-h-0 flex-1 flex-col overflow-hidden"
             data-live-host
             data-pin="{{ $session->pin }}"
             data-nivel="{{ $session->nivel }}"
-            data-state-url="{{ route('live.host.state', $session->pin) }}"
-            data-start-url="{{ route('live.start', $session->pin) }}"
-            data-advance-url="{{ route('live.advance', $session->pin) }}"
+            data-state-url="{{ $stateUrl ?? route('live.host.state', $session->pin) }}"
+            data-start-url="{{ $startUrl ?? route('live.start', $session->pin) }}"
+            data-advance-url="{{ $advanceUrl ?? route('live.advance', $session->pin) }}"
             data-csrf="{{ csrf_token() }}"
         >
             <div data-live-topbar class="flex shrink-0 flex-wrap items-center justify-between gap-2">

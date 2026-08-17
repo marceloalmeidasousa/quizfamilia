@@ -18,12 +18,17 @@
                     Olá, {{ auth()->user()->name }} · horários em Brasília ({{ $tz }})
                 </p>
             </div>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-bold text-ink/70 transition hover:border-ink/25 hover:text-ink">
-                    Sair
-                </button>
-            </form>
+            <div class="flex flex-wrap items-center gap-3">
+                <a href="{{ route('admin.clients.index') }}" class="rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-bold text-ink/70 transition hover:border-ink/25 hover:text-ink">
+                    Quiz personalizados
+                </a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-bold text-ink/70 transition hover:border-ink/25 hover:text-ink">
+                        Sair
+                    </button>
+                </form>
+            </div>
         </div>
 
         <div class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">

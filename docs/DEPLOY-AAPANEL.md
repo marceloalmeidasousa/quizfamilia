@@ -268,6 +268,10 @@ QUEUE_CONNECTION=database
 ADSENSE_ENABLED=true
 ADSENSE_CLIENT=ca-pub-2230318270974880
 
+# OpenAI (quiz personalizado B2B)
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4o-mini
+
 # Admin (usado pelo AdminUserSeeder)
 ADMIN_NAME=Marcelo
 ADMIN_EMAIL=seu@email.com
@@ -281,6 +285,8 @@ Gere a chave (se `APP_KEY` estiver vazia):
 ```
 
 > **Nunca** deixe `APP_KEY` vazia em produção — o site cai com `MissingAppKeyException` (erro 500) e o AdSense não consegue verificar o site.
+
+> Para gerar perguntas no painel (**Quiz personalizados**), configure `OPENAI_API_KEY` e mantenha o **queue worker** ativo (passo 10). Sem worker, use temporariamente `QUEUE_CONNECTION=sync` (lento e sujeito a timeout).
 
 ---
 

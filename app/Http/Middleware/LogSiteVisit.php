@@ -49,7 +49,7 @@ class LogSiteVisit
             return false;
         }
 
-        if ($request->is('login', 'painel', 'logout')) {
+        if ($request->is('login', 'logout', 'painel', 'painel/*')) {
             return false;
         }
 

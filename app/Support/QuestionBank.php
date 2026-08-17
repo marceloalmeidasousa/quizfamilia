@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Http\Controllers\GameController;
 use App\Models\Question;
+use App\Models\QuizClient;
 use Illuminate\Support\Facades\Cache;
 
 class QuestionBank
@@ -19,13 +20,23 @@ class QuestionBank
     /**
      * @return array<int, array<string, mixed>>
      */
-    public static function allFor(string $nivel, ?string $categoria = null): array
+    public static function allFor(string $nivel, ?string $categoria = null, ?int $clientId = null): array
     {
-        $questions = Cache::remember("questions.bank.{$nivel}", now()->addHour(), function () use ($nivel) {
-            return Question::query()
+        $cacheKey = self::bankCacheKey($nivel, $clientId);
+
+        $questions = Cache::remember($cacheKey, now()->addHour(), function () use ($nivel, $clientId) {
+            $query = Question::query()
                 ->where('nivel', $nivel)
                 ->with('options')
-                ->orderBy('id')
+                ->orderBy('id');
+
+            if ($clientId) {
+                $query->where('client_id', $clientId);
+            } else {
+                $query->whereNull('client_id');
+            }
+
+            return $query
                 ->get()
                 ->map(fn (Question $question) => $question->toBankItem())
                 ->all();
@@ -44,14 +55,24 @@ class QuestionBank
     /**
      * @return array<int, array{nome: string, total: int}>
      */
-    public static function categoriesFor(string $nivel): array
+    public static function categoriesFor(string $nivel, ?int $clientId = null): array
     {
-        return Cache::remember("questions.categories.{$nivel}", now()->addHour(), function () use ($nivel) {
-            return Question::query()
+        $cacheKey = self::categoriesCacheKey($nivel, $clientId);
+
+        return Cache::remember($cacheKey, now()->addHour(), function () use ($nivel, $clientId) {
+            $query = Question::query()
                 ->where('nivel', $nivel)
                 ->selectRaw('categoria as nome, count(*) as total')
                 ->groupBy('categoria')
-                ->orderBy('categoria')
+                ->orderBy('categoria');
+
+            if ($clientId) {
+                $query->where('client_id', $clientId);
+            } else {
+                $query->whereNull('client_id');
+            }
+
+            return $query
                 ->get()
                 ->map(fn ($row) => [
                     'nome' => $row->nome,
@@ -110,9 +131,9 @@ class QuestionBank
     /**
      * @return array<int, array<string, mixed>>
      */
-    public static function draw(string $nivel, int $count = 10, ?string $categoria = null): array
+    public static function draw(string $nivel, int $count = 10, ?string $categoria = null, ?int $clientId = null): array
     {
-        $questions = self::allFor($nivel, $categoria);
+        $questions = self::allFor($nivel, $categoria, $clientId);
 
         shuffle($questions);
 
@@ -124,9 +145,20 @@ class QuestionBank
         ));
     }
 
-    public static function forgetCache(?string $nivel = null): void
+    public static function forgetCache(?string $nivel = null, ?int $clientId = null): void
     {
+        if ($clientId !== null) {
+            $nivel = $nivel ?: QuizClient::CUSTOM_NIVEL;
+            Cache::forget(self::bankCacheKey($nivel, $clientId));
+            Cache::forget(self::categoriesCacheKey($nivel, $clientId));
+
+            return;
+        }
+
         if ($nivel) {
+            Cache::forget(self::bankCacheKey($nivel, null));
+            Cache::forget(self::categoriesCacheKey($nivel, null));
+            // Compatibilidade com chave antiga
             Cache::forget("questions.bank.{$nivel}");
             Cache::forget("questions.categories.{$nivel}");
 
@@ -134,8 +166,24 @@ class QuestionBank
         }
 
         foreach (array_keys(self::levels()) as $key) {
+            Cache::forget(self::bankCacheKey($key, null));
+            Cache::forget(self::categoriesCacheKey($key, null));
             Cache::forget("questions.bank.{$key}");
             Cache::forget("questions.categories.{$key}");
         }
+    }
+
+    private static function bankCacheKey(string $nivel, ?int $clientId): string
+    {
+        return $clientId
+            ? "questions.bank.{$nivel}.client.{$clientId}"
+            : "questions.bank.{$nivel}.familia";
+    }
+
+    private static function categoriesCacheKey(string $nivel, ?int $clientId): string
+    {
+        return $clientId
+            ? "questions.categories.{$nivel}.client.{$clientId}"
+            : "questions.categories.{$nivel}.familia";
     }
 }

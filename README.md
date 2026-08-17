@@ -209,6 +209,20 @@ Scripts prontos no repositório:
 
 Forçar marca no local: `BRAND_FORCE=quizfamilia`, `BRAND_FORCE=animaquiz` ou `BRAND_FORCE=quizedu` no `.env`.
 
+### 🎓 Quiz personalizado (B2B)
+
+No painel (`/painel` → **Quiz personalizados**), crie clientes com slug (ex.: `unifenas`). Em **quizedu.com.br** o hub fica em `/unifenas` com Solo, X1 e Ao Vivo usando só as perguntas daquele cliente.
+
+Geração por IA exige:
+
+```env
+OPENAI_API_KEY=sk-...
+OPENAI_MODEL=gpt-4o-mini
+QUEUE_CONNECTION=database
+```
+
+E um worker de fila (`sail artisan queue:work` ou Supervisor em produção). Sem worker, com `QUEUE_CONNECTION=sync` a geração roda na própria requisição (pode estourar timeout em totais altos).
+
 ### 📣 Google AdSense
 
 No `.env` de produção:

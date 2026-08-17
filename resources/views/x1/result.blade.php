@@ -33,12 +33,12 @@
 
             <p class="mt-4 break-all text-xs text-ink/45">
                 Ou copie o link:<br>
-                <a href="{{ route('x1.show', $challenge->token) }}" class="font-semibold text-ink/70 underline">
-                    {{ route('x1.show', $challenge->token) }}
+                <a href="{{ $showUrl ?? route('x1.show', $challenge->token) }}" class="font-semibold text-ink/70 underline">
+                    {{ $showUrl ?? route('x1.show', $challenge->token) }}
                 </a>
             </p>
 
-            <a href="{{ route('home') }}" class="mt-6 inline-block text-sm font-bold text-ink/55 hover:text-ink">
+            <a href="{{ $homeUrl ?? route('home') }}" class="mt-6 inline-block text-sm font-bold text-ink/55 hover:text-ink">
                 Voltar ao início
             </a>
         </div>

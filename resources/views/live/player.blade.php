@@ -12,8 +12,8 @@
             data-live-player
             data-token="{{ $player->token }}"
             data-nivel="{{ $session->nivel }}"
-            data-state-url="{{ route('live.player.state', $player->token) }}"
-            data-answer-url="{{ route('live.answer', $player->token) }}"
+            data-state-url="{{ $stateUrl ?? route('live.player.state', $player->token) }}"
+            data-answer-url="{{ $answerUrl ?? route('live.answer', $player->token) }}"
             data-csrf="{{ csrf_token() }}"
         >
             <div class="flex items-center justify-between gap-3">
@@ -60,7 +60,7 @@
                 <div data-live-podium class="live-podium mt-6 hidden"></div>
                 <p data-live-rest-label class="mt-6 hidden text-xs font-bold uppercase tracking-[0.16em] text-ink/45">Demais participantes</p>
                 <ol data-live-ranking-list class="mt-4 space-y-2"></ol>
-                <a href="{{ route('live.hub') }}" data-live-back-hub class="quiz-btn-primary mt-8 hidden inline-flex w-full justify-center">Voltar ao hub</a>
+                <a href="{{ $hubUrl ?? route('live.hub') }}" data-live-back-hub class="quiz-btn-primary mt-8 hidden inline-flex w-full justify-center">Voltar ao hub</a>
             </div>
         </div>
     </div>

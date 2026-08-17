@@ -29,10 +29,18 @@
     <div class="relative flex min-h-screen flex-col @yield('shell_class') @yield('shell_inner_class')">
         <nav class="bg-brand-deep px-4 py-3.5 sm:px-6 @yield('header_class')">
             <div class="mx-auto flex max-w-6xl items-center justify-between">
-                <a href="{{ route('home') }}" class="group flex items-center gap-2.5">
-                    <span class="brand-mark" aria-hidden="true">?</span>
+                <a href="{{ isset($client) ? route('client.hub', $client) : route('home') }}" class="group flex items-center gap-2.5">
+                    @if (isset($client) && $client->logoUrl())
+                        <img src="{{ $client->logoUrl() }}" alt="" class="h-8 w-auto max-w-[7rem] rounded object-contain bg-white/10 p-0.5">
+                    @else
+                        <span class="brand-mark" aria-hidden="true">?</span>
+                    @endif
                     <span class="brand-title text-xl text-white sm:text-2xl">
-                        {!! $brand['name_html'] ?? ($brand['name'] ?? 'Quiz') !!}
+                        @if (isset($client))
+                            {{ $client->name }}
+                        @else
+                            {!! $brand['name_html'] ?? ($brand['name'] ?? 'Quiz') !!}
+                        @endif
                     </span>
                 </a>
             </div>

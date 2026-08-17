@@ -48,10 +48,10 @@
                 @endif
             @endif
 
-            <a href="{{ route('x1.hub') }}" class="quiz-btn-primary mt-8 inline-flex">
+            <a href="{{ $x1HubUrl ?? route('x1.hub') }}" class="quiz-btn-primary mt-8 inline-flex">
                 Novo X1
             </a>
-            <a href="{{ route('home') }}" class="mt-4 block text-sm font-bold text-ink/55 hover:text-ink">
+            <a href="{{ $homeUrl ?? route('home') }}" class="mt-4 block text-sm font-bold text-ink/55 hover:text-ink">
                 Voltar ao início
             </a>
         </div>

@@ -24,7 +24,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('x1.join', $challenge->token) }}" class="mt-6 space-y-4">
+            <form method="POST" action="{{ $joinUrl ?? route('x1.join', $challenge->token) }}" class="mt-6 space-y-4">
                 @csrf
                 <div>
                     <label for="name" class="mb-1.5 block text-xs font-bold uppercase tracking-[0.14em] text-ink/50">Seu nome</label>
