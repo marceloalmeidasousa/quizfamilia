@@ -464,3 +464,4 @@ sudo -u www /www/server/php/84/bin/php artisan queue:restart
 | `git pull`: permission / known_hosts | Dono dos ficheiros / SSH do `www` | Passo 5.1; `chown -R www:www` |
 | Jobs não processam | Worker parado | Supervisor / `queue:restart` (passo 10) |
 | Logo do cliente não aparece | Symlink `public/storage` ou `disable_symlinks` no Nginx | Passo 4.1 (`location /storage/`); `artisan storage:link --force`; `chown -h www:www public/storage` |
+| `styleText` / `node:util` no `npm run build` | Node 18 no PATH; Vite 8 exige 20.19+ ou 22.12+ | Instale Node **22** no aaPanel; `export PATH=/www/server/nodejs/v22/bin:$PATH` e rode o build de novo |

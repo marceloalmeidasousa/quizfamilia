@@ -19,27 +19,25 @@ ensure_runtime_env() {
   export COMPOSER_HOME="${COMPOSER_HOME:-${HOME}/.composer}"
   mkdir -p "$COMPOSER_HOME" 2>/dev/null || true
 
-  # Node.js instalado pelo aaPanel (Version Manager)
-  if ! command -v npm >/dev/null 2>&1; then
-    local node_bin=""
-    for candidate in \
-      /www/server/nodejs/v22.*/bin \
-      /www/server/nodejs/v22/bin \
-      /www/server/nodejs/v20.*/bin \
-      /www/server/nodejs/v20/bin \
-      /www/server/nodejs/v*/bin
-    do
-      # shellcheck disable=SC2086
-      for dir in $candidate; do
-        if [[ -x "${dir}/npm" ]]; then
-          node_bin="$dir"
-          break 2
-        fi
-      done
+  # Vite 8 / Rolldown exige Node ^20.19 || >=22.12. Prefere o Node do aaPanel
+  # mesmo quando um Node 18 já está no PATH (erro: styleText em node:util).
+  local node_bin=""
+  for candidate in \
+    /www/server/nodejs/v22.*/bin \
+    /www/server/nodejs/v22/bin \
+    /www/server/nodejs/v20.*/bin \
+    /www/server/nodejs/v20/bin
+  do
+    # shellcheck disable=SC2086
+    for dir in $candidate; do
+      if [[ -x "${dir}/node" && -x "${dir}/npm" ]]; then
+        node_bin="$dir"
+        break 2
+      fi
     done
-    if [[ -n "$node_bin" ]]; then
-      export PATH="${node_bin}:${PATH}"
-    fi
+  done
+  if [[ -n "$node_bin" ]]; then
+    export PATH="${node_bin}:${PATH}"
   fi
 
   # Git: repositório de outro usuário (ex.: www) executado como root
@@ -91,5 +89,27 @@ resolve_composer() {
     return 0
   fi
 
+  return 1
+}
+
+# Vite 8 precisa de Node ^20.19.0 || >=22.12.0 (styleText em node:util).
+node_meets_vite() {
+  local bin="${1:-node}"
+  local ver major minor
+  [[ -x "$bin" ]] || return 1
+  ver="$("$bin" -v 2>/dev/null | sed 's/^v//')"
+  major="${ver%%.*}"
+  minor="$(printf '%s' "$ver" | cut -d. -f2)"
+  major="${major:-0}"
+  minor="${minor:-0}"
+  if (( major > 22 )); then
+    return 0
+  fi
+  if (( major == 22 && minor >= 12 )); then
+    return 0
+  fi
+  if (( major == 20 && minor >= 19 )); then
+    return 0
+  fi
   return 1
 }

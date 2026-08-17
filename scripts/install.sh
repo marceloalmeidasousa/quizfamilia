@@ -280,7 +280,10 @@ fi
 # 4) Frontend
 # ---------------------------------------------------------------------------
 if [[ "$SKIP_NPM" -eq 0 ]]; then
-  [[ -n "$NPM_BIN" ]] || die "npm não encontrado. Instale Node.js no aaPanel ou use --skip-npm."
+  [[ -n "$NPM_BIN" ]] || die "npm não encontrado. Instale Node.js 22 LTS no aaPanel ou use --skip-npm."
+  if ! node_meets_vite "$NODE_BIN"; then
+    die "Node.js $($NODE_BIN -v) é antigo. Vite 8 precisa de 20.19+ ou 22.12+. Instale Node 22 no aaPanel e use: export PATH=/www/server/nodejs/v22/bin:\$PATH"
+  fi
   log "Node: $($NODE_BIN -v) | npm: $($NPM_BIN -v)"
   log "Instalando dependências Node e gerando assets..."
   if [[ -f "$APP_DIR/package-lock.json" ]]; then

@@ -13,6 +13,9 @@
         "tailwindcss": "^4.0.0",
         "vite": "^8.0.0"
     },
+    "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+    },
     "dependencies": {
         "flowbite": "^4.0.2"
     }

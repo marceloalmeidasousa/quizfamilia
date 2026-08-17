@@ -171,7 +171,10 @@ fi
 # 4) Frontend (Vite)
 if [[ "$SKIP_NPM" -eq 0 ]]; then
   if [[ -z "$NPM_BIN" ]]; then
-    die "npm não encontrado. Instale Node.js no aaPanel (App Store → Node.js) ou use --skip-npm."
+    die "npm não encontrado. Instale Node.js 22 LTS no aaPanel (App Store → Node.js Version Manager) ou use --skip-npm."
+  fi
+  if ! node_meets_vite "$NODE_BIN"; then
+    die "Node.js $($NODE_BIN -v) é antigo. Vite 8 precisa de 20.19+ ou 22.12+. No aaPanel instale Node 22 e rode: export PATH=/www/server/nodejs/v22/bin:\$PATH"
   fi
   log "Node: $($NODE_BIN -v) | npm: $($NPM_BIN -v)"
   log "Instalando dependências Node e gerando assets..."
