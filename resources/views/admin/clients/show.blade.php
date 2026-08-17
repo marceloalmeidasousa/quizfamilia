@@ -105,9 +105,11 @@
                         data-max="20"
                         class="mt-1.5 flex min-h-[3.25rem] w-full cursor-text flex-wrap items-center gap-2 rounded-2xl border border-ink/10 bg-canvas px-3 py-2 focus-within:border-brand-deep">
                         <input type="text"
+                            name="categories"
                             data-tag-input
                             maxlength="80"
                             autocomplete="off"
+                            placeholder="Digite e pressione Enter"
                             class="min-w-[8rem] flex-1 border-0 bg-transparent py-1 font-semibold text-ink outline-none">
                         <div data-tag-hidden hidden></div>
                     </div>

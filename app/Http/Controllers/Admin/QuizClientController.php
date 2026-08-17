@@ -130,15 +130,26 @@ class QuizClientController extends Controller
         $data = $request->validate([
             'prompt' => ['required', 'string', 'min:10', 'max:4000'],
             'total' => ['required', 'integer', 'min:1', 'max:100'],
-            'categories' => ['required', 'array', 'min:1', 'max:20'],
-            'categories.*' => ['string', 'min:1', 'max:80'],
+            'categories' => ['nullable'],
+        ], [
+            'prompt.required' => 'Informe o prompt.',
+            'prompt.min' => 'O prompt precisa ter pelo menos 10 caracteres.',
+            'total.required' => 'Informe o total de perguntas.',
+            'total.min' => 'Gere pelo menos 1 pergunta.',
+            'total.max' => 'No máximo 100 perguntas por execução.',
         ]);
 
-        $categories = collect($data['categories'])
+        $raw = $data['categories'] ?? $request->input('categories');
+        $parts = is_array($raw)
+            ? $raw
+            : preg_split('/[\n,;]+/', (string) $raw) ?: [];
+
+        $categories = collect($parts)
             ->map(fn ($c) => trim((string) $c))
             ->filter()
             ->unique()
             ->values()
+            ->take(20)
             ->all();
 
         if ($categories === []) {

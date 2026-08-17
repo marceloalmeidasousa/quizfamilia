@@ -19,13 +19,11 @@ function initCategoryTags(root) {
 
     function syncHidden() {
         hiddenWrap.innerHTML = '';
-        tags.forEach((tag) => {
-            const el = document.createElement('input');
-            el.type = 'hidden';
-            el.name = 'categories[]';
-            el.value = tag;
-            hiddenWrap.appendChild(el);
-        });
+        const el = document.createElement('input');
+        el.type = 'hidden';
+        el.name = 'categories';
+        el.value = tags.join(', ');
+        hiddenWrap.appendChild(el);
     }
 
     function render() {
@@ -116,8 +114,15 @@ function initCategoryTags(root) {
         input.focus();
     });
 
-    form?.addEventListener('submit', commitInput);
+    form?.addEventListener('submit', (event) => {
+        commitInput();
+        syncHidden();
+        if (tags.length === 0) {
+            event.preventDefault();
+        }
+    });
 
+    input.removeAttribute('name');
     render();
 }
 
