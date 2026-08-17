@@ -6,9 +6,6 @@
 <section class="flex flex-1 flex-col justify-start px-4 pt-6 pb-10 sm:px-6 sm:pt-8 sm:pb-12 lg:px-8">
     <div class="mx-auto w-full max-w-5xl">
         <div class="hero-intro mb-5 sm:mb-6">
-            @if ($client->logoUrl())
-                <img src="{{ $client->logoUrl() }}" alt="{{ $client->name }}" class="mb-4 h-16 w-auto max-w-[12rem] object-contain sm:h-20">
-            @endif
             <h1 class="font-display text-3xl tracking-tight text-ink sm:text-4xl">
                 {{ $client->name }}
             </h1>

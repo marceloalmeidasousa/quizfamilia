@@ -23,7 +23,10 @@
                     </p>
                 </div>
             </div>
-            <a href="{{ route('admin.clients.edit', $client) }}" class="rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-bold text-ink/70 hover:border-ink/25">Editar</a>
+            <div class="flex flex-wrap gap-2">
+                <a href="{{ route('admin.clients.questions', $client) }}" class="rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-bold text-ink/70 hover:border-ink/25">Ver perguntas</a>
+                <a href="{{ route('admin.clients.edit', $client) }}" class="rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-bold text-ink/70 hover:border-ink/25">Editar</a>
+            </div>
         </div>
 
         @if (session('status'))
@@ -48,8 +51,11 @@
                 <h2 class="font-display text-xl text-ink">Categorias</h2>
                 <ul class="mt-3 flex flex-wrap gap-2">
                     @foreach ($categories as $cat)
-                        <li class="rounded-full bg-white px-3 py-1.5 text-sm font-bold text-ink/70 ring-1 ring-ink/5">
-                            {{ $cat->categoria }} ({{ $cat->total }})
+                        <li>
+                            <a href="{{ route('admin.clients.questions', [$client, 'categoria' => $cat->categoria]) }}"
+                                class="inline-flex rounded-full bg-white px-3 py-1.5 text-sm font-bold text-ink/70 ring-1 ring-ink/5 hover:ring-ink/20">
+                                {{ $cat->categoria }} ({{ $cat->total }})
+                            </a>
                         </li>
                     @endforeach
                 </ul>
@@ -58,7 +64,6 @@
 
         <div class="mt-10 rounded-3xl bg-white p-6 ring-1 ring-ink/5">
             <h2 class="font-display text-2xl text-ink">Gerar perguntas com IA</h2>
-            <p class="mt-1 text-sm font-semibold text-ink/50">Máximo 100 por execução. Requer OPENAI_API_KEY e worker de fila.</p>
 
             <form method="POST" action="{{ route('admin.clients.generate', $client) }}" class="mt-6 space-y-4">
                 @csrf
@@ -81,12 +86,32 @@
                         class="mt-1.5 w-full rounded-2xl border border-ink/10 bg-canvas px-4 py-3 font-semibold text-ink outline-none focus:border-brand-deep">
                 </label>
 
-                <label class="block">
-                    <span class="text-sm font-bold text-ink/70">Categorias (1 ou mais, separadas por vírgula ou linha)</span>
-                    <textarea name="categories" rows="3" required
-                        placeholder="Anatomia, Fisiologia, Farmacologia"
-                        class="mt-1.5 w-full rounded-2xl border border-ink/10 bg-canvas px-4 py-3 font-semibold text-ink outline-none focus:border-brand-deep">{{ old('categories') }}</textarea>
-                </label>
+                @php
+                    $oldCategories = old('categories', []);
+                    if (is_string($oldCategories)) {
+                        $oldCategories = preg_split('/[\n,;]+/', $oldCategories) ?: [];
+                    }
+                    $oldCategories = collect($oldCategories)
+                        ->map(fn ($c) => trim((string) $c))
+                        ->filter()
+                        ->values()
+                        ->all();
+                @endphp
+
+                <div>
+                    <span class="text-sm font-bold text-ink/70">Categorias</span>
+                    <div data-category-tags
+                        data-initial='@json($oldCategories)'
+                        data-max="20"
+                        class="mt-1.5 flex min-h-[3.25rem] w-full cursor-text flex-wrap items-center gap-2 rounded-2xl border border-ink/10 bg-canvas px-3 py-2 focus-within:border-brand-deep">
+                        <input type="text"
+                            data-tag-input
+                            maxlength="80"
+                            autocomplete="off"
+                            class="min-w-[8rem] flex-1 border-0 bg-transparent py-1 font-semibold text-ink outline-none">
+                        <div data-tag-hidden hidden></div>
+                    </div>
+                </div>
 
                 <button type="submit" class="quiz-btn-primary w-full sm:w-auto">Gerar perguntas</button>
             </form>

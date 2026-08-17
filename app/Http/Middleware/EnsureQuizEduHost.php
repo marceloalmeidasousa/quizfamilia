@@ -11,6 +11,10 @@ class EnsureQuizEduHost
 {
     public function handle(Request $request, Closure $next): Response
     {
+        if (app()->environment(['local', 'testing'])) {
+            return $next($request);
+        }
+
         $brand = app()->bound('brand') ? app('brand') : Brand::resolve($request);
 
         if (($brand['key'] ?? null) !== 'quizedu') {

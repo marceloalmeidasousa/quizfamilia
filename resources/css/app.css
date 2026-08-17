@@ -233,7 +233,7 @@
     }
 
     .quiz-cat-chip--primary:hover {
-        background: #3a1178;
+        background: color-mix(in oklab, var(--color-brand-deep) 82%, black);
         box-shadow: none;
     }
 
@@ -327,7 +327,7 @@
     .quiz-btn-primary:hover {
         transform: translateY(-1px);
         filter: none;
-        background: #3a1178;
+        background: color-mix(in oklab, var(--color-brand-deep) 82%, black);
         box-shadow: var(--shadow-pop);
     }
 

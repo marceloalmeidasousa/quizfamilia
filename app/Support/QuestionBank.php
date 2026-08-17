@@ -53,6 +53,88 @@ class QuestionBank
     }
 
     /**
+     * Banco família (todas as perguntas do sistema, todos os níveis).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function allFamily(?string $categoria = null): array
+    {
+        $questions = [];
+
+        foreach (array_keys(self::levels()) as $nivel) {
+            $questions = array_merge($questions, self::allFor($nivel, null, null));
+        }
+
+        if ($categoria === null || $categoria === '' || $categoria === 'todas') {
+            return $questions;
+        }
+
+        return array_values(array_filter(
+            $questions,
+            fn (array $q) => ($q['categoria'] ?? '') === $categoria,
+        ));
+    }
+
+    /**
+     * @return array<int, array{nome: string, total: int}>
+     */
+    public static function categoriesFamily(): array
+    {
+        $totals = [];
+
+        foreach (array_keys(self::levels()) as $nivel) {
+            foreach (self::categoriesFor($nivel, null) as $cat) {
+                $nome = (string) ($cat['nome'] ?? '');
+                if ($nome === '') {
+                    continue;
+                }
+                $totals[$nome] = ($totals[$nome] ?? 0) + (int) $cat['total'];
+            }
+        }
+
+        ksort($totals, SORT_NATURAL | SORT_FLAG_CASE);
+
+        $rows = [];
+        foreach ($totals as $nome => $total) {
+            $rows[] = ['nome' => $nome, 'total' => $total];
+        }
+
+        return $rows;
+    }
+
+    /**
+     * @return array<int, array{nome: string, total: int}>
+     */
+    public static function categoriesForClient(QuizClient $client): array
+    {
+        if ($client->usesSystemCategories()) {
+            return self::categoriesFamily();
+        }
+
+        return self::categoriesFor(QuizClient::CUSTOM_NIVEL, $client->id);
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public static function allForClient(QuizClient $client, ?string $categoria = null): array
+    {
+        if ($client->usesSystemCategories()) {
+            return self::allFamily($categoria);
+        }
+
+        return self::allFor(QuizClient::CUSTOM_NIVEL, $categoria, $client->id);
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public static function drawForClient(QuizClient $client, int $count = 10, ?string $categoria = null): array
+    {
+        return self::shuffleDraw(self::allForClient($client, $categoria), $count);
+    }
+
+    /**
      * @return array<int, array{nome: string, total: int}>
      */
     public static function categoriesFor(string $nivel, ?int $clientId = null): array
@@ -133,8 +215,15 @@ class QuestionBank
      */
     public static function draw(string $nivel, int $count = 10, ?string $categoria = null, ?int $clientId = null): array
     {
-        $questions = self::allFor($nivel, $categoria, $clientId);
+        return self::shuffleDraw(self::allFor($nivel, $categoria, $clientId), $count);
+    }
 
+    /**
+     * @param  array<int, array<string, mixed>>  $questions
+     * @return array<int, array<string, mixed>>
+     */
+    private static function shuffleDraw(array $questions, int $count): array
+    {
         shuffle($questions);
 
         $drawn = array_slice($questions, 0, min($count, count($questions)));

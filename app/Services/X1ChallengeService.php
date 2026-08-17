@@ -19,7 +19,7 @@ class X1ChallengeService
         string $nivel,
         ?string $categoria,
         Request $request,
-        ?int $clientId = null,
+        QuizClient|int|null $client = null,
     ): X1Challenge {
         $name = trim($name);
         if ($name === '' || mb_strlen($name) > 40) {
@@ -28,7 +28,12 @@ class X1ChallengeService
             ]);
         }
 
-        if ($clientId) {
+        $clientModel = $client instanceof QuizClient
+            ? $client
+            : ($client !== null ? QuizClient::query()->find($client) : null);
+        $clientId = $clientModel?->id;
+
+        if ($clientModel) {
             $nivel = QuizClient::CUSTOM_NIVEL;
         } elseif (! in_array($nivel, X1Challenge::LEVELS, true)) {
             throw ValidationException::withMessages([
@@ -41,7 +46,9 @@ class X1ChallengeService
         }
 
         if ($categoria !== null) {
-            $available = array_column(QuestionBank::categoriesFor($nivel, $clientId), 'nome');
+            $available = $clientModel
+                ? array_column(QuestionBank::categoriesForClient($clientModel), 'nome')
+                : array_column(QuestionBank::categoriesFor($nivel), 'nome');
             if (! in_array($categoria, $available, true)) {
                 throw ValidationException::withMessages([
                     'categoria' => 'Categoria inválida para este nível.',
@@ -49,7 +56,9 @@ class X1ChallengeService
             }
         }
 
-        $questions = QuestionBank::draw($nivel, X1Challenge::RODADAS, $categoria, $clientId);
+        $questions = $clientModel
+            ? QuestionBank::drawForClient($clientModel, X1Challenge::RODADAS, $categoria)
+            : QuestionBank::draw($nivel, X1Challenge::RODADAS, $categoria);
 
         if (count($questions) < 1) {
             throw ValidationException::withMessages([

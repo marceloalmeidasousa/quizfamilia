@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/clientes/novo', [QuizClientController::class, 'create'])->name('clients.create');
         Route::post('/clientes', [QuizClientController::class, 'store'])->name('clients.store');
         Route::get('/clientes/{client}', [QuizClientController::class, 'show'])->name('clients.show');
+        Route::get('/clientes/{client}/perguntas', [QuizClientController::class, 'questions'])->name('clients.questions');
         Route::get('/clientes/{client}/editar', [QuizClientController::class, 'edit'])->name('clients.edit');
         Route::put('/clientes/{client}', [QuizClientController::class, 'update'])->name('clients.update');
         Route::post('/clientes/{client}/gerar-perguntas', [QuizClientController::class, 'generate'])

@@ -20,9 +20,12 @@ class LiveGameService
         string $nivel,
         ?string $categoria = null,
         ?Request $request = null,
-        ?int $clientId = null,
+        QuizClient|int|null $client = null,
     ): LiveSession {
-        if ($clientId) {
+        $clientModel = $this->resolveClient($client);
+        $clientId = $clientModel?->id;
+
+        if ($clientModel) {
             $nivel = QuizClient::CUSTOM_NIVEL;
         } else {
             abort_unless(array_key_exists($nivel, QuestionBank::levels()), 404);
@@ -33,7 +36,9 @@ class LiveGameService
         }
 
         if ($categoria !== null) {
-            $available = array_column(QuestionBank::categoriesFor($nivel, $clientId), 'nome');
+            $available = $clientModel
+                ? array_column(QuestionBank::categoriesForClient($clientModel), 'nome')
+                : array_column(QuestionBank::categoriesFor($nivel), 'nome');
             if (! in_array($categoria, $available, true)) {
                 throw ValidationException::withMessages([
                     'categoria' => 'Categoria inválida para este nível.',
@@ -41,7 +46,9 @@ class LiveGameService
             }
         }
 
-        $questions = QuestionBank::draw($nivel, 10, $categoria, $clientId);
+        $questions = $clientModel
+            ? QuestionBank::drawForClient($clientModel, 10, $categoria)
+            : QuestionBank::draw($nivel, 10, $categoria);
 
         if (count($questions) === 0) {
             throw ValidationException::withMessages([
@@ -535,5 +542,18 @@ class LiveGameService
         } while (LiveSession::query()->where('pin', $pin)->exists());
 
         return $pin;
+    }
+
+    private function resolveClient(QuizClient|int|null $client): ?QuizClient
+    {
+        if ($client instanceof QuizClient) {
+            return $client;
+        }
+
+        if ($client === null) {
+            return null;
+        }
+
+        return QuizClient::query()->find($client);
     }
 }

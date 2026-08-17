@@ -41,7 +41,9 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            // Relativo ao host atual (quizemfamilia / animaquiz / quizedu).
+            // Evita logo quebrada quando APP_URL é outro domínio ou http.
+            'url' => rtrim((string) (env('FILESYSTEM_URL') ?: '/storage'), '/'),
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

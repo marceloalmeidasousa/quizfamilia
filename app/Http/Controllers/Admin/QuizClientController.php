@@ -61,6 +61,33 @@ class QuizClientController extends Controller
         ]);
     }
 
+    public function questions(Request $request, QuizClient $client): View
+    {
+        $categoria = trim((string) $request->query('categoria', ''));
+
+        $categories = $client->questions()
+            ->selectRaw('categoria, count(*) as total')
+            ->groupBy('categoria')
+            ->orderBy('categoria')
+            ->get();
+
+        $query = $client->questions()
+            ->with('options')
+            ->orderBy('categoria')
+            ->orderBy('id');
+
+        if ($categoria !== '') {
+            $query->where('categoria', $categoria);
+        }
+
+        return view('admin.clients.questions', [
+            'client' => $client,
+            'categories' => $categories,
+            'categoria' => $categoria,
+            'questions' => $query->paginate(25)->withQueryString(),
+        ]);
+    }
+
     public function edit(QuizClient $client): View
     {
         return view('admin.clients.edit', compact('client'));
@@ -103,15 +130,15 @@ class QuizClientController extends Controller
         $data = $request->validate([
             'prompt' => ['required', 'string', 'min:10', 'max:4000'],
             'total' => ['required', 'integer', 'min:1', 'max:100'],
-            'categories' => ['required', 'string', 'max:2000'],
+            'categories' => ['required', 'array', 'min:1', 'max:20'],
+            'categories.*' => ['string', 'min:1', 'max:80'],
         ]);
 
-        $categories = collect(preg_split('/[\n,;]+/', $data['categories']) ?: [])
+        $categories = collect($data['categories'])
             ->map(fn ($c) => trim((string) $c))
             ->filter()
             ->unique()
             ->values()
-            ->take(20)
             ->all();
 
         if ($categories === []) {
@@ -161,12 +188,15 @@ class QuizClientController extends Controller
                 },
             ],
             'is_active' => ['sometimes', 'boolean'],
+            'use_system_categories' => ['sometimes', 'boolean'],
+            'palette' => ['required', 'string', Rule::in(array_keys(QuizClient::PALETTES))],
             'logo' => ['nullable', 'image', 'max:2048'],
             'remove_logo' => ['sometimes', 'boolean'],
         ]);
 
         $data['slug'] = QuizClient::normalizeSlug($data['slug']);
         $data['is_active'] = $request->boolean('is_active', true);
+        $data['use_system_categories'] = $request->boolean('use_system_categories', false);
 
         return $data;
     }

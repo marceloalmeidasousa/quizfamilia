@@ -22,7 +22,7 @@ class ClientX1Controller extends Controller
 
         return view('client.x1-hub', [
             'client' => $client,
-            'categorias' => QuestionBank::categoriesFor(QuizClient::CUSTOM_NIVEL, $client->id),
+            'categorias' => QuestionBank::categoriesForClient($client),
             'level' => $client->levelMeta(),
         ]);
     }
@@ -41,7 +41,7 @@ class ClientX1Controller extends Controller
             QuizClient::CUSTOM_NIVEL,
             $data['categoria'] ?? null,
             $request,
-            $client->id,
+            $client,
         );
 
         return redirect()

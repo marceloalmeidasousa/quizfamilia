@@ -160,12 +160,19 @@ location / {
     try_files $uri $uri/ /index.php?$query_string;
 }
 
+# Logos dos clientes (evita 403 do aaPanel com disable_symlinks)
+location ^~ /storage/ {
+    alias /www/wwwroot/quizemfamilia.com.br/storage/app/public/;
+    access_log off;
+    expires 30d;
+}
+
 location ~ \.php$ {
     include enable-php-84.conf;
 }
 ```
 
-Depois: **Salvar** e **Reload** do Nginx.
+Ajuste o caminho do `alias` se o `SITE_ROOT` for outro. Depois: **Salvar** e **Reload** do Nginx.
 
 ---
 
@@ -456,3 +463,4 @@ sudo -u www /www/server/php/84/bin/php artisan queue:restart
 | AdSense não verifica | Site 500 ou snippet ausente | Corrija APP_KEY; confirme script no `<head>` |
 | `git pull`: permission / known_hosts | Dono dos ficheiros / SSH do `www` | Passo 5.1; `chown -R www:www` |
 | Jobs não processam | Worker parado | Supervisor / `queue:restart` (passo 10) |
+| Logo do cliente não aparece | Symlink `public/storage` ou `disable_symlinks` no Nginx | Passo 4.1 (`location /storage/`); `artisan storage:link --force`; `chown -h www:www public/storage` |

@@ -20,7 +20,9 @@ class ClientPortalController extends Controller
 
         return view('client.hub', [
             'client' => $client,
-            'questionCount' => $client->questions()->count(),
+            'questionCount' => $client->usesSystemCategories()
+                ? array_sum(array_column(QuestionBank::categoriesFamily(), 'total'))
+                : $client->questions()->count(),
         ]);
     }
 
@@ -28,7 +30,7 @@ class ClientPortalController extends Controller
     {
         $this->assertActive($client);
 
-        $categorias = QuestionBank::categoriesFor(QuizClient::CUSTOM_NIVEL, $client->id);
+        $categorias = QuestionBank::categoriesForClient($client);
 
         return view('client.quiz', [
             'client' => $client,
@@ -46,19 +48,20 @@ class ClientPortalController extends Controller
             $categoria = null;
         }
 
-        $available = collect(QuestionBank::categoriesFor(QuizClient::CUSTOM_NIVEL, $client->id))->pluck('nome')->all();
+        $categorias = QuestionBank::categoriesForClient($client);
+        $available = collect($categorias)->pluck('nome')->all();
         if ($categoria !== null && ! in_array($categoria, $available, true)) {
             abort(404, 'Categoria não encontrada.');
         }
 
-        $perguntas = QuestionBank::allFor(QuizClient::CUSTOM_NIVEL, $categoria, $client->id);
+        $perguntas = QuestionBank::allForClient($client, $categoria);
 
         return view('game.level', [
             'nivel' => QuizClient::CUSTOM_NIVEL,
             'level' => $client->levelMeta(),
             'perguntas' => $perguntas,
             'categoria' => $categoria,
-            'categorias' => QuestionBank::categoriesFor(QuizClient::CUSTOM_NIVEL, $client->id),
+            'categorias' => $categorias,
             'rodadas' => min(GameController::RODADAS, count($perguntas)),
             'quizBackUrl' => route('client.quiz', $client),
             'playStoreUrl' => route('client.play.store', $client),

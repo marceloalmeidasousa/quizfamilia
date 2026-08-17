@@ -298,7 +298,13 @@ fi
 # 5) Storage
 # ---------------------------------------------------------------------------
 log "Criando symlink public/storage..."
+mkdir -p "$APP_DIR/storage/app/public/clients"
 $PHP_BIN artisan storage:link --force 2>/dev/null || $PHP_BIN artisan storage:link || true
+if [[ -L "$APP_DIR/public/storage" ]]; then
+  chown -h "${WEB_USER}:${WEB_GROUP}" "$APP_DIR/public/storage" 2>/dev/null || true
+elif [[ -e "$APP_DIR/public/storage" ]]; then
+  warn "public/storage existe e não é um symlink — logos podem falhar. Remova e rode: php artisan storage:link --force"
+fi
 
 mkdir -p \
   "$APP_DIR/storage/framework/cache" \

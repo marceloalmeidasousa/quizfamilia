@@ -21,7 +21,7 @@ class ClientLiveController extends Controller
     {
         $this->assertActive($client);
 
-        $categorias = QuestionBank::categoriesFor(QuizClient::CUSTOM_NIVEL, $client->id);
+        $categorias = QuestionBank::categoriesForClient($client);
 
         return view('client.live-hub', [
             'client' => $client,
@@ -42,7 +42,7 @@ class ClientLiveController extends Controller
             QuizClient::CUSTOM_NIVEL,
             $data['categoria'] ?? null,
             $request,
-            $client->id,
+            $client,
         );
 
         return redirect()
