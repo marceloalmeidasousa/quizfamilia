@@ -22,20 +22,26 @@ ensure_runtime_env() {
   # Vite 8 / Rolldown exige Node ^20.19 || >=22.12. Prefere o Node do aaPanel
   # mesmo quando um Node 18 já está no PATH (erro: styleText em node:util).
   local node_bin=""
-  for candidate in \
-    /www/server/nodejs/v22.*/bin \
-    /www/server/nodejs/v22/bin \
-    /www/server/nodejs/v20.*/bin \
-    /www/server/nodejs/v20/bin
-  do
-    # shellcheck disable=SC2086
-    for dir in $candidate; do
-      if [[ -x "${dir}/node" && -x "${dir}/npm" ]]; then
+  local bin dir ver major minor best_major=0 best_minor=0
+  shopt -s nullglob
+  for bin in /www/server/nodejs/*/bin/node; do
+    [[ -x "$bin" ]] || continue
+    dir="$(dirname "$bin")"
+    [[ -x "${dir}/npm" ]] || continue
+    ver="$("$bin" -v 2>/dev/null | sed 's/^v//')"
+    major="${ver%%.*}"
+    minor="$(printf '%s' "$ver" | cut -d. -f2)"
+    major="${major:-0}"
+    minor="${minor:-0}"
+    if (( major > 22 || (major == 22 && minor >= 12) || (major == 20 && minor >= 19) )); then
+      if (( major > best_major || (major == best_major && minor >= best_minor) )); then
+        best_major=$major
+        best_minor=$minor
         node_bin="$dir"
-        break 2
       fi
-    done
+    fi
   done
+  shopt -u nullglob
   if [[ -n "$node_bin" ]]; then
     export PATH="${node_bin}:${PATH}"
   fi

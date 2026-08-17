@@ -142,7 +142,7 @@ class QuizClientController extends Controller
         $raw = $data['categories'] ?? $request->input('categories');
         $parts = is_array($raw)
             ? $raw
-            : preg_split('/[\n,;]+/', (string) $raw) ?: [];
+            : (preg_split('/[\n,;]+/', (string) $raw) ?: []);
 
         $categories = collect($parts)
             ->map(fn ($c) => trim((string) $c))
