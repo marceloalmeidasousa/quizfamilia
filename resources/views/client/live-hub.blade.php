@@ -4,7 +4,7 @@
 
 @section('content')
 <section class="flex flex-1 flex-col justify-center px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-    <div class="mx-auto w-full max-w-3xl">
+    <div class="mx-auto w-full max-w-5xl">
         <a href="{{ route('client.hub', $client) }}" class="back-link mb-8 inline-flex items-center">Voltar</a>
 
         <div class="hero-intro mb-8 max-w-2xl">
@@ -23,14 +23,24 @@
                 <h2 class="font-display text-2xl text-ink">Criar partida</h2>
                 <form method="POST" action="{{ route('client.live.create', $client) }}" class="mt-6 space-y-4">
                     @csrf
-                    <label class="block text-sm font-bold text-body">Categoria</label>
-                    <select name="categoria" class="w-full rounded-2xl border border-ink/10 bg-canvas px-4 py-3 font-semibold text-ink">
-                        <option value="todas">Todas</option>
-                        @foreach ($categorias as $cat)
-                            <option value="{{ $cat['nome'] }}">{{ $cat['nome'] }} ({{ $cat['total'] }})</option>
-                        @endforeach
-                    </select>
-                    <button type="submit" class="quiz-btn-primary" @disabled(count($categorias) === 0)>Gerar PIN</button>
+                    <div>
+                        <p class="text-sm font-bold text-body">Categoria</p>
+                        <p class="mt-1 text-sm text-body-subtle">Toque numa categoria para gerar o PIN</p>
+                    </div>
+                    @if (count($categorias) === 0)
+                        <p class="text-sm text-ink/60">Nenhuma categoria encontrada. Cadastre perguntas no painel.</p>
+                    @else
+                        <div class="flex flex-wrap gap-2.5">
+                            <button type="submit" name="categoria" value="todas" class="quiz-cat-chip quiz-cat-chip--primary">
+                                Todas ({{ collect($categorias)->sum('total') }})
+                            </button>
+                            @foreach ($categorias as $cat)
+                                <button type="submit" name="categoria" value="{{ $cat['nome'] }}" class="quiz-cat-chip">
+                                    {{ $cat['nome'] }} ({{ $cat['total'] }})
+                                </button>
+                            @endforeach
+                        </div>
+                    @endif
                 </form>
             </div>
 
@@ -41,13 +51,16 @@
                     <label class="block">
                         <span class="text-sm font-bold text-body">PIN</span>
                         <input type="text" name="pin" maxlength="6" required inputmode="numeric" pattern="[0-9]{6}"
+                            value="{{ old('pin') }}"
                             class="mt-1.5 w-full rounded-2xl border border-ink/10 bg-canvas px-4 py-3 font-display text-2xl tracking-widest text-ink">
                     </label>
                     <label class="block">
                         <span class="text-sm font-bold text-body">Seu nome</span>
                         <input type="text" name="name" maxlength="40" required
+                            value="{{ old('name') }}"
                             class="mt-1.5 w-full rounded-2xl border border-ink/10 bg-canvas px-4 py-3 font-semibold text-ink">
                     </label>
+                    @include('live._stickers')
                     <button type="submit" class="quiz-btn-primary sm:col-span-2">Entrar</button>
                 </form>
             </div>

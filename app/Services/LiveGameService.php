@@ -7,6 +7,7 @@ use App\Models\LiveAnswer;
 use App\Models\LivePlayer;
 use App\Models\LiveSession;
 use App\Models\QuizClient;
+use App\Support\LiveStickers;
 use App\Support\QuestionBank;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -75,7 +76,7 @@ class LiveGameService
         ]);
     }
 
-    public function join(string $pin, string $name, ?int $clientId = null): LivePlayer
+    public function join(string $pin, string $name, ?int $clientId = null, ?string $emoji = null): LivePlayer
     {
         $session = LiveSession::query()->where('pin', $pin)->first();
 
@@ -113,6 +114,7 @@ class LiveGameService
 
         return $session->players()->create([
             'name' => $name,
+            'emoji' => LiveStickers::normalize($emoji),
             'token' => (string) Str::uuid(),
             'score' => 0,
             'joined_at' => now(),
@@ -336,7 +338,7 @@ class LiveGameService
     }
 
     /**
-     * @return array<int, array{name: string, score: int, rank: int}>
+     * @return array<int, array{name: string, emoji: string|null, score: int, rank: int}>
      */
     public function ranking(LiveSession $session): array
     {
@@ -345,6 +347,7 @@ class LiveGameService
         $ranked = $players->map(function (LivePlayer $player) {
             return [
                 'name' => $player->name,
+                'emoji' => $player->emoji,
                 'score' => (int) $player->score,
                 'total_time' => (int) $player->answers->sum('answered_at_ms'),
                 'joined_at' => $player->joined_at?->timestamp ?? 0,
@@ -363,6 +366,7 @@ class LiveGameService
         return $ranked->map(function (array $row, int $i) {
             return [
                 'name' => $row['name'],
+                'emoji' => $row['emoji'],
                 'score' => $row['score'],
                 'rank' => $i + 1,
             ];
@@ -398,6 +402,7 @@ class LiveGameService
 
         $state['me'] = [
             'name' => $player->name,
+            'emoji' => $player->emoji,
             'score' => (int) $player->score,
             'answered' => (bool) $answered,
             'my_choice' => $answered?->choice,
@@ -422,6 +427,7 @@ class LiveGameService
                 'total' => $session->totalQuestions(),
                 'categoria' => $question['categoria'] ?? null,
                 'emoji' => $question['emoji'] ?? null,
+                'imagem' => $question['imagem'] ?? null,
                 'pergunta' => $question['pergunta'] ?? '',
                 'opcoes' => $question['opcoes'] ?? [],
                 'opcoesEmoji' => $question['opcoesEmoji'] ?? null,
@@ -445,8 +451,9 @@ class LiveGameService
             'question_seconds' => LiveSession::QUESTION_SECONDS,
             'reveal_seconds' => LiveSession::REVEAL_SECONDS,
             'ranking_seconds' => LiveSession::RANKING_SECONDS,
-            'players' => $session->players()->orderBy('joined_at')->get(['name', 'score'])->map(fn ($p) => [
+            'players' => $session->players()->orderBy('joined_at')->get(['name', 'emoji', 'score'])->map(fn ($p) => [
                 'name' => $p->name,
+                'emoji' => $p->emoji,
                 'score' => (int) $p->score,
             ])->all(),
             'players_count' => $session->players()->count(),

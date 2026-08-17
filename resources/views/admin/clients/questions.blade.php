@@ -54,6 +54,9 @@
                         @endif
                         {{ $question->pergunta }}
                     </h2>
+                    @if ($question->imagem)
+                        <img src="{{ $question->imagem }}" alt="" class="mt-3 max-h-40 w-auto rounded-2xl object-contain">
+                    @endif
                     <ol class="mt-4 space-y-2">
                         @foreach ($question->options as $option)
                             <li class="flex items-start gap-2 rounded-2xl px-3 py-2 text-sm font-semibold {{ $option->is_correct ? 'bg-emerald-50 text-emerald-800' : 'bg-canvas text-ink/70' }}">

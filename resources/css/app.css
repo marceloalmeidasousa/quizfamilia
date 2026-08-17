@@ -206,10 +206,13 @@
     .quiz-cat-chip {
         display: inline-flex;
         align-items: center;
+        cursor: pointer;
+        appearance: none;
         border-radius: 9999px;
         border: 1px solid rgb(30 17 69 / 0.1);
         background: #fff;
         padding: 0.6rem 1rem;
+        font-family: inherit;
         font-size: 0.95rem;
         font-weight: 700;
         color: var(--color-ink);
@@ -626,12 +629,48 @@
     }
 
     .live-player-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
         border-radius: 9999px;
         background: rgb(255 255 255 / 0.7);
         border: 1px solid rgb(26 47 56 / 0.1);
         padding: 0.55rem 1rem;
         font-weight: 700;
         color: var(--color-ink);
+    }
+
+    .live-player-chip-emoji,
+    .live-rank-emoji {
+        font-size: 1.2em;
+        line-height: 1;
+    }
+
+    .live-sticker {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.75rem;
+        height: 2.75rem;
+        cursor: pointer;
+        border-radius: 0.9rem;
+        border: 1px solid rgb(26 47 56 / 0.12);
+        background: #fff;
+        font-size: 1.45rem;
+        line-height: 1;
+        transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    }
+
+    .live-sticker:hover {
+        transform: translateY(-1px);
+        border-color: rgb(26 47 56 / 0.22);
+        box-shadow: var(--shadow-pop);
+    }
+
+    .live-sticker:has(:checked) {
+        border-color: var(--color-brand-deep);
+        background: color-mix(in srgb, var(--color-brand-deep) 12%, #fff);
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-brand-deep) 35%, transparent);
     }
 
     .live-rank-row {
@@ -680,6 +719,12 @@
         text-align: center;
         animation: rise-in 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
         animation-delay: var(--delay, 0ms);
+    }
+
+    .live-podium-sticker {
+        font-size: 1.75rem;
+        line-height: 1;
+        margin-bottom: 0.15rem;
     }
 
     .live-podium-medal {

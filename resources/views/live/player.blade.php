@@ -19,7 +19,12 @@
             <div class="flex items-center justify-between gap-3">
                 <div>
                     <p class="text-xs font-bold uppercase tracking-[0.16em] text-ink/45">Jogando como</p>
-                    <h1 class="font-display text-2xl text-ink">{{ $player->name }}</h1>
+                    <h1 class="font-display text-2xl text-ink">
+                        @if ($player->emoji)
+                            <span class="me-1" aria-hidden="true">{{ $player->emoji }}</span>
+                        @endif
+                        {{ $player->name }}
+                    </h1>
                 </div>
                 <div class="flex items-center gap-3">
                     <button type="button" data-live-sound class="quiz-sound-toggle" aria-label="Alternar som">🔊</button>

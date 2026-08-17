@@ -57,11 +57,10 @@
             @endunless
         <footer class="border-t border-ink/5 px-4 py-5 sm:px-6">
             <div class="mx-auto flex max-w-6xl flex-col items-center gap-2 text-center text-sm font-semibold text-ink/45">
-                @if (isset($client) && request()->routeIs('client.*'))
-                    <a href="{{ route('client.hub', $client) }}" class="text-ink/55 hover:text-ink">{{ url('/'.$client->slug) }}</a>
-                @else
-                    <span>{{ $brand['tagline'] ?? 'Feito para jogar junto.' }}</span>
-                @endif
+                <p>
+                    <a href="{{ url('/') }}" class="text-ink/55 hover:text-ink">{{ request()->getSchemeAndHttpHost() }}</a>
+                    — Feito para Jogar Junto
+                </p>
                 <a href="{{ route('legal.privacy') }}" class="text-ink/55 underline decoration-ink/20 underline-offset-2 hover:text-ink">
                     Privacidade
                 </a>

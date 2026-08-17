@@ -26,6 +26,8 @@ class GenerateClientQuestionsJob implements ShouldQueue
         public string $prompt,
         public array $categories,
         public int $total,
+        public bool $useEmoji = true,
+        public bool $useImages = false,
     ) {}
 
     public function handle(OpenAiQuestionGenerator $generator, ClientQuestionPersister $persister): void
@@ -53,8 +55,14 @@ class GenerateClientQuestionsJob implements ShouldQueue
         try {
             while ($done < $total) {
                 $batchSize = min(10, $total - $done);
-                $items = $generator->generateBatch($this->prompt, $categories, $batchSize);
-                $saved = $persister->persist($client->fresh(), $items);
+                $items = $generator->generateBatch(
+                    $this->prompt,
+                    $categories,
+                    $batchSize,
+                    $this->useEmoji,
+                    $this->useImages,
+                );
+                $saved = $persister->persist($client->fresh(), $items, $this->useEmoji);
                 $done += $saved;
 
                 $client->update([

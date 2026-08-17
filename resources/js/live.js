@@ -56,11 +56,11 @@ function formatTimer(ms) {
 }
 
 function rankingKey(ranking) {
-    return (ranking || []).map((r) => `${r.rank}:${r.name}:${r.score}`).join('|');
+    return (ranking || []).map((r) => `${r.rank}:${r.emoji ?? ''}:${r.name}:${r.score}`).join('|');
 }
 
 function playersKey(players) {
-    return (players || []).map((p) => `${p.name}:${p.score ?? ''}`).join('|');
+    return (players || []).map((p) => `${p.emoji ?? ''}:${p.name}:${p.score ?? ''}`).join('|');
 }
 
 function span(className, text) {
@@ -79,6 +79,7 @@ function renderRanking(listEl, ranking) {
         const li = document.createElement('li');
         li.className = 'live-rank-row';
         li.appendChild(span('live-rank-pos', `${row.rank}º`));
+        li.appendChild(span('live-rank-emoji', row.emoji || '🙂'));
         li.appendChild(span('live-rank-name', row.name));
         li.appendChild(span('live-rank-score', `${row.score} pts`));
         listEl.appendChild(li);
@@ -121,6 +122,7 @@ function renderPodium(podiumEl, listEl, ranking) {
         const medal = span('live-podium-medal', PODIUM_MEDALS[rank]);
         medal.setAttribute('aria-hidden', 'true');
 
+        step.appendChild(span('live-podium-sticker', row?.emoji || '🙂'));
         step.appendChild(medal);
         step.appendChild(span('live-podium-name', row?.name ?? ''));
         step.appendChild(span('live-podium-score', row ? `${row.score} pts` : ''));
@@ -255,7 +257,8 @@ function initLiveHost(root) {
                 state.players.forEach((p) => {
                     const li = document.createElement('li');
                     li.className = 'live-player-chip';
-                    li.textContent = p.name;
+                    li.appendChild(span('live-player-chip-emoji', p.emoji || '🙂'));
+                    li.appendChild(document.createTextNode(p.name));
                     el.players.appendChild(li);
                 });
             }
@@ -334,7 +337,13 @@ function initLiveHost(root) {
         el.qtotal.textContent = String(q.total);
         el.answers.textContent = String(state.answers_count || 0);
         el.category.textContent = q.categoria || '';
-        el.emoji.textContent = q.emoji || '';
+        if (el.emoji) {
+            if (q.imagem) {
+                el.emoji.innerHTML = `<img src="${String(q.imagem).replace(/"/g, '')}" alt="" class="mx-auto max-h-28 w-auto object-contain">`;
+            } else {
+                el.emoji.textContent = q.emoji || '';
+            }
+        }
         el.question.textContent = q.pergunta || '';
 
         if (changed) {
@@ -553,7 +562,13 @@ function initLivePlayer(root) {
         el.qnum.textContent = String(q.index + 1);
         el.qtotal.textContent = String(q.total);
         el.category.textContent = q.categoria || '';
-        el.emoji.textContent = q.emoji || '';
+        if (el.emoji) {
+            if (q.imagem) {
+                el.emoji.innerHTML = `<img src="${String(q.imagem).replace(/"/g, '')}" alt="" class="mx-auto max-h-28 w-auto object-contain">`;
+            } else {
+                el.emoji.textContent = q.emoji || '';
+            }
+        }
         el.question.textContent = q.pergunta || '';
 
         if (state.status === 'question') {

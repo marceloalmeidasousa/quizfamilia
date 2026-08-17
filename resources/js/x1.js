@@ -138,11 +138,11 @@ function initX1Play(root) {
     function renderVisual(pergunta) {
         el.visual.innerHTML = '';
         el.visual.classList.remove('quiz-visual--shake');
-        if (pergunta.emoji && nivel === 'crianca') {
-            const span = document.createElement('span');
-            span.className = 'quiz-visual__emoji';
-            span.textContent = pergunta.emoji;
-            el.visual.appendChild(span);
+        if (pergunta.imagem) {
+            const img = document.createElement('img');
+            img.src = pergunta.imagem.startsWith('http') ? pergunta.imagem : `/${pergunta.imagem.replace(/^\//, '')}`;
+            img.alt = '';
+            el.visual.appendChild(img);
         } else if (pergunta.emoji) {
             const span = document.createElement('span');
             span.className = 'quiz-visual__emoji';

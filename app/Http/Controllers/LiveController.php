@@ -63,9 +63,15 @@ class LiveController extends Controller
         $data = $request->validate([
             'pin' => ['required', 'string', 'size:6'],
             'name' => ['required', 'string', 'max:40'],
+            'emoji' => ['nullable', 'string', 'max:16'],
         ]);
 
-        $player = $this->live->join(preg_replace('/\D/', '', $data['pin']), $data['name']);
+        $player = $this->live->join(
+            preg_replace('/\D/', '', $data['pin']),
+            $data['name'],
+            null,
+            $data['emoji'] ?? null,
+        );
 
         return redirect()->route('live.player', $player->token);
     }

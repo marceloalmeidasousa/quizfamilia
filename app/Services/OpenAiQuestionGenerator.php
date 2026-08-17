@@ -8,13 +8,13 @@ use RuntimeException;
 
 class OpenAiQuestionGenerator
 {
+    public function __construct(private WikimediaImageSearch $images) {}
+
     /**
-     * Gera um lote de perguntas no formato do banco.
-     *
      * @param  list<string>  $categories
-     * @return list<array{categoria: string, pergunta: string, opcoes: list<string>, correta: int, emoji?: string}>
+     * @return list<array{categoria: string, pergunta: string, opcoes: list<string>, correta: int, emoji?: string, opcoesEmoji?: list<string>, imagem?: string}>
      */
-    public function generateBatch(string $prompt, array $categories, int $count): array
+    public function generateBatch(string $prompt, array $categories, int $count, bool $useEmoji = true, bool $useImages = false): array
     {
         $count = max(1, min(10, $count));
         $key = (string) config('services.openai.key');
@@ -24,16 +24,38 @@ class OpenAiQuestionGenerator
         }
 
         $categoriesList = implode(', ', $categories);
-        $system = <<<'TXT'
+        $format = '{"perguntas":[{"categoria":"...","pergunta":"...","opcoes":["A","B","C","D"],"correta":0';
+        if ($useEmoji) {
+            $format .= ',"emoji":"🩺","opcoesEmoji":["🫀","🫁","🧠","🦴"]';
+        }
+        if ($useImages) {
+            $format .= ',"imagem_query":"human heart anatomy diagram"';
+        }
+        $format .= '}]}';
+
+        $extra = '';
+        if ($useEmoji) {
+            $extra .= "- inclua um emoji relevante em \"emoji\" (pergunta) e 4 emojis em \"opcoesEmoji\" (um por opção)\n";
+        } else {
+            $extra .= "- NÃO inclua emoji\n";
+        }
+        if ($useImages) {
+            $extra .= "- inclua \"imagem_query\" em inglês, 3 a 6 palavras, para buscar uma foto/diagrama educativo no Wikimedia Commons\n";
+        } else {
+            $extra .= "- NÃO inclua imagem\n";
+        }
+
+        $system = <<<TXT
 Você gera perguntas de quiz educativo em português do Brasil.
 Responda APENAS com um JSON válido (sem markdown) no formato:
-{"perguntas":[{"categoria":"...","emoji":"🩺","pergunta":"...","opcoes":["A","B","C","D"],"correta":0}]}
+{$format}
 Regras:
 - exatamente 4 opções por pergunta
 - "correta" é o índice 0-3 da resposta certa
 - use somente as categorias informadas
 - perguntas claras, objetivas, nível universitário/adulto
 - evite repetir perguntas
+{$extra}
 TXT;
 
         $user = "Contexto do cliente / tema: {$prompt}\n".
@@ -109,9 +131,24 @@ TXT;
                 'correta' => $correta,
             ];
 
-            $emoji = trim((string) ($item['emoji'] ?? ''));
-            if ($emoji !== '') {
-                $row['emoji'] = mb_substr($emoji, 0, 16);
+            if ($useEmoji) {
+                $emoji = trim((string) ($item['emoji'] ?? ''));
+                if ($emoji !== '') {
+                    $row['emoji'] = mb_substr($emoji, 0, 16);
+                }
+
+                $opcoesEmoji = array_values(array_map('strval', $item['opcoesEmoji'] ?? $item['opcoes_emoji'] ?? []));
+                if (count($opcoesEmoji) === 4) {
+                    $row['opcoesEmoji'] = array_map(fn ($e) => mb_substr(trim($e), 0, 16), $opcoesEmoji);
+                }
+            }
+
+            if ($useImages) {
+                $query = trim((string) ($item['imagem_query'] ?? $item['image_query'] ?? $pergunta));
+                $url = $this->images->firstUrl($query !== '' ? $query : $pergunta);
+                if ($url) {
+                    $row['imagem'] = $url;
+                }
             }
 
             $normalized[] = $row;

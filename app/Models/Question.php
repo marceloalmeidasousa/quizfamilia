@@ -14,6 +14,7 @@ class Question extends Model
         'code',
         'categoria',
         'emoji',
+        'imagem',
         'pergunta',
     ];
 
@@ -54,6 +55,7 @@ class Question extends Model
             'id' => $this->code,
             'categoria' => $this->categoria,
             'emoji' => $this->emoji,
+            'imagem' => $this->imagem,
             'pergunta' => $this->pergunta,
             'opcoes' => $opcoes,
             'correta' => $correta,

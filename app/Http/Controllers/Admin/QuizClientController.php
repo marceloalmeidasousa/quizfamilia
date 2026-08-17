@@ -139,6 +139,9 @@ class QuizClientController extends Controller
             'total.max' => 'No máximo 100 perguntas por execução.',
         ]);
 
+        $useEmoji = $request->boolean('use_emoji');
+        $useImages = $request->boolean('use_images');
+
         $raw = $data['categories'] ?? $request->input('categories');
         $parts = is_array($raw)
             ? $raw
@@ -172,6 +175,8 @@ class QuizClientController extends Controller
             $data['prompt'],
             $categories,
             (int) $data['total'],
+            $useEmoji,
+            $useImages,
         );
 
         return redirect()

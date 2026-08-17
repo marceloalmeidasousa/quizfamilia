@@ -11,6 +11,7 @@ class LivePlayer extends Model
     protected $fillable = [
         'live_session_id',
         'name',
+        'emoji',
         'token',
         'score',
         'joined_at',

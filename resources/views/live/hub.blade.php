@@ -109,6 +109,7 @@
                             class="live-input"
                         >
                     </div>
+                    @include('live._stickers')
                     <button type="submit" class="quiz-btn-primary sm:col-span-2 sm:w-auto">
                         Entrar no jogo
                     </button>
