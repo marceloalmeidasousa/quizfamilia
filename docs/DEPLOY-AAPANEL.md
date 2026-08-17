@@ -319,6 +319,28 @@ Ou com pull dentro do script:
 bash scripts/deploy.sh --pull
 ```
 
+### 8.2.1 Webhook do aaPanel (GitHub / Git)
+
+No aaPanel: **Website → quizemfamilia.com.br → Git** (ou Deploy), configure o repositório e no campo de **comando pós-pull / webhook** cole:
+
+```bash
+bash /www/wwwroot/quizemfamilia.com.br/scripts/aapanel-webhook-deploy.sh
+```
+
+No GitHub: **Settings → Webhooks** (ou use a URL que o aaPanel gerar) apontando para o push na branch `main`.
+
+O script:
+- faz lock (não roda dois deploys ao mesmo tempo)
+- chama `scripts/deploy.sh --pull` (composer, npm build, migrate, caches)
+- grava log em `storage/logs/deploy-webhook.log`
+
+Teste manual:
+
+```bash
+bash /www/wwwroot/quizemfamilia.com.br/scripts/aapanel-webhook-deploy.sh
+tail -50 /www/wwwroot/quizemfamilia.com.br/storage/logs/deploy-webhook.log
+```
+
 Opções úteis:
 
 | Flag | Efeito |
