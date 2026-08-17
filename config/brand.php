@@ -47,6 +47,17 @@ return [
             'description' => 'Anima Quiz — diversão para criança, adolescente e adulto jogarem juntos.',
         ],
 
+        'quizedu' => [
+            'hosts' => [
+                'quizedu.com.br',
+                'www.quizedu.com.br',
+            ],
+            'name' => 'Quiz Edu',
+            'name_html' => 'Quiz <span class="text-brand-soft">Edu</span>',
+            'tagline' => 'Feito para jogar junto.',
+            'description' => 'Quiz Edu — diversão para criança, adolescente e adulto jogarem juntos.',
+        ],
+
     ],
 
 ];

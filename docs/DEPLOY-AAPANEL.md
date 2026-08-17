@@ -17,8 +17,9 @@ Domínios previstos:
 |---------|--------|
 | `quizemfamilia.com.br` | Quiz em Família |
 | `animaquiz.com.br` | Anima Quiz |
+| `quizedu.com.br` | Quiz Edu |
 
-Pode apontar os dois domínios para o **mesmo** `SITE_ROOT` (mesma app); a marca é resolvida pelo host.
+Pode apontar todos os domínios para o **mesmo** `SITE_ROOT` (mesma app); a marca é resolvida pelo host.
 
 ---
 
@@ -146,7 +147,7 @@ Charset recomendado: `utf8mb4` / collation `utf8mb4_unicode_ci`.
 2. Defina **PHP version = 8.4** (ou 8.3 — a mesma do CLI).
 3. Aponte o **document root** para `SITE_ROOT/public` (não a raiz do projeto).
 4. Emita o **SSL** (Let's Encrypt) e ative **Force HTTPS**.
-5. (Opcional) Adicione `animaquiz.com.br` como domínio extra apontando para o mesmo `public/`.
+5. (Opcional) Adicione `animaquiz.com.br` e `quizedu.com.br` como domínios extras apontando para o mesmo `public/`.
 
 ### 4.1 Nginx — rotas do Laravel (obrigatório)
 

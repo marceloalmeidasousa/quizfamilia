@@ -47,8 +47,8 @@
 
             <h2 class="font-display text-xl text-ink">4. Domínios</h2>
             <p>
-                Esta política se aplica aos sites do projeto, incluindo quizemfamilia.com.br e animaquiz.com.br,
-                quando apontarem para este aplicativo.
+                Esta política se aplica aos sites do projeto, incluindo quizemfamilia.com.br, animaquiz.com.br
+                e quizedu.com.br, quando apontarem para este aplicativo.
             </p>
 
             <h2 class="font-display text-xl text-ink">5. Contato</h2>

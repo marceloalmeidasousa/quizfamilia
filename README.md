@@ -1,6 +1,6 @@
 # 📌 Quiz em Família
 
-Quiz multiplayer para jogar em família: modo solo, ao vivo e desafio X1. Suporta marcas **Quiz em Família** (`quizemfamilia.com.br`) e **Anima Quiz** (`animaquiz.com.br`).
+Quiz multiplayer para jogar em família: modo solo, ao vivo e desafio X1. Suporta marcas **Quiz em Família** (`quizemfamilia.com.br`), **Anima Quiz** (`animaquiz.com.br`) e **Quiz Edu** (`quizedu.com.br`).
 
 **Repositório:** [github.com/marceloalmeidasousa/quizfamilia](https://github.com/marceloalmeidasousa/quizfamilia)
 
@@ -204,9 +204,10 @@ Scripts prontos no repositório:
 |---------|--------|
 | `quizemfamilia.com.br` | Quiz em Família |
 | `animaquiz.com.br` | Anima Quiz |
+| `quizedu.com.br` | Quiz Edu |
 | localhost / outros | Quiz em Família (padrão) |
 
-Forçar marca no local: `BRAND_FORCE=quizfamilia` ou `BRAND_FORCE=animaquiz` no `.env`.
+Forçar marca no local: `BRAND_FORCE=quizfamilia`, `BRAND_FORCE=animaquiz` ou `BRAND_FORCE=quizedu` no `.env`.
 
 ### 📣 Google AdSense
 
