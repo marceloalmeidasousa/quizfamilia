@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\QuestionGenerationRun;
 use App\Models\QuizClient;
 use App\Services\ClientQuestionPersister;
 use App\Services\OpenAiQuestionGenerator;
@@ -18,36 +19,38 @@ class GenerateClientQuestionsJob implements ShouldQueue
 
     public int $timeout = 600;
 
-    /**
-     * @param  list<string>  $categories
-     */
-    public function __construct(
-        public int $clientId,
-        public string $prompt,
-        public array $categories,
-        public int $total,
-        public bool $useEmoji = true,
-        public bool $useImages = false,
-    ) {}
+    public function __construct(public int $runId) {}
 
     public function handle(OpenAiQuestionGenerator $generator, ClientQuestionPersister $persister): void
     {
-        $client = QuizClient::query()->find($this->clientId);
-        if (! $client) {
+        $run = QuestionGenerationRun::query()->with('client')->find($this->runId);
+
+        if (! $run || $run->scope !== QuestionGenerationRun::SCOPE_CLIENT || ! $run->client_id) {
             return;
         }
 
-        $total = max(1, min(100, $this->total));
-        $categories = array_values(array_filter(array_map('trim', $this->categories)));
+        $client = $run->client ?? QuizClient::query()->find($run->client_id);
+
+        if (! $client) {
+            $run->update([
+                'status' => QuestionGenerationRun::STATUS_FAILED,
+                'error' => 'Cliente não encontrado.',
+            ]);
+
+            return;
+        }
+
+        $total = max(1, min(100, $run->total));
+        $categories = array_values(array_filter(array_map('trim', $run->categories ?? [])));
+
         if ($categories === []) {
             $categories = ['Geral'];
         }
 
-        $client->update([
-            'questions_generation_status' => QuizClient::GENERATION_RUNNING,
-            'questions_generation_error' => null,
-            'questions_generation_total' => $total,
-            'questions_generation_done' => 0,
+        $run->update([
+            'status' => QuestionGenerationRun::STATUS_RUNNING,
+            'error' => null,
+            'done' => 0,
         ]);
 
         $done = 0;
@@ -56,35 +59,36 @@ class GenerateClientQuestionsJob implements ShouldQueue
             while ($done < $total) {
                 $batchSize = min(10, $total - $done);
                 $items = $generator->generateBatch(
-                    $this->prompt,
+                    $run->prompt,
                     $categories,
                     $batchSize,
-                    $this->useEmoji,
-                    $this->useImages,
+                    $run->use_emoji,
+                    $run->use_images,
                 );
-                $saved = $persister->persist($client->fresh(), $items, $this->useEmoji);
+                $saved = $persister->persist($client->fresh(), $items, $run->use_emoji);
                 $done += $saved;
 
-                $client->update([
-                    'questions_generation_done' => min($done, $total),
+                $run->update([
+                    'done' => min($done, $total),
                 ]);
             }
 
-            $client->update([
-                'questions_generation_status' => QuizClient::GENERATION_DONE,
-                'questions_generation_done' => $done,
-                'questions_generation_error' => null,
+            $run->update([
+                'status' => QuestionGenerationRun::STATUS_DONE,
+                'done' => $done,
+                'error' => null,
             ]);
         } catch (Throwable $e) {
             Log::error('GenerateClientQuestionsJob failed', [
-                'client_id' => $this->clientId,
+                'run_id' => $this->runId,
+                'client_id' => $run->client_id,
                 'message' => $e->getMessage(),
             ]);
 
-            $client->update([
-                'questions_generation_status' => QuizClient::GENERATION_FAILED,
-                'questions_generation_error' => mb_substr($e->getMessage(), 0, 2000),
-                'questions_generation_done' => $done,
+            $run->update([
+                'status' => QuestionGenerationRun::STATUS_FAILED,
+                'error' => mb_substr($e->getMessage(), 0, 2000),
+                'done' => $done,
             ]);
 
             throw $e;

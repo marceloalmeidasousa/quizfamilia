@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\GenerateClientQuestionsJob;
 use App\Models\QuizClient;
+use App\Services\QuestionGenerationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +13,8 @@ use Illuminate\View\View;
 
 class QuizClientController extends Controller
 {
+    public function __construct(private QuestionGenerationService $generations) {}
+
     public function index(): View
     {
         $clients = QuizClient::query()
@@ -58,6 +60,7 @@ class QuizClientController extends Controller
             'client' => $client,
             'categories' => $categories,
             'publicUrl' => url('/'.$client->slug),
+            'generationSummary' => $this->generations->clientSummary($client),
         ]);
     }
 
@@ -120,13 +123,6 @@ class QuizClientController extends Controller
 
     public function generate(Request $request, QuizClient $client): RedirectResponse
     {
-        if (in_array($client->questions_generation_status, [
-            QuizClient::GENERATION_PENDING,
-            QuizClient::GENERATION_RUNNING,
-        ], true)) {
-            return back()->withErrors(['prompt' => 'Já existe uma geração em andamento para este cliente.']);
-        }
-
         $data = $request->validate([
             'prompt' => ['required', 'string', 'min:10', 'max:4000'],
             'total' => ['required', 'integer', 'min:1', 'max:100'],
@@ -163,15 +159,9 @@ class QuizClientController extends Controller
             return back()->withErrors(['prompt' => 'Configure OPENAI_API_KEY no .env.'])->withInput();
         }
 
-        $client->update([
-            'questions_generation_status' => QuizClient::GENERATION_PENDING,
-            'questions_generation_error' => null,
-            'questions_generation_total' => (int) $data['total'],
-            'questions_generation_done' => 0,
-        ]);
-
-        GenerateClientQuestionsJob::dispatch(
-            $client->id,
+        $summary = $this->generations->clientSummary($client);
+        $this->generations->queueClient(
+            $client,
             $data['prompt'],
             $categories,
             (int) $data['total'],
@@ -179,9 +169,14 @@ class QuizClientController extends Controller
             $useImages,
         );
 
+        $queued = $summary['queued'] + ($summary['running'] ? 1 : 0) + 1;
+        $message = $queued > 1
+            ? "Geração enfileirada ({$queued} na fila). As execuções rodam em sequência."
+            : 'Geração de perguntas enfileirada. Atualize a página em alguns minutos.';
+
         return redirect()
             ->route('admin.clients.show', $client)
-            ->with('status', 'Geração de perguntas enfileirada. Atualize a página em alguns minutos.');
+            ->with('status', $message);
     }
 
     /**

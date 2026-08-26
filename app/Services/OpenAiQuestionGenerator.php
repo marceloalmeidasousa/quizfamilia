@@ -14,8 +14,14 @@ class OpenAiQuestionGenerator
      * @param  list<string>  $categories
      * @return list<array{categoria: string, pergunta: string, opcoes: list<string>, correta: int, emoji?: string, opcoesEmoji?: list<string>, imagem?: string}>
      */
-    public function generateBatch(string $prompt, array $categories, int $count, bool $useEmoji = true, bool $useImages = false): array
-    {
+    public function generateBatch(
+        string $prompt,
+        array $categories,
+        int $count,
+        bool $useEmoji = true,
+        bool $useImages = false,
+        ?string $nivel = null,
+    ): array {
         $count = max(1, min(10, $count));
         $key = (string) config('services.openai.key');
 
@@ -23,10 +29,17 @@ class OpenAiQuestionGenerator
             throw new RuntimeException('OPENAI_API_KEY não configurada no .env.');
         }
 
+        $profile = $this->profileFor($nivel);
+        $optionCount = $profile['optionCount'];
+        $maxIndex = $optionCount - 1;
+
         $categoriesList = implode(', ', $categories);
-        $format = '{"perguntas":[{"categoria":"...","pergunta":"...","opcoes":["A","B","C","D"],"correta":0';
+        $exampleOptions = implode(', ', array_map(fn ($i) => '"Opção '.chr(65 + $i).'"', range(0, $maxIndex)));
+        $format = '{"perguntas":[{"categoria":"...","pergunta":"...","opcoes":['.$exampleOptions.'],"correta":0';
+
         if ($useEmoji) {
-            $format .= ',"emoji":"🩺","opcoesEmoji":["🫀","🫁","🧠","🦴"]';
+            $emojiExamples = implode(', ', array_fill(0, $optionCount, '"🎯"'));
+            $format .= ',"emoji":"🩺","opcoesEmoji":['.$emojiExamples.']';
         }
         if ($useImages) {
             $format .= ',"imagem_query":"human heart anatomy diagram"';
@@ -35,7 +48,7 @@ class OpenAiQuestionGenerator
 
         $extra = '';
         if ($useEmoji) {
-            $extra .= "- inclua um emoji relevante em \"emoji\" (pergunta) e 4 emojis em \"opcoesEmoji\" (um por opção)\n";
+            $extra .= "- inclua um emoji relevante em \"emoji\" (pergunta) e {$optionCount} emojis em \"opcoesEmoji\" (um por opção)\n";
         } else {
             $extra .= "- NÃO inclua emoji\n";
         }
@@ -50,10 +63,10 @@ Você gera perguntas de quiz educativo em português do Brasil.
 Responda APENAS com um JSON válido (sem markdown) no formato:
 {$format}
 Regras:
-- exatamente 4 opções por pergunta
-- "correta" é o índice 0-3 da resposta certa
+- exatamente {$optionCount} opções por pergunta
+- "correta" é o índice 0-{$maxIndex} da resposta certa
 - use somente as categorias informadas
-- perguntas claras, objetivas, nível universitário/adulto
+- {$profile['difficulty']}
 - evite repetir perguntas
 {$extra}
 TXT;
@@ -105,7 +118,7 @@ TXT;
             }
 
             $opcoes = array_values(array_map('strval', $item['opcoes'] ?? $item['options'] ?? []));
-            if (count($opcoes) !== 4) {
+            if (count($opcoes) !== $optionCount) {
                 continue;
             }
 
@@ -115,7 +128,7 @@ TXT;
             }
 
             $correta = (int) ($item['correta'] ?? $item['correct'] ?? 0);
-            if ($correta < 0 || $correta > 3) {
+            if ($correta < 0 || $correta > $maxIndex) {
                 $correta = 0;
             }
 
@@ -138,7 +151,7 @@ TXT;
                 }
 
                 $opcoesEmoji = array_values(array_map('strval', $item['opcoesEmoji'] ?? $item['opcoes_emoji'] ?? []));
-                if (count($opcoesEmoji) === 4) {
+                if (count($opcoesEmoji) === $optionCount) {
                     $row['opcoesEmoji'] = array_map(fn ($e) => mb_substr(trim($e), 0, 16), $opcoesEmoji);
                 }
             }
@@ -163,5 +176,30 @@ TXT;
         }
 
         return $normalized;
+    }
+
+    /**
+     * @return array{optionCount: int, difficulty: string}
+     */
+    private function profileFor(?string $nivel): array
+    {
+        return match ($nivel) {
+            'crianca' => [
+                'optionCount' => 2,
+                'difficulty' => 'nível fácil para crianças de 3 a 6 anos: perguntas curtas, vocabulário simples, temas lúdicos (desenhos, animais, cores, números básicos)',
+            ],
+            'adolescente' => [
+                'optionCount' => 4,
+                'difficulty' => 'nível médio para adolescentes de 7 a 14 anos: perguntas claras e objetivas, sem ser infantil demais',
+            ],
+            'adulto' => [
+                'optionCount' => 4,
+                'difficulty' => 'nível difícil para adultos (15+): perguntas mais desafiadoras, com algumas pegadinhas moderadas',
+            ],
+            default => [
+                'optionCount' => 4,
+                'difficulty' => 'perguntas claras, objetivas, nível universitário/adulto',
+            ],
+        };
     }
 }

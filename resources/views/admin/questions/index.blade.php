@@ -20,7 +20,7 @@
             @endif
         </p>
 
-        @include('admin._generation-status', ['subject' => $generation])
+        @include('admin._generation-status', ['generationSummary' => $generationSummary])
 
         @if ($categories->isNotEmpty())
             <div class="mt-6">

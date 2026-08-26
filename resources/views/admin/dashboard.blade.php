@@ -39,7 +39,7 @@
             <p class="mt-5 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-ink ring-1 ring-ink/5">{{ session('status') }}</p>
         @endif
 
-        @include('admin._generation-status', ['subject' => $generation])
+        @include('admin._generation-status', ['generationSummary' => $generationSummary])
 
         <div class="mt-6 grid gap-6 lg:grid-cols-12 lg:items-start">
             <div class="rounded-3xl bg-white p-5 ring-1 ring-ink/5 sm:p-6 lg:col-span-4">

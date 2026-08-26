@@ -2,8 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\QuizClient;
-use App\Models\SystemState;
+use App\Models\QuestionGenerationRun;
 use App\Services\FamilyQuestionPersister;
 use App\Services\OpenAiQuestionGenerator;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,33 +18,27 @@ class GenerateFamilyQuestionsJob implements ShouldQueue
 
     public int $timeout = 600;
 
-    /**
-     * @param  list<string>  $categories
-     */
-    public function __construct(
-        public string $nivel,
-        public string $prompt,
-        public array $categories,
-        public int $total,
-        public bool $useEmoji = true,
-        public bool $useImages = false,
-    ) {}
+    public function __construct(public int $runId) {}
 
     public function handle(OpenAiQuestionGenerator $generator, FamilyQuestionPersister $persister): void
     {
-        $state = SystemState::familyQuestions();
-        $total = max(1, min(100, $this->total));
-        $categories = array_values(array_filter(array_map('trim', $this->categories)));
+        $run = QuestionGenerationRun::query()->find($this->runId);
+
+        if (! $run || $run->scope !== QuestionGenerationRun::SCOPE_FAMILY) {
+            return;
+        }
+
+        $total = max(1, min(100, $run->total));
+        $categories = array_values(array_filter(array_map('trim', $run->categories ?? [])));
 
         if ($categories === []) {
             $categories = ['Geral'];
         }
 
-        $state->update([
-            'questions_generation_status' => QuizClient::GENERATION_RUNNING,
-            'questions_generation_error' => null,
-            'questions_generation_total' => $total,
-            'questions_generation_done' => 0,
+        $run->update([
+            'status' => QuestionGenerationRun::STATUS_RUNNING,
+            'error' => null,
+            'done' => 0,
         ]);
 
         $done = 0;
@@ -54,35 +47,36 @@ class GenerateFamilyQuestionsJob implements ShouldQueue
             while ($done < $total) {
                 $batchSize = min(10, $total - $done);
                 $items = $generator->generateBatch(
-                    $this->prompt,
+                    $run->prompt,
                     $categories,
                     $batchSize,
-                    $this->useEmoji,
-                    $this->useImages,
+                    $run->use_emoji,
+                    $run->use_images,
+                    (string) $run->nivel,
                 );
-                $saved = $persister->persist($this->nivel, $items, $this->useEmoji);
+                $saved = $persister->persist((string) $run->nivel, $items, $run->use_emoji);
                 $done += $saved;
 
-                $state->update([
-                    'questions_generation_done' => min($done, $total),
+                $run->update([
+                    'done' => min($done, $total),
                 ]);
             }
 
-            $state->update([
-                'questions_generation_status' => QuizClient::GENERATION_DONE,
-                'questions_generation_done' => $done,
-                'questions_generation_error' => null,
+            $run->update([
+                'status' => QuestionGenerationRun::STATUS_DONE,
+                'done' => $done,
+                'error' => null,
             ]);
         } catch (Throwable $e) {
             Log::error('GenerateFamilyQuestionsJob failed', [
-                'nivel' => $this->nivel,
+                'run_id' => $this->runId,
                 'message' => $e->getMessage(),
             ]);
 
-            $state->update([
-                'questions_generation_status' => QuizClient::GENERATION_FAILED,
-                'questions_generation_error' => mb_substr($e->getMessage(), 0, 2000),
-                'questions_generation_done' => $done,
+            $run->update([
+                'status' => QuestionGenerationRun::STATUS_FAILED,
+                'error' => mb_substr($e->getMessage(), 0, 2000),
+                'done' => $done,
             ]);
 
             throw $e;

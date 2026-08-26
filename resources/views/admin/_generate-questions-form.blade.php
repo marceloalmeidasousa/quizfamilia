@@ -29,7 +29,7 @@
                             @checked(old('nivel', 'crianca') === $slug) required>
                         <span>
                             <span class="font-bold text-ink">{{ $level['title'] }}</span>
-                            <span class="mt-0.5 block text-xs font-semibold tracking-wide text-body-subtle uppercase">{{ $level['subtitle'] }} · {{ $level['age'] }}</span>
+                            <span class="mt-0.5 block text-xs font-semibold tracking-wide text-body-subtle uppercase">{{ $level['subtitle'] }} · {{ $level['age'] }}@if ($slug === 'crianca') · 2 opções@else · 4 opções@endif</span>
                         </span>
                     </label>
                 @endforeach

@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\GameController;
-use App\Jobs\GenerateFamilyQuestionsJob;
 use App\Models\Question;
-use App\Models\QuizClient;
-use App\Models\SystemState;
+use App\Services\QuestionGenerationService;
 use App\Support\QuestionBank;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,6 +13,8 @@ use Illuminate\View\View;
 
 class FamilyQuestionController extends Controller
 {
+    public function __construct(private QuestionGenerationService $generations) {}
+
     public function index(Request $request): View
     {
         $categoria = trim((string) $request->query('categoria', ''));
@@ -52,21 +52,12 @@ class FamilyQuestionController extends Controller
             'levels' => GameController::LEVELS,
             'questions' => $query->paginate(25)->withQueryString(),
             'questionsCount' => Question::query()->whereNull('client_id')->count(),
-            'generation' => SystemState::familyQuestions(),
+            'generationSummary' => $this->generations->familySummary(),
         ]);
     }
 
     public function generate(Request $request): RedirectResponse
     {
-        $state = SystemState::familyQuestions();
-
-        if (in_array($state->questions_generation_status, [
-            QuizClient::GENERATION_PENDING,
-            QuizClient::GENERATION_RUNNING,
-        ], true)) {
-            return back()->withErrors(['prompt' => 'Já existe uma geração em andamento.']);
-        }
-
         $data = $request->validate([
             'nivel' => ['required', 'string', 'in:'.implode(',', array_keys(GameController::LEVELS))],
             'prompt' => ['required', 'string', 'min:10', 'max:4000'],
@@ -105,14 +96,8 @@ class FamilyQuestionController extends Controller
             return back()->withErrors(['prompt' => 'Configure OPENAI_API_KEY no .env.'])->withInput();
         }
 
-        $state->update([
-            'questions_generation_status' => QuizClient::GENERATION_PENDING,
-            'questions_generation_error' => null,
-            'questions_generation_total' => (int) $data['total'],
-            'questions_generation_done' => 0,
-        ]);
-
-        GenerateFamilyQuestionsJob::dispatch(
+        $summary = $this->generations->familySummary();
+        $this->generations->queueFamily(
             $data['nivel'],
             $data['prompt'],
             $categories,
@@ -121,8 +106,13 @@ class FamilyQuestionController extends Controller
             $useImages,
         );
 
+        $queued = $summary['queued'] + ($summary['running'] ? 1 : 0) + 1;
+        $message = $queued > 1
+            ? "Geração enfileirada ({$queued} na fila). As execuções rodam em sequência."
+            : 'Geração de perguntas enfileirada. Atualize a página em alguns minutos.';
+
         return redirect()
             ->route('admin.dashboard')
-            ->with('status', 'Geração de perguntas enfileirada. Atualize a página em alguns minutos.');
+            ->with('status', $message);
     }
 }
