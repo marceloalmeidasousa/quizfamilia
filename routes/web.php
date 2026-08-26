@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FamilyQuestionController;
 use App\Http\Controllers\Admin\QuizClientController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Client\ClientLiveController;
@@ -63,6 +64,11 @@ Route::middleware('auth')->group(function () {
         ->name('admin.dashboard');
 
     Route::middleware('permission:view dashboard')->prefix('painel')->name('admin.')->group(function () {
+        Route::get('/perguntas', [FamilyQuestionController::class, 'index'])->name('questions.index');
+        Route::post('/gerar-perguntas', [FamilyQuestionController::class, 'generate'])
+            ->middleware('throttle:10,1')
+            ->name('questions.generate');
+
         Route::get('/clientes', [QuizClientController::class, 'index'])->name('clients.index');
         Route::get('/clientes/novo', [QuizClientController::class, 'create'])->name('clients.create');
         Route::post('/clientes', [QuizClientController::class, 'store'])->name('clients.store');

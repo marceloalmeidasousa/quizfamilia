@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\TracksQuestionGeneration;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class QuizClient extends Model
 {
+    use TracksQuestionGeneration;
+
     public const CUSTOM_NIVEL = 'custom';
 
     public const GENERATION_PENDING = 'pending';
@@ -147,28 +150,6 @@ class QuizClient extends Model
     public function usesSystemCategories(): bool
     {
         return (bool) $this->use_system_categories;
-    }
-
-    /**
-     * @return array{label: string, class: string}|null
-     */
-    public function generationStatusMeta(): ?array
-    {
-        return match ($this->questions_generation_status) {
-            self::GENERATION_DONE => [
-                'label' => 'Concluído',
-                'class' => 'bg-emerald-50 text-emerald-700',
-            ],
-            self::GENERATION_PENDING, self::GENERATION_RUNNING => [
-                'label' => 'Aguardando',
-                'class' => 'bg-amber-50 text-amber-700',
-            ],
-            self::GENERATION_FAILED => [
-                'label' => 'Falhou',
-                'class' => 'bg-red-50 text-red-700',
-            ],
-            default => null,
-        };
     }
 
     /**

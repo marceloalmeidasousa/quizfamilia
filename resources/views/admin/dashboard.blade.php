@@ -9,16 +9,20 @@
     $tz = 'America/Sao_Paulo';
 @endphp
 <section class="px-4 py-8 sm:px-8 sm:py-10">
-    <div class="mx-auto w-full max-w-6xl">
+    <div class="mx-auto w-full max-w-[90rem]">
         <div class="flex flex-wrap items-start justify-between gap-4">
             <div>
                 <p class="text-xs font-bold uppercase tracking-[0.16em] text-ink/45">Administração</p>
                 <h1 class="font-display text-3xl text-ink sm:text-4xl">Painel de estatísticas</h1>
                 <p class="mt-1 text-sm font-semibold text-ink/55">
                     Olá, {{ auth()->user()->name }} · horários em Brasília ({{ $tz }})
+                    · {{ number_format($questionsCount) }} perguntas no banco família
                 </p>
             </div>
             <div class="flex flex-wrap items-center gap-3">
+                <a href="{{ route('admin.questions.index') }}" class="rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-bold text-ink/70 transition hover:border-ink/25 hover:text-ink">
+                    Ver perguntas
+                </a>
                 <a href="{{ route('admin.clients.index') }}" class="rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-bold text-ink/70 transition hover:border-ink/25 hover:text-ink">
                     Quiz personalizados
                 </a>
@@ -28,6 +32,28 @@
                         Sair
                     </button>
                 </form>
+            </div>
+        </div>
+
+        @if (session('status'))
+            <p class="mt-5 rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-ink ring-1 ring-ink/5">{{ session('status') }}</p>
+        @endif
+
+        @include('admin._generation-status', ['subject' => $generation])
+
+        <div class="mt-6 grid gap-6 lg:grid-cols-12 lg:items-start">
+            <div class="rounded-3xl bg-white p-5 ring-1 ring-ink/5 sm:p-6 lg:col-span-4">
+                @include('admin._categories-panel', ['categories' => $categories])
+            </div>
+
+            <div class="rounded-3xl bg-white p-5 ring-1 ring-ink/5 sm:p-6 lg:col-span-8">
+                <h2 class="font-display text-xl text-ink sm:text-2xl">Gerar perguntas com IA</h2>
+                @include('admin._generate-questions-form', [
+                    'action' => route('admin.questions.generate'),
+                    'showNivel' => true,
+                    'levels' => $levels,
+                    'promptPlaceholder' => 'Criar perguntas sobre ciências, história, geografia, cultura pop...',
+                ])
             </div>
         </div>
 
