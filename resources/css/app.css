@@ -824,15 +824,73 @@
         }
     }
 
+    .quiz-sound-toggle--header {
+        width: 2.1rem;
+        height: 2.1rem;
+        border-width: 1px;
+        border-color: rgb(255 255 255 / 0.28);
+        background: rgb(255 255 255 / 0.12);
+        color: #fff;
+        font-size: 0.95rem;
+        box-shadow: none;
+    }
+
+    .quiz-sound-toggle--header:hover {
+        transform: scale(1.06);
+        background: rgb(255 255 255 / 0.22);
+    }
+
+    .live-fit-header .quiz-sound-toggle--header {
+        width: 1.9rem;
+        height: 1.9rem;
+        font-size: 0.85rem;
+    }
+
+    .live-host-top {
+        align-items: stretch;
+    }
+
+    .live-host-top__main {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+
+    .live-host-top__main [data-live-lobby-actions] {
+        margin-top: auto;
+        padding-top: 0.75rem;
+    }
+
+    .live-host-top__join {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        align-self: stretch;
+        flex: 0 0 auto;
+        gap: 0.45rem;
+        max-width: min(42vw, 14rem);
+    }
+
+    @media (min-width: 640px) {
+        .live-host-top__join {
+            max-width: min(36vw, 17rem);
+            gap: 0.55rem;
+        }
+    }
+
     .live-join-qr {
-        flex-shrink: 0;
-        width: 4.5rem;
-        height: 4.5rem;
-        padding: 0.25rem;
-        border-radius: 0.75rem;
+        flex: 1 1 auto;
+        min-height: 9rem;
+        width: auto;
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        max-width: 100%;
+        padding: 0.5rem;
+        border-radius: 1rem;
         background: #fff;
-        border: 1px solid rgb(26 47 56 / 0.12);
-        box-shadow: 0 1px 2px rgb(26 47 56 / 0.06);
+        border: 2px solid rgb(26 47 56 / 0.14);
+        box-shadow: 0 4px 14px rgb(26 47 56 / 0.1);
     }
 
     .live-join-qr svg {
@@ -843,13 +901,15 @@
 
     @media (min-width: 640px) {
         .live-join-qr {
-            width: 5.5rem;
-            height: 5.5rem;
+            min-height: 11.5rem;
+            padding: 0.6rem;
+            border-radius: 1.15rem;
         }
     }
 
     [data-live-host].live-host--playing [data-live-join],
-    [data-live-host].live-host--playing [data-live-qr],
+    [data-live-host].live-host--playing [data-live-join-block],
+    [data-live-host].live-host--playing [data-live-lobby-actions],
     [data-live-host].live-host--playing [data-live-back] {
         display: none;
     }

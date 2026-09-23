@@ -28,8 +28,8 @@
 <body class="min-h-screen bg-canvas font-sans text-ink antialiased @yield('body_class')">
     <div class="relative flex min-h-screen flex-col @yield('shell_class') @yield('shell_inner_class')">
         <nav class="bg-brand-deep px-4 py-3.5 sm:px-6 @yield('header_class')">
-            <div class="mx-auto flex max-w-6xl items-center justify-between">
-                <a href="{{ isset($client) ? route('client.hub', $client) : route('home') }}" class="group flex items-center gap-2.5">
+            <div class="mx-auto flex max-w-6xl items-center justify-between gap-3">
+                <a href="{{ isset($client) ? route('client.hub', $client) : route('home') }}" class="group flex min-w-0 items-center gap-2.5">
                     @if (isset($client) && $client->logoUrl())
                         <img src="{{ $client->logoUrl() }}" alt="" class="h-8 w-auto max-w-[7rem] rounded object-contain bg-white/10 p-0.5">
                     @else
@@ -43,6 +43,11 @@
                         @endif
                     </span>
                 </a>
+                @hasSection('header_actions')
+                    <div class="flex shrink-0 items-center gap-2">
+                        @yield('header_actions')
+                    </div>
+                @endif
             </div>
         </nav>
 

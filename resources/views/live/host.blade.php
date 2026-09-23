@@ -10,6 +10,10 @@
 @section('shell_inner_class', 'h-dvh max-h-dvh overflow-hidden')
 @section('header_class', 'live-fit-header')
 
+@section('header_actions')
+    <button type="button" data-live-sound class="quiz-sound-toggle quiz-sound-toggle--header" aria-label="Alternar som">🔊</button>
+@endsection
+
 @section('content')
 <section class="live-fit-page flex min-h-0 flex-1 flex-col px-3 py-2 sm:px-6 sm:py-3">
     <div class="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col">
@@ -25,42 +29,40 @@
             data-advance-url="{{ $advanceUrl ?? route('live.advance', $session->pin) }}"
             data-csrf="{{ csrf_token() }}"
         >
-            <div data-live-topbar class="flex shrink-0 flex-wrap items-center justify-between gap-2">
-                <div class="min-w-0">
+            <div data-live-topbar class="live-host-top flex shrink-0 gap-3 sm:gap-5">
+                <div class="live-host-top__main min-w-0 flex-1">
                     <p class="font-display text-sm text-ink/55 sm:text-base">
                         Apresentador · {{ $level['title'] ?? '' }} · {{ $session->categoriaLabel() }}
                     </p>
                     <h1 class="font-display text-xl text-ink sm:text-3xl">Sala Ao Vivo</h1>
+                    <p data-live-join class="mt-1 text-xs text-ink/65 sm:text-sm">
+                        Escaneie o QR ou entre em <strong>{{ $joinUrl }}</strong> com este PIN.
+                    </p>
+
+                    <div data-live-lobby-actions class="mt-3 flex flex-wrap items-center justify-between gap-3">
+                        <h2 class="font-display text-lg text-ink sm:text-xl">Jogadores (<span data-live-count>0</span>)</h2>
+                        <button type="button" data-live-start class="quiz-btn-primary">Iniciar partida</button>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2 sm:gap-3">
-                    <button type="button" data-live-sound class="quiz-sound-toggle" aria-label="Alternar som">🔊</button>
-                    <div class="flex items-center gap-2.5 sm:gap-3">
-                        <div
-                            data-live-qr
-                            class="live-join-qr"
-                            title="Escaneie para entrar na sala"
-                        >
-                            {!! \App\Support\LiveQrCode::svg($joinQrUrl ?? ($joinUrl.'?pin='.$session->pin), 112) !!}
-                        </div>
-                        <div class="text-right">
-                            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/45">PIN</p>
-                            <p data-live-pin class="font-display text-3xl tracking-[0.12em] text-ink sm:text-5xl">{{ $session->pin }}</p>
-                        </div>
+
+                <div data-live-join-block class="live-host-top__join shrink-0">
+                    <div class="text-right">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/45">PIN</p>
+                        <p data-live-pin class="font-display text-3xl tracking-[0.12em] text-ink sm:text-5xl">{{ $session->pin }}</p>
+                    </div>
+                    <div
+                        data-live-qr
+                        class="live-join-qr"
+                        title="Escaneie para entrar na sala"
+                    >
+                        {!! \App\Support\LiveQrCode::svg($joinQrUrl ?? ($joinUrl.'?pin='.$session->pin), 280) !!}
                     </div>
                 </div>
             </div>
 
-            <p data-live-join class="mt-1 shrink-0 text-xs text-ink/65 sm:text-sm">
-                Escaneie o QR ou entre em <strong>{{ $joinUrl }}</strong> com este PIN.
-            </p>
-
             {{-- Lobby --}}
             <div data-live-lobby class="mt-3 flex min-h-0 flex-1 flex-col overflow-hidden">
-                <div class="flex shrink-0 flex-wrap items-center justify-between gap-3">
-                    <h2 class="font-display text-lg text-ink sm:text-xl">Jogadores (<span data-live-count>0</span>)</h2>
-                    <button type="button" data-live-start class="quiz-btn-primary">Iniciar partida</button>
-                </div>
-                <ul data-live-players class="mt-3 grid min-h-0 flex-1 content-start gap-2 overflow-y-auto sm:grid-cols-2"></ul>
+                <ul data-live-players class="grid min-h-0 flex-1 content-start gap-2 overflow-y-auto sm:grid-cols-2"></ul>
                 <p data-live-lobby-empty class="mt-3 shrink-0 text-sm text-ink/55">Aguardando jogadores...</p>
             </div>
 

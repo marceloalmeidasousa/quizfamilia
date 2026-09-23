@@ -209,7 +209,7 @@ function initLiveHost(root) {
         rankingCountdown: root.querySelector('[data-live-ranking-countdown]'),
         rankingSecs: root.querySelector('[data-live-ranking-secs]'),
         rankingBar: root.querySelector('[data-live-ranking-bar]'),
-        soundToggle: root.querySelector('[data-live-sound]'),
+        soundToggle: root.querySelector('[data-live-sound]') || document.querySelector('[data-live-sound]'),
     };
 
     let lastStatus = '';
