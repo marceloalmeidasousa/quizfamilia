@@ -865,7 +865,7 @@
     .live-host-top__join {
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
+        align-items: center;
         align-self: stretch;
         flex: 0 0 auto;
         gap: 0.45rem;
@@ -879,10 +879,15 @@
         }
     }
 
+    .live-join-pin {
+        width: 100%;
+        text-align: center;
+    }
+
     .live-join-qr {
         flex: 1 1 auto;
         min-height: 9rem;
-        width: auto;
+        width: 100%;
         height: 100%;
         aspect-ratio: 1 / 1;
         max-width: 100%;

@@ -39,14 +39,14 @@
                         Escaneie o QR ou entre em <strong>{{ $joinUrl }}</strong> com este PIN.
                     </p>
 
-                    <div data-live-lobby-actions class="mt-3 flex flex-wrap items-center justify-between gap-3">
+                    <div data-live-lobby-actions class="mt-3 flex flex-wrap items-center gap-3">
                         <h2 class="font-display text-lg text-ink sm:text-xl">Jogadores (<span data-live-count>0</span>)</h2>
                         <button type="button" data-live-start class="quiz-btn-primary">Iniciar partida</button>
                     </div>
                 </div>
 
                 <div data-live-join-block class="live-host-top__join shrink-0">
-                    <div class="text-right">
+                    <div class="live-join-pin text-center">
                         <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/45">PIN</p>
                         <p data-live-pin class="font-display text-3xl tracking-[0.12em] text-ink sm:text-5xl">{{ $session->pin }}</p>
                     </div>
