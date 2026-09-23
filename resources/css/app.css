@@ -824,7 +824,32 @@
         }
     }
 
+    .live-join-qr {
+        flex-shrink: 0;
+        width: 4.5rem;
+        height: 4.5rem;
+        padding: 0.25rem;
+        border-radius: 0.75rem;
+        background: #fff;
+        border: 1px solid rgb(26 47 56 / 0.12);
+        box-shadow: 0 1px 2px rgb(26 47 56 / 0.06);
+    }
+
+    .live-join-qr svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    @media (min-width: 640px) {
+        .live-join-qr {
+            width: 5.5rem;
+            height: 5.5rem;
+        }
+    }
+
     [data-live-host].live-host--playing [data-live-join],
+    [data-live-host].live-host--playing [data-live-qr],
     [data-live-host].live-host--playing [data-live-back] {
         display: none;
     }

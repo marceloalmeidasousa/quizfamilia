@@ -44,20 +44,21 @@
                 </form>
             </div>
 
-            <div class="level-panel level-panel--ocean">
+            <div id="entrar" class="level-panel level-panel--ocean">
                 <h2 class="font-display text-2xl text-ink">Entrar com PIN</h2>
                 <form method="POST" action="{{ route('client.live.join', $client) }}" class="mt-6 grid gap-4 sm:grid-cols-2 sm:items-end">
                     @csrf
                     <label class="block">
                         <span class="text-sm font-bold text-body">PIN</span>
                         <input type="text" name="pin" maxlength="6" required inputmode="numeric" pattern="[0-9]{6}"
-                            value="{{ old('pin') }}"
+                            value="{{ old('pin', $joinPin ?? '') }}"
                             class="mt-1.5 w-full rounded-2xl border border-ink/10 bg-canvas px-4 py-3 font-display text-2xl tracking-widest text-ink">
                     </label>
                     <label class="block">
                         <span class="text-sm font-bold text-body">Seu nome</span>
                         <input type="text" name="name" maxlength="40" required
                             value="{{ old('name') }}"
+                            @if (! empty($joinPin)) autofocus @endif
                             class="mt-1.5 w-full rounded-2xl border border-ink/10 bg-canvas px-4 py-3 font-semibold text-ink">
                     </label>
                     @include('live._stickers')

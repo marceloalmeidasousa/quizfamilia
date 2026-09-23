@@ -77,7 +77,7 @@
                 </form>
             </div>
 
-            <div class="level-panel level-panel--ocean order-1 md:order-2">
+            <div id="entrar" class="level-panel level-panel--ocean order-1 md:order-2">
                 <h2 class="font-display text-2xl text-ink">Entrar na partida</h2>
                 <p class="mt-2 text-sm text-body">Digite o PIN de 6 dígitos e o seu nome.</p>
 
@@ -92,7 +92,7 @@
                             pattern="[0-9]{6}"
                             maxlength="6"
                             placeholder="000000"
-                            value="{{ old('pin') }}"
+                            value="{{ old('pin', $joinPin ?? '') }}"
                             required
                             class="live-input tracking-[0.35em]"
                         >
@@ -105,6 +105,7 @@
                             maxlength="40"
                             placeholder="Como você quer aparecer"
                             value="{{ old('name') }}"
+                            @if (! empty($joinPin)) autofocus @endif
                             required
                             class="live-input"
                         >

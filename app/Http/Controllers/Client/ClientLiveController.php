@@ -17,16 +17,18 @@ class ClientLiveController extends Controller
 {
     public function __construct(private LiveGameService $live) {}
 
-    public function hub(QuizClient $client): View
+    public function hub(Request $request, QuizClient $client): View
     {
         $this->assertActive($client);
 
         $categorias = QuestionBank::categoriesForClient($client);
+        $pin = preg_replace('/\D/', '', (string) $request->query('pin', ''));
 
         return view('client.live-hub', [
             'client' => $client,
             'categorias' => $categorias,
             'level' => $client->levelMeta(),
+            'joinPin' => strlen($pin) === 6 ? $pin : null,
         ]);
     }
 
@@ -56,10 +58,13 @@ class ClientLiveController extends Controller
         $session = $this->sessionForClient($client, $pin);
         $this->live->assertHost($session, $request->cookie('live_host_token'));
 
+        $joinUrl = route('client.live.hub', $client);
+
         return view('live.host', [
             'session' => $session,
             'level' => $client->levelMeta(),
-            'joinUrl' => route('client.live.hub', $client),
+            'joinUrl' => $joinUrl,
+            'joinQrUrl' => $joinUrl.'?pin='.$session->pin.'#entrar',
             'liveBackUrl' => route('client.live.hub', $client),
             'stateUrl' => route('client.live.host.state', [$client, $session->pin]),
             'startUrl' => route('client.live.start', [$client, $session->pin]),

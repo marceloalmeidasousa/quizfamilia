@@ -15,16 +15,19 @@ class LiveController extends Controller
 {
     public function __construct(private LiveGameService $live) {}
 
-    public function hub(): View
+    public function hub(Request $request): View
     {
         $categories = [];
         foreach (array_keys(QuestionBank::levels()) as $slug) {
             $categories[$slug] = QuestionBank::categoriesFor($slug);
         }
 
+        $pin = preg_replace('/\D/', '', (string) $request->query('pin', ''));
+
         return view('live.hub', [
             'levels' => QuestionBank::levels(),
             'categoriesByLevel' => $categories,
+            'joinPin' => strlen($pin) === 6 ? $pin : null,
         ]);
     }
 
@@ -51,10 +54,13 @@ class LiveController extends Controller
         $session = LiveSession::query()->where('pin', $pin)->firstOrFail();
         $this->live->assertHost($session, $request->cookie('live_host_token'));
 
+        $joinUrl = url('/ao-vivo');
+
         return view('live.host', [
             'session' => $session,
             'level' => QuestionBank::levels()[$session->nivel] ?? null,
-            'joinUrl' => url('/ao-vivo'),
+            'joinUrl' => $joinUrl,
+            'joinQrUrl' => $joinUrl.'?pin='.$session->pin.'#entrar',
         ]);
     }
 

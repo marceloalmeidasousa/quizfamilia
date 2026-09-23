@@ -32,17 +32,26 @@
                     </p>
                     <h1 class="font-display text-xl text-ink sm:text-3xl">Sala Ao Vivo</h1>
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 sm:gap-3">
                     <button type="button" data-live-sound class="quiz-sound-toggle" aria-label="Alternar som">🔊</button>
-                    <div class="text-right">
-                        <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/45">PIN</p>
-                        <p data-live-pin class="font-display text-3xl tracking-[0.12em] text-ink sm:text-5xl">{{ $session->pin }}</p>
+                    <div class="flex items-center gap-2.5 sm:gap-3">
+                        <div
+                            data-live-qr
+                            class="live-join-qr"
+                            title="Escaneie para entrar na sala"
+                        >
+                            {!! \App\Support\LiveQrCode::svg($joinQrUrl ?? ($joinUrl.'?pin='.$session->pin), 112) !!}
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-ink/45">PIN</p>
+                            <p data-live-pin class="font-display text-3xl tracking-[0.12em] text-ink sm:text-5xl">{{ $session->pin }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <p data-live-join class="mt-1 shrink-0 text-xs text-ink/65 sm:text-sm">
-                Jogadores entram em <strong>{{ $joinUrl }}</strong> com este PIN.
+                Escaneie o QR ou entre em <strong>{{ $joinUrl }}</strong> com este PIN.
             </p>
 
             {{-- Lobby --}}
