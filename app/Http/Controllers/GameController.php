@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Question;
 use App\Support\QuestionBank;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class GameController extends Controller
@@ -40,7 +42,13 @@ class GameController extends Controller
 
     public function home(): View
     {
-        return view('home');
+        $questionCount = Cache::remember('home.question_count', now()->addHour(), function () {
+            return Question::query()->whereNull('client_id')->count();
+        });
+
+        return view('home', [
+            'questionCount' => $questionCount,
+        ]);
     }
 
     public function quiz(): View

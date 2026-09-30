@@ -18,6 +18,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Empresa responsável (rodapé, hero e contato comercial)
+    |--------------------------------------------------------------------------
+    */
+    'company' => [
+        'name' => 'ti3 Tecnologia',
+        'domain' => 'ti3tecnologia.com.br',
+        'url' => 'https://ti3tecnologia.com.br',
+        'whatsapp' => env('COMPANY_WHATSAPP', '5535997158741'),
+        'whatsapp_display' => env('COMPANY_WHATSAPP_DISPLAY', '+55 35 99715-8741'),
+        'whatsapp_message' => 'Olá! Quero levar o quiz para a minha Instituição de Ensino.',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Sites por domínio
     |--------------------------------------------------------------------------
     */
