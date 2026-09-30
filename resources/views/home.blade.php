@@ -35,10 +35,6 @@
                 <a href="#modos" class="corp-btn corp-btn--primary">Começar a jogar</a>
                 <a href="#instituicoes" class="corp-btn corp-btn--ghost">Para instituições de ensino</a>
             </div>
-            <p class="mt-8 text-sm font-semibold text-ink/50">
-                Um produto
-                <a href="{{ $company['url'] }}" target="_blank" rel="noopener" class="font-extrabold text-brand-deep hover:underline">{{ $company['domain'] }}</a>
-            </p>
         </div>
 
         <div class="corp-hero__visual" aria-hidden="true">
@@ -67,7 +63,7 @@
 
 {{-- Destaques --}}
 <section class="border-y border-ink/5 bg-white">
-    <div class="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-8 sm:px-6 lg:grid-cols-4 lg:px-8">
+    <div class="mx-auto grid max-w-6xl grid-cols-3 gap-4 px-4 py-8 sm:gap-6 sm:px-6 lg:px-8">
         <div class="corp-stat">
             <strong>3</strong>
             <span>modos de jogo</span>
@@ -79,10 +75,6 @@
         <div class="corp-stat">
             <strong>3 níveis</strong>
             <span>criança, adolescente e adulto</span>
-        </div>
-        <div class="corp-stat">
-            <strong>0</strong>
-            <span>instalação — roda no navegador</span>
         </div>
     </div>
 </section>
@@ -247,7 +239,7 @@
                     <li>✔ Logo e link próprios</li>
                     <li>✔ Até 100 perguntas por IA</li>
                     <li>✔ Modos Solo, X1 e Ao Vivo</li>
-                    <li>✔ Suporte da equipe ti3</li>
+                    <li>✔ Suporte da equipe Ti3</li>
                 </ul>
             </div>
             <div class="flex flex-col items-start gap-3 lg:items-end">

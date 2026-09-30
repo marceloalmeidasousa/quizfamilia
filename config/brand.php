@@ -22,7 +22,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'company' => [
-        'name' => 'ti3 Tecnologia',
+        'name' => 'Ti3 Tecnologia',
         'domain' => 'ti3tecnologia.com.br',
         'url' => 'https://ti3tecnologia.com.br',
         'whatsapp' => env('COMPANY_WHATSAPP', '5535997158741'),

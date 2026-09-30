@@ -68,8 +68,8 @@
             <footer class="border-t border-ink/5 px-4 py-5 sm:px-6">
                 <div class="mx-auto flex max-w-6xl flex-col items-center gap-2 text-center text-sm font-semibold text-ink/45">
                     <p>
-                        Um produto
-                        <a href="{{ $company['url'] }}" target="_blank" rel="noopener" class="font-extrabold text-ink/60 hover:text-ink">{{ $company['domain'] }}</a>
+                        Desenvolvido por
+                        <a href="{{ $company['url'] }}" target="_blank" rel="noopener" class="font-extrabold text-ink/60 hover:text-ink">{{ $company['name'] }}</a>
                     </p>
                     <a href="{{ route('legal.privacy') }}" class="text-ink/55 underline decoration-ink/20 underline-offset-2 hover:text-ink">
                         Privacidade
@@ -86,10 +86,6 @@
                         </a>
                         <p class="mt-3 max-w-sm text-sm leading-relaxed text-white/60">
                             {{ $brand['description'] ?? '' }}
-                        </p>
-                        <p class="mt-4 text-sm font-semibold text-white/60">
-                            Um produto
-                            <a href="{{ $company['url'] }}" target="_blank" rel="noopener" class="font-extrabold text-white hover:underline">{{ $company['domain'] }}</a>
                         </p>
                     </div>
                     <div>
