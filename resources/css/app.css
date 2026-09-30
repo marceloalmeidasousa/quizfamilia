@@ -526,6 +526,158 @@
         animation-delay: -2.6s;
     }
 
+    .mode-card {
+        --mode: #1368ce;
+        --mode-dark: #0d4f9c;
+        --mode-soft: #e0edff;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        border-radius: 1.1rem;
+        background: #fff;
+        border: 1px solid rgb(30 17 69 / 0.06);
+        padding: 1.5rem;
+        color: var(--color-ink);
+        text-decoration: none;
+        box-shadow: 0 24px 48px -30px rgb(30 17 69 / 0.45);
+        transition: transform 220ms ease, box-shadow 220ms ease;
+        animation: rise-in 500ms ease both;
+        animation-delay: var(--delay, 0ms);
+    }
+
+    .mode-card::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto;
+        height: 0.35rem;
+        background: var(--mode);
+    }
+
+    .mode-card:hover,
+    .mode-card:focus-visible {
+        transform: translateY(-4px) rotate(-0.75deg);
+        box-shadow: 0 34px 60px -30px rgb(30 17 69 / 0.55);
+        outline: none;
+    }
+
+    .mode-card:focus-visible {
+        box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--mode);
+    }
+
+    .mode-card--blue {
+        --mode: #1368ce;
+        --mode-dark: #0d4f9c;
+        --mode-soft: #e0edff;
+    }
+
+    .mode-card--red {
+        --mode: #e21b3c;
+        --mode-dark: #a8122b;
+        --mode-soft: #ffe4e8;
+    }
+
+    .mode-card--green {
+        --mode: #26890c;
+        --mode-dark: #1a6207;
+        --mode-soft: #e1f5da;
+    }
+
+    .mode-card__shape {
+        position: absolute;
+        right: -0.5rem;
+        bottom: 3.25rem;
+        font-size: 7.5rem;
+        line-height: 1;
+        color: var(--mode);
+        opacity: 0.07;
+        pointer-events: none;
+        transition: transform 300ms ease, opacity 300ms ease;
+    }
+
+    .mode-card:hover .mode-card__shape {
+        opacity: 0.12;
+        transform: rotate(12deg) scale(1.05);
+    }
+
+    .mode-card__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 0.9rem;
+        background: var(--mode);
+        color: #fff;
+        box-shadow: inset 0 -4px 0 rgb(0 0 0 / 0.18), 0 10px 20px -10px var(--mode);
+        transition: transform 220ms ease;
+    }
+
+    .mode-card:hover .mode-card__icon {
+        transform: scale(1.06) rotate(-4deg);
+    }
+
+    .mode-card__tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        border-radius: 9999px;
+        background: var(--mode-soft);
+        padding: 0.3rem 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--mode-dark);
+    }
+
+    .mode-card__live {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 9999px;
+        background: var(--mode);
+        animation: mode-live 1.6s ease-in-out infinite;
+    }
+
+    .mode-card__title {
+        margin-top: 1.25rem;
+        font-family: var(--font-display);
+        font-size: 1.9rem;
+        font-weight: 600;
+        line-height: 1.1;
+    }
+
+    .mode-card__text {
+        position: relative;
+        margin-top: 0.5rem;
+        flex: 1;
+        font-size: 0.95rem;
+        line-height: 1.55;
+        color: rgb(30 17 69 / 0.62);
+    }
+
+    .mode-card__cta {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        margin-top: 1.5rem;
+        min-height: 3rem;
+        border-radius: 0.65rem;
+        background: var(--mode);
+        padding: 0.7rem 1rem;
+        font-weight: 800;
+        color: #fff;
+        box-shadow: inset 0 -4px 0 rgb(0 0 0 / 0.18);
+        transition: gap 160ms ease, background 160ms ease;
+    }
+
+    .mode-card:hover .mode-card__cta {
+        gap: 0.65rem;
+        background: var(--mode-dark);
+    }
+
     .corp-stat {
         display: flex;
         flex-direction: column;
@@ -1512,6 +1664,16 @@
     }
 }
 
+@keyframes mode-live {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 color-mix(in oklab, var(--mode) 55%, transparent);
+    }
+    50% {
+        box-shadow: 0 0 0 5px transparent;
+    }
+}
+
 @keyframes pop-in {
     from {
         opacity: 0;
@@ -1586,7 +1748,9 @@
     .quiz-splat--on,
     .quiz-final-emoji,
     .corp-hero__visual,
-    .corp-float {
+    .corp-float,
+    .mode-card,
+    .mode-card__live {
         animation: none !important;
     }
 

@@ -96,41 +96,63 @@
             <p class="corp-section-sub">Do jogo rápido no sofá à competição com a turma inteira no telão.</p>
         </div>
 
-        <div class="mt-10 grid gap-5 sm:grid-cols-3">
-            <a href="{{ route('quiz.levels') }}" class="level-card level-card--sunshine group" style="--delay: 0ms">
-                <div class="relative flex h-full flex-col">
-                    <span class="level-icon mb-5" aria-hidden="true">❓</span>
-                    <h3 class="font-display text-2xl text-white sm:text-3xl">Quiz</h3>
-                    <p class="mt-1 text-sm font-bold text-white/70">Modo solo</p>
-                    <p class="mt-3 flex-1 text-sm leading-relaxed text-white/80 sm:text-base">
-                        Escolha o nível e jogue sozinho ou revezando.
-                    </p>
-                    <span class="level-card__cta mt-6">Jogar Quiz →</span>
+        <div class="mt-10 grid gap-6 sm:grid-cols-3">
+            <a href="{{ route('quiz.levels') }}" class="mode-card mode-card--blue group" style="--delay: 0ms">
+                <span class="mode-card__shape" aria-hidden="true">◆</span>
+                <div class="flex items-start justify-between gap-3">
+                    <span class="mode-card__icon" aria-hidden="true">
+                        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                            <path d="M12 17h.01" />
+                        </svg>
+                    </span>
+                    <span class="mode-card__tag">Modo solo</span>
                 </div>
+                <h3 class="mode-card__title">Quiz</h3>
+                <p class="mode-card__text">Escolha o nível e jogue sozinho ou revezando.</p>
+                <span class="mode-card__cta">Jogar Quiz →</span>
             </a>
 
-            <a href="{{ route('x1.hub') }}" class="level-card level-card--ocean group" style="--delay: 40ms">
-                <div class="relative flex h-full flex-col">
-                    <span class="level-icon mb-5" aria-hidden="true">⚔️</span>
-                    <h3 class="font-display text-2xl text-white sm:text-3xl">X1</h3>
-                    <p class="mt-1 text-sm font-bold text-white/70">Desafio</p>
-                    <p class="mt-3 flex-1 text-sm leading-relaxed text-white/80 sm:text-base">
-                        Jogue, desafie no WhatsApp e veja quem marca mais pontos.
-                    </p>
-                    <span class="level-card__cta mt-6">Modo X1 →</span>
+            <a href="{{ route('x1.hub') }}" class="mode-card mode-card--red group" style="--delay: 60ms">
+                <span class="mode-card__shape" aria-hidden="true">▲</span>
+                <div class="flex items-start justify-between gap-3">
+                    <span class="mode-card__icon" aria-hidden="true">
+                        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5" />
+                            <line x1="13" x2="19" y1="19" y2="13" />
+                            <line x1="16" x2="20" y1="16" y2="20" />
+                            <line x1="19" x2="21" y1="21" y2="19" />
+                            <polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5" />
+                            <line x1="5" x2="9" y1="14" y2="18" />
+                            <line x1="7" x2="4" y1="17" y2="20" />
+                            <line x1="3" x2="5" y1="19" y2="21" />
+                        </svg>
+                    </span>
+                    <span class="mode-card__tag">Desafio</span>
                 </div>
+                <h3 class="mode-card__title">X1</h3>
+                <p class="mode-card__text">Jogue, desafie no WhatsApp e veja quem marca mais pontos.</p>
+                <span class="mode-card__cta">Modo X1 →</span>
             </a>
 
-            <a href="{{ route('live.hub') }}" class="level-card level-card--coral group" style="--delay: 80ms">
-                <div class="relative flex h-full flex-col">
-                    <span class="level-icon mb-5" aria-hidden="true">📡</span>
-                    <h3 class="font-display text-2xl text-white sm:text-3xl">Ao Vivo</h3>
-                    <p class="mt-1 text-sm font-bold text-white/70">Multiplayer</p>
-                    <p class="mt-3 flex-1 text-sm leading-relaxed text-white/80 sm:text-base">
-                        Crie um PIN e compita em tempo real.
-                    </p>
-                    <span class="level-card__cta mt-6">Ir para Ao Vivo →</span>
+            <a href="{{ route('live.hub') }}" class="mode-card mode-card--green group" style="--delay: 120ms">
+                <span class="mode-card__shape" aria-hidden="true">■</span>
+                <div class="flex items-start justify-between gap-3">
+                    <span class="mode-card__icon" aria-hidden="true">
+                        <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="2" fill="currentColor" />
+                            <path d="M16.24 7.76a6 6 0 0 1 0 8.49" />
+                            <path d="M7.76 16.24a6 6 0 0 1 0-8.49" />
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                            <path d="M4.93 19.07a10 10 0 0 1 0-14.14" />
+                        </svg>
+                    </span>
+                    <span class="mode-card__tag"><span class="mode-card__live" aria-hidden="true"></span>Multiplayer</span>
                 </div>
+                <h3 class="mode-card__title">Ao Vivo</h3>
+                <p class="mode-card__text">Crie um PIN e compita em tempo real.</p>
+                <span class="mode-card__cta">Ir para Ao Vivo →</span>
             </a>
         </div>
 
@@ -154,8 +176,16 @@
                 <p>Níveis criança, adolescente e adulto, com categorias variadas de conhecimentos gerais.</p>
             </div>
             <div class="corp-feature">
-                <span class="corp-feature__icon corp-feature__icon--blue" aria-hidden="true">📺</span>
-                <h3>Ao vivo no telão</h3>
+                <span class="corp-feature__icon corp-feature__icon--blue text-[#1d4ed8]" aria-hidden="true">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="2" fill="currentColor" />
+                        <path d="M16.24 7.76a6 6 0 0 1 0 8.49" />
+                        <path d="M7.76 16.24a6 6 0 0 1 0-8.49" />
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                        <path d="M4.93 19.07a10 10 0 0 1 0-14.14" />
+                    </svg>
+                </span>
+                <h3>Ao Vivo</h3>
                 <p>O professor projeta a partida, os alunos entram com um PIN pelo celular e o ranking aparece na hora.</p>
             </div>
             <div class="corp-feature">
